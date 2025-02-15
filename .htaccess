@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Jika URL kosong atau hanya "webseafood/", tetap arahkan ke index.php di root
+RewriteRule ^$ index.php [L]
+
+# Jika URL cocok dengan admin.php?x={nama_file}, arahkan ke admin.php
+RewriteRule ^([a-zA-Z0-9_-]+)$ admin.php?x=$1 [QSA,L]
+
+# Redirect semua request dari /{nama_file} ke views/admin/{nama_file}.php jika file ada
+RewriteCond %{DOCUMENT_ROOT}/views/admin/$1.php -f
+RewriteRule ^([^/]+)$ views/admin/$1.php [L]
+
+# Redirect semua request dari /{nama_file} ke views/customer/{nama_file}.php jika file ada
+RewriteCond %{DOCUMENT_ROOT}/views/customer/$1.php -f
+RewriteRule ^([^/]+)$ views/customer/$1.php [L]
