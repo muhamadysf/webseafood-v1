@@ -19,7 +19,7 @@
         </svg>
       </button>
 
-      <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-48 bg-white shadow-md rounded-lg mt-2" role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-custom-icon-trigger">
+      <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 z-[9999] hidden min-w-48 bg-white shadow-md rounded-lg mt-2" role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-custom-icon-trigger">
         <div class="p-1 space-y-0.5">
           <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100" href="#">
             <svg class="w-5 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@
             </svg>
             Profile
           </a>
-          <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100" href="#" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-custom-backdrop-modal" data-hs-overlay="#hs-custom-backdrop-modal">
+          <a class=" flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100" href="#" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-custom-backdrop-modal" data-hs-overlay="#hs-custom-backdrop-modal">
             <svg fill="#999999" class="w-5 h-auto" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
 
               <g id="SVGRepo_bgCarrier" stroke-width="0" />

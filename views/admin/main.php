@@ -11,7 +11,7 @@ $hasil = mysqli_fetch_array($query);
 
 <?php include './partials/admin/start.php' ?>
 
-<body class="font-fredoka">
+<body class="overflow-x-hidden font-fredoka">
     <div class="flex w-screen h-screen " x-data="{ open: true }">
         <!-- sidebar -->
         <?php include './partials/admin/sidebar.php' ?>
@@ -25,7 +25,7 @@ $hasil = mysqli_fetch_array($query);
             <?php include './partials/admin/header.php' ?>
 
             <!-- main content-->
-            <main class="flex-grow p-4">
+            <main class="flex-grow p-8">
                 <?php include $page; ?>
             </main>
 
