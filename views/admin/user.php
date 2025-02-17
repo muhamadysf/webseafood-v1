@@ -7,10 +7,11 @@ while ($record = mysqli_fetch_array($query)) {
 ?>
 
 <div class="">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mb-4 ">
         <div class="">
             <h1 class="text-3xl font-semibold">Users</h1>
         </div>
+
         <div class="">
             <button id="btnPrint" type="button" class="inline-flex items-center px-3 py-2 text-sm text-white border border-transparent rounded-lg bg-slate-400 font-base focus:outline-none hover:bg-slate-600 disabled:opacity-50 disabled:pointer-events-none">
                 <svg class="w-auto h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,13 +40,15 @@ while ($record = mysqli_fetch_array($query)) {
                 Ekspor
             </button>
 
-            <button id="btnTambah" type="button" class="inline-flex items-center px-5 py-2 text-sm text-white border border-transparent rounded-lg font-base bg-primary-400 focus:outline-none hover:bg-primary-550 disabled:opacity-50 disabled:pointer-events-none">
+            <button id="btnTambah" type="button" class="inline-flex items-center px-5 py-2 text-sm text-white border border-transparent rounded-lg font-base bg-primary-400 focus:outline-none hover:bg-primary-550 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-full-screen-modal" data-hs-overlay="#hs-full-screen-modal">
                 <svg class="w-auto h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 12H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M12 18V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 Tambah Data User
             </button>
+
+
         </div>
 
     </div>
@@ -56,32 +59,32 @@ while ($record = mysqli_fetch_array($query)) {
     } else {
     ?>
 
-        <div class="flex flex-col py-8 bg-white border shadow-xl rounded-3xl">
-            <div class="-m-1.5 overflow-x-auto">
+        <div class="flex flex-col py-8 bg-white shadow-xl rounded-3xl">
+            <div class="-m-1.5 overflow-auto scrollbar-hide">
                 <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="px-4 overflow-hidden">
-                        <table id="myTable" class="min-w-full border divide-y divide-gray-200">
-                            <thead class="bg-gray-50 rounded-xl">
-                                <tr class="rounded-xl">
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">No.</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">Nama</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">Email</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">Level</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">No. Handphone</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-end">Aksi</th>
+                    <div class="px-8 scrollbar-hide">
+                        <table id="myTable" class="divide-y divide-gray-200 min-w-auto">
+                            <thead class="!text-center bg-primary-500 text-white py-4">
+                                <tr class="!text-center">
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">No.</th>
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Nama</th>
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Email</th>
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Level</th>
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">No. Handphone</th>
+                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="text-center bg-white divide-y divide-gray-200">
                                 <?php
                                 $no = 1;
                                 foreach ($result as $row) {
                                 ?>
 
-                                    <tr>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo $no++; ?></td>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo $row['nama'] ?></td>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo $row['username'] ?></td>
-                                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                                    <tr class="text-center">
+                                        <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo $no++; ?></td>
+                                        <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['nama'] ?></td>
+                                        <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['username'] ?></td>
+                                        <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
 
                                             <?php
                                             if ($row['level'] == 1) {
@@ -96,11 +99,14 @@ while ($record = mysqli_fetch_array($query)) {
                                             ?>
 
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['nohp'] ?></td>
-                                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                            <button type="button" class="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Lihat</button>
-                                            <button type="button" class="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Edit</button>
-                                            <button type="button" class="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Hapus</button>
+                                        <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['nohp'] ?></td>
+                                        <td class="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
+                                            <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-300/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-400/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                                                Hapus
+                                            </button>
                                         </td>
                                     </tr>
                                 <?php
@@ -115,6 +121,74 @@ while ($record = mysqli_fetch_array($query)) {
     <?php
     }
     ?>
+
+    <!-- Modal tambah user -->
+    <div id="hs-full-screen-modal" class="hs-overlay [--overlay-backdrop:static]  hidden rounded-2xl right-0 fixed bottom-12 top-12 left-56 z-[80] scrollbar-hide overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-full-screen-label ">
+        <div class="h-full max-w-full max-h-full mt-10 transition-all ease-out scale-90 opacity-0 hs-overlay-open:mt-0 hs-overlay-open:opacity-100 hs-overlay-open:duration-1000 hs-overlay-open:scale-100">
+            <div class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
+                <form action="./proses/proses_input_user.php" method="post" class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
+
+                    <div class="flex items-center justify-between px-4 py-3 border-b">
+                        <h3 id="hs-full-screen-label" class="px-8 text-2xl font-semibold text-gray-800">
+                            Tambah Karyawan Baru
+                        </h3>
+                        <button type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#hs-full-screen-modal">
+                            <span class="sr-only">Close</span>
+                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="w-full py-4 overflow-auto px-14 scrollbar-hide">
+
+                        <div class="flex min-w-full gap-8 mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <label for="input-label-nama" class="block mb-2 text-sm font-medium">Nama Lengkap</label>
+                                <input name="nama" type="text" id="input-label-nama" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nama Lengkap Karyawan" required>
+                            </div>
+                            <div class="w-full max-w-sm">
+                                <label for="input-label-mail" class="block mb-2 text-sm font-medium">Email</label>
+                                <input name="email" type="email" id="input-label-mail" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="karyawan@mail.com">
+                            </div>
+                        </div>
+                        <div class="flex gap-8 mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <label for="hs-select-label" class="block mb-2 text-sm font-medium">Level User</label>
+                                <select name="level" id="hs-select-label" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
+                                    <option value="" selected="">Silahkan pilih...</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Kasir</option>
+                                    <option value="3">Pelayan</option>
+                                    <option value="4">Dapur</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-sm">
+                                <label for="input-label-no" class="block mb-2 text-sm font-medium">Nomor Handphone</label>
+                                <input name="nohp" type="number" id="input-label-no" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nomor karyawan yang bisa dihubungi" minlength="10" maxlength="14" required>
+                            </div>
+                        </div>
+                        <div class="w-full mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <label for="hs-autoheight-textarea" class="block mb-2 text-sm font-medium">Alamat Karyawan</label>
+                                <textarea name="alamat" id="hs-autoheight-textarea" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Alamat lengkap karyawan..." data-hs-textarea-auto-height="" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center px-4 py-3 mt-auto border-t gap-x-8">
+                        <button type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-full-screen-modal">
+                            Batal
+                        </button>
+                        <button name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white border border-transparent rounded-lg bg-primary-400 gap-x-2 hover:bg-primary-550 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                            Simpan Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script src="./assets/js/jquery-3.7.1.min.js"></script>
     <script src="./assets/js/datatables.min.js"></script>

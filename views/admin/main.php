@@ -11,21 +11,21 @@ $hasil = mysqli_fetch_array($query);
 
 <?php include './partials/admin/start.php' ?>
 
-<body class="overflow-x-hidden font-fredoka">
-    <div class="flex w-screen h-screen " x-data="{ open: true }">
+<body class="w-screen h-screen overflow-x-auto font-fredoka ">
+    <div class="flex w-screen h-screen scrollbar-hide" x-data="{ open: true }">
         <!-- sidebar -->
         <?php include './partials/admin/sidebar.php' ?>
 
 
         <!-- dashboard -->
-        <div class="flex flex-col flex-1 transition-all duration-300 bg-primary-150"
+        <div class="flex flex-col flex-1 transition-all duration-300 bg-primary-150 "
             :class="open ? 'ml-56' : 'ml-0 '">
 
             <!-- header -->
             <?php include './partials/admin/header.php' ?>
 
             <!-- main content-->
-            <main class="flex-grow p-8">
+            <main class="flex-1 p-8 overflow-y-auto scrollbar-hide">
                 <?php include $page; ?>
             </main>
 

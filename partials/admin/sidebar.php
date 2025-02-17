@@ -16,7 +16,8 @@
                 <a href="home" class="text-base font-semibold " aria-current="page">Dashboard</a>
             </div>
 
-            <div class="flex flex-col ">
+            <!-- Transaksi -->
+            <div class=" <?php echo ($_SESSION['level_kingseafood'] == 1) || ($_SESSION['level_kingseafood'] == 2) ? 'flex flex-col' : 'hidden'; ?> ">
                 <h3 class="mb-4 text-xs text-gray-400">Transaksi</h3>
                 <div class="rounded-lg inline-flex items-center gap-2 py-1 pl-3 group hover:cursor-pointer hover:text-primary-550 hover:bg-white hover:rounded-lg
                     <?php echo ((isset($_GET['x']) && $_GET['x'] == 'poskasir')) ? 'text-primary-550 bg-white font-semibold' : ' text-white'; ?>">
@@ -27,7 +28,8 @@
                 </div>
             </div>
 
-            <div class="flex flex-col">
+            <!-- Menu dan Kategori -->
+            <div class="<?php echo ($_SESSION['level_kingseafood'] == 1) ? 'flex flex-col' : 'hidden'; ?>">
                 <h3 class="mb-4 text-xs text-gray-400">Menu & Kategori</h3>
 
                 <div class="space-y-3 ">
@@ -50,7 +52,8 @@
                 </div>
             </div>
 
-            <div class="flex flex-col">
+            <!-- User dan Pembeli -->
+            <div class="<?php echo ($_SESSION['level_kingseafood'] == 1) ? 'flex flex-col' : 'hidden'; ?>">
                 <h3 class="mb-4 text-xs text-gray-400">User & Pembeli</h3>
 
                 <div class="space-y-3">
@@ -113,7 +116,8 @@
                 </div>
             </div>
 
-            <div class="flex flex-col">
+            <!-- Laporan -->
+            <div class="<?php echo ($_SESSION['level_kingseafood'] == 1) ? 'flex flex-col' : 'hidden'; ?>">
                 <h3 class="mb-4 text-xs text-gray-400">Laporan</h3>
 
                 <div class="rounded-lg inline-flex items-center gap-2 py-1 pl-3 group hover:cursor-pointer hover:text-primary-550 hover:bg-white hover:rounded-lg
