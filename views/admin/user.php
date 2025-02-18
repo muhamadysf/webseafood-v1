@@ -1,12 +1,16 @@
 <?php
 include "proses/connect.php";
+
+$petugas = $_SESSION['id'];
 $query = mysqli_query($conn, "SELECT * FROM tb_user");
 while ($record = mysqli_fetch_array($query)) {
     $result[] = $record;
 }
+
+
 ?>
 
-<div class="">
+<div class="" x-data="{ selectedId: null, selectNama: null }">
     <div class="flex items-center justify-between mb-4 ">
         <div class="">
             <h1 class="text-3xl font-semibold">Users</h1>
@@ -59,16 +63,18 @@ while ($record = mysqli_fetch_array($query)) {
     } else {
     ?>
 
+
+
         <div class="flex flex-col py-8 bg-white shadow-xl rounded-3xl">
-            <div class="-m-1.5 overflow-auto scrollbar-hide">
-                <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="px-8 scrollbar-hide">
+            <div class="-m-1.5 h-full w-full overflow-auto scrollbar-hide">
+                <div class="p-1.5 min-w-full overflow-auto scrollbar-hide w-full h-full inline-block align-middle">
+                    <div class="px-8">
+                        <!-- ini table -->
                         <table id="myTable" class="divide-y divide-gray-200 min-w-auto">
                             <thead class="!text-center bg-primary-500 text-white py-4">
                                 <tr class="!text-center">
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">No.</th>
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Nama</th>
-                                    <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Email</th>
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">Level</th>
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase">No. Handphone</th>
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">Aksi</th>
@@ -83,7 +89,6 @@ while ($record = mysqli_fetch_array($query)) {
                                     <tr class="text-center">
                                         <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo $no++; ?></td>
                                         <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['nama'] ?></td>
-                                        <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['username'] ?></td>
                                         <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
 
                                             <?php
@@ -101,12 +106,34 @@ while ($record = mysqli_fetch_array($query)) {
                                         </td>
                                         <td class="!text-center px-6 py-4 text-sm text-gray-800 whitespace-nowrap"><?php echo $row['nohp'] ?></td>
                                         <td class="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
-                                            <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-300/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                                            <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-teal-600 bg-teal-200/55 border mr-8 border-transparent rounded-full gap-x-2 hover:bg-teal-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-full-screen-modal-detail" data-hs-overlay="#hs-full-screen-modal-edit"
+                                                data-id="<?php echo $row['id']; ?>"
+                                                data-nama="<?php echo $row['nama']; ?>"
+                                                data-username="<?php echo $row['username']; ?>"
+                                                data-level="<?php echo $row['level']; ?>"
+                                                data-nohp="<?php echo $row['nohp']; ?>"
+                                                data-alamat="<?php echo $row['alamat']; ?>"
+                                                onclick="openEditModal(this,'detail')">
+                                                Detail
+                                            </button>
+                                            <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-full-screen-modal-edit" data-hs-overlay="#hs-full-screen-modal-edit"
+                                                data-id="<?php echo $row['id']; ?>"
+                                                data-nama="<?php echo $row['nama']; ?>"
+                                                data-username="<?php echo $row['username']; ?>"
+                                                data-level="<?php echo $row['level']; ?>"
+                                                data-nohp="<?php echo $row['nohp']; ?>"
+                                                data-alamat="<?php echo $row['alamat']; ?>"
+                                                onclick="openEditModal(this, 'edit')">
                                                 Edit
                                             </button>
-                                            <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-400/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                                            <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hapusdata" data-hs-overlay="#hapusdata"
+                                                data-id="<?php echo $row['id']; ?>"
+                                                data-nama="<?php echo $row['nama']; ?>"
+                                                @click="selectedId = $el.dataset.id; selectNama = $el.dataset.nama"
+                                                onclick="openHapusModal(this)">
                                                 Hapus
                                             </button>
+
                                         </td>
                                     </tr>
                                 <?php
@@ -126,7 +153,7 @@ while ($record = mysqli_fetch_array($query)) {
     <div id="hs-full-screen-modal" class="hs-overlay [--overlay-backdrop:static]  hidden rounded-2xl right-0 fixed bottom-12 top-12 left-56 z-[80] scrollbar-hide overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-full-screen-label ">
         <div class="h-full max-w-full max-h-full mt-10 transition-all ease-out scale-90 opacity-0 hs-overlay-open:mt-0 hs-overlay-open:opacity-100 hs-overlay-open:duration-1000 hs-overlay-open:scale-100">
             <div class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
-                <form action="./proses/proses_input_user.php" method="post" class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
+                <form name="frmadd" action="./proses/proses_input_user.php" method="post" class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
 
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <h3 id="hs-full-screen-label" class="px-8 text-2xl font-semibold text-gray-800">
@@ -189,7 +216,116 @@ while ($record = mysqli_fetch_array($query)) {
         </div>
     </div>
 
+    <!-- Modal detail dan edit data -->
+    <div id="hs-full-screen-modal-edit" class="hs-overlay modal [--overlay-backdrop:static]  hidden rounded-2xl right-0 fixed bottom-12 top-12 left-56 z-[80] scrollbar-hide overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-full-screen-label-edit ">
+        <div class="h-full max-w-full max-h-full mt-10 transition-all ease-out scale-90 opacity-0 hs-overlay-open:mt-0 hs-overlay-open:opacity-100 hs-overlay-open:duration-1000 hs-overlay-open:scale-100">
+            <div class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
+                <form name="frmedit" action="./proses/proses_edit_user.php" method="post" class="flex flex-col h-full max-w-full max-h-full bg-white pointer-events-auto">
 
+                    <div class="flex items-center justify-between px-4 py-3 border-b">
+                        <h3 id="hs-full-screen-label-edit" class="px-8 text-2xl font-semibold text-gray-800">
+                            Edit Data Karyawan
+                        </h3>
+                        <button type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#hs-full-screen-modal-edit">
+                            <span class="sr-only">Close</span>
+                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="w-full py-4 overflow-auto px-14 scrollbar-hide">
+                        <div class="flex min-w-full gap-8 mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <input id="iduser" name="iduser" type="hidden">
+                                <label for="input-label-nama-edit" class="block mb-2 text-sm font-medium">Nama Lengkap</label>
+                                <input name="nama" type="text" id="input-label-nama-edit" value="" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nama Lengkap Karyawan" required>
+                            </div>
+                            <div class="w-full max-w-sm">
+                                <label for="input-label-mail-edit" class="block mb-2 text-sm font-medium">Email</label>
+                                <input name="email" type="email" id="input-label-mail-edit" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="karyawan@mail.com">
+                            </div>
+                        </div>
+                        <div class="flex gap-8 mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <label for="hs-select-label-edit" class="block mb-2 text-sm font-medium">Level User</label>
+                                <select name="level" id="hs-select-label-edit" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
+                                    <option value="" selected="">Silahkan pilih...</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Kasir</option>
+                                    <option value="3">Pelayan</option>
+                                    <option value="4">Dapur</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-sm">
+                                <label for="input-label-no-edit" class="block mb-2 text-sm font-medium">Nomor Handphone</label>
+                                <input name="nohp" type="number" id="input-label-no-edit" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nomor karyawan yang bisa dihubungi" minlength="10" maxlength="14" required>
+                            </div>
+                        </div>
+                        <div class="w-full mt-1 mb-5 text-gray-800">
+                            <div class="w-full max-w-sm">
+                                <label for="hs-autoheight-textarea-edit" class="block mb-2 text-sm font-medium">Alamat Karyawan</label>
+                                <textarea name="alamat" id="hs-autoheight-textarea-edit" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Alamat lengkap karyawan..." data-hs-textarea-auto-height="" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center px-4 py-3 mt-auto border-t gap-x-8">
+                        <button id="btnBatal" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-full-screen-modal-edit">
+                            Batal
+                        </button>
+                        <button id="btnperubahan" name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white border border-transparent rounded-lg bg-primary-400 gap-x-2 hover:bg-primary-550 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal hapus data -->
+    <div id="hapusdata" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-scale-animation-modal-label">
+        <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+            <div class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl">
+                <form class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl" action="./proses/proses_delete_user.php" method="post">
+                    <input type="hidden" x-bind:value="selectedId" name="iduser">
+                    <input type="hidden" value="<?php echo $petugas ?>" id="petugas" name="petugas">
+                    <div class="flex items-center justify-between px-4 py-3 border-b">
+                        <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800">
+                            Hapus Data
+                        </h3>
+                        <button type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#hapusdata">
+                            <span class="sr-only">Close</span>
+                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4 overflow-y-auto">
+
+
+
+                        <p id="bodyHapusModal" class="mt-1 text-gray-800">
+
+                        </p>
+
+                    </div>
+                    <div class="flex items-center justify-center px-4 py-3 border-t gap-x-2">
+                        <button @click="selectedId = null" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hapusdata">
+                            Batal
+                        </button>
+                        <button id="btnHapus" name="delete_data" type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg gap-x-2 hover:bg-red-700 focus:outline-none focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none" <?php echo ($row['username'] == $_SESSION['username_kingseafood']) ? 'disabled' : ''; ?>>
+                            Hapus
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS pembantu -->
     <script src="./assets/js/jquery-3.7.1.min.js"></script>
     <script src="./assets/js/datatables.min.js"></script>
     <script>
@@ -229,5 +365,81 @@ while ($record = mysqli_fetch_array($query)) {
         $('#btnPrint').on('click', function() {
             table.button('.button-print').trigger();
         });
+
+        function openEditModal(button, modalType) {
+            let id = button.getAttribute("data-id");
+            let nama = button.getAttribute("data-nama");
+            let username = button.getAttribute("data-username");
+            let level = button.getAttribute("data-level");
+            let alamat = button.getAttribute("data-alamat");
+            let nohp = button.getAttribute("data-nohp");
+
+            const inputs = document.querySelectorAll('.modal input');
+            const textareas = document.querySelectorAll('.modal textarea');
+            const selects = document.querySelectorAll('.modal select');
+
+            document.getElementById("iduser").value = id;
+            document.getElementById("input-label-nama-edit").value = nama;
+            document.getElementById("input-label-mail-edit").value = username;
+            document.getElementById("hs-select-label-edit").value = level;
+            document.getElementById("hs-autoheight-textarea-edit").value = alamat;
+            document.getElementById("input-label-no-edit").value = nohp;
+
+
+            if (modalType === 'edit') {
+                document.getElementById('btnperubahan').classList.remove("hidden");
+
+                inputs.forEach(input => {
+                    input.removeAttribute('readonly');
+                });
+                textareas.forEach(textarea => {
+                    textarea.removeAttribute('readonly');
+                });
+
+                selects.forEach(select => {
+                    select.removeAttribute('disabled');
+                });
+
+
+                document.getElementById("hs-full-screen-label-edit").innerText = "Edit Data Karyawan";
+                document.getElementById("btnBatal").innerText = "Batal";
+
+
+            } else if (modalType === 'detail') {
+                document.getElementById('btnperubahan').classList.add("hidden");
+
+
+                inputs.forEach(input => {
+                    input.setAttribute('readonly', 'true');
+
+                });
+                textareas.forEach(textarea => {
+                    textarea.setAttribute('readonly', 'true');
+                });
+
+                selects.forEach(select => {
+                    select.setAttribute('disabled', 'true');
+                });
+
+                document.getElementById("hs-full-screen-label-edit").innerText = "Detail Data Karyawan";
+                document.getElementById("btnBatal").innerText = "Kembali";
+            }
+
+        }
+
+        function openHapusModal(button) {
+            let id = button.getAttribute("data-id");
+            let nama = button.getAttribute("data-nama");
+            let idpetugas = document.getElementById("petugas").value;
+
+            if (id !== idpetugas) {
+                document.getElementById('btnHapus').classList.remove("hidden");
+                document.getElementById("bodyHapusModal").innerHTML = "Data <span class='text-lg text-red-600 underline'>" + nama + "</span> akan dihapus permanen dari penyimpanan. Lanjutkan proses?";
+            } else {
+                document.getElementById("bodyHapusModal").innerText = "Maaf, Anda tidak dapat menghapus data Anda sendiri.";
+                document.getElementById('btnHapus').classList.add("hidden");
+            }
+
+        }
     </script>
 </div>

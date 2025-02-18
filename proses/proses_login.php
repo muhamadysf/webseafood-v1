@@ -9,7 +9,7 @@ if (isset($_POST['submit_validate'])) {
     $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$username' AND password = '$password'");
     $hasil = mysqli_fetch_array($query);
     if ($hasil) {
-        $_SESSION['username_kingseafood'] = $username;
+        $_SESSION['username_kingseafood'] = $hasil['username'];
         $_SESSION['level_kingseafood'] = $hasil['level'];
         $_SESSION['id'] = $hasil['id'];
         echo "Email yang dimasukkan: " . $_POST['email'];

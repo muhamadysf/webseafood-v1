@@ -12,7 +12,7 @@ if (isset($_POST['input_user_validate'])) {
     $query = mysqli_query($conn, "UPDATE tb_user SET nama='$name', username='$username', level='$level', nohp='$nohp', alamat='$alamat' WHERE id='$id'");
     if ($query) {
         $message = '<script>alert("Data Berhasil Di Edit");
-    window.location="../user"</script>
+    window.location="/webseafood/user"</script>
     </script>';
     } else {
         $message = '<script>alert("Data Gagal Di Edit")</script>';

@@ -1,12 +1,12 @@
 <?php
 include "connect.php";
-$id = (isset($_POST['id'])) ? htmlentities($_POST['id']) : "";
+$id = (isset($_POST['iduser'])) ? htmlentities($_POST['iduser']) : "";
 
-if (isset($_POST['input_user_validate'])) {
+if (isset($_POST['delete_data'])) {
     $query = mysqli_query($conn, "DELETE FROM tb_user WHERE id='$id'");
     if ($query) {
         $message = '<script>alert("Data Berhasil Di Hapus");
-    window.location="../user"</script>
+    window.location="/webseafood/user"</script>
     </script>';
     } else {
         $message = '<script>alert("Data Gagal Di Hapus")</script>';

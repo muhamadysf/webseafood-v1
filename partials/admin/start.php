@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>King Seafood - [ Panel Admin ]</title>
 
+    <style>
+        html,
+        body {
+            overflow: hidden;
+        }
+    </style>
 
     <!-- Custom styles for this template -->
     <link href="./assets/css/style.css" rel="stylesheet">
