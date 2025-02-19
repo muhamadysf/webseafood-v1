@@ -44,7 +44,7 @@ while ($record = mysqli_fetch_array($query)) {
                 Ekspor
             </button>
 
-            <button id="btnTambah" type="button" class="inline-flex items-center px-5 py-2 text-sm text-white border border-transparent rounded-lg font-base bg-primary-400 focus:outline-none hover:bg-primary-550 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-full-screen-modal" data-hs-overlay="#hs-full-screen-modal">
+            <button id="btnTambah" type="button" class="inline-flex items-center px-5 py-2 text-sm text-white bg-teal-500 border border-transparent rounded-lg font-base focus:outline-none hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-full-screen-modal" data-hs-overlay="#hs-full-screen-modal">
                 <svg class="w-auto h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 12H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M12 18V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -207,7 +207,7 @@ while ($record = mysqli_fetch_array($query)) {
                         <button type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-full-screen-modal">
                             Batal
                         </button>
-                        <button name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white border border-transparent rounded-lg bg-primary-400 gap-x-2 hover:bg-primary-550 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                        <button name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 hover:bg-green-600 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
                             Simpan Data
                         </button>
                     </div>
@@ -274,7 +274,7 @@ while ($record = mysqli_fetch_array($query)) {
                         <button id="btnBatal" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-full-screen-modal-edit">
                             Batal
                         </button>
-                        <button id="btnperubahan" name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white border border-transparent rounded-lg bg-primary-400 gap-x-2 hover:bg-primary-550 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                        <button id="btnperubahan" name="input_user_validate" type="submit" class="px-3 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 hover:bg-green-600 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
                             Simpan Perubahan
                         </button>
                     </div>
@@ -303,16 +303,10 @@ while ($record = mysqli_fetch_array($query)) {
                         </button>
                     </div>
                     <div class="p-4 overflow-y-auto">
-
-
-
-                        <p id="bodyHapusModal" class="mt-1 text-gray-800">
-
-                        </p>
-
+                        <p id="bodyHapusModal" class="mt-1 text-gray-800"></p>
                     </div>
                     <div class="flex items-center justify-center px-4 py-3 border-t gap-x-2">
-                        <button @click="selectedId = null" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hapusdata">
+                        <button id="btnBtl" @click="selectedId = null" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hapusdata">
                             Batal
                         </button>
                         <button id="btnHapus" name="delete_data" type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg gap-x-2 hover:bg-red-700 focus:outline-none focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none" <?php echo ($row['username'] == $_SESSION['username_kingseafood']) ? 'disabled' : ''; ?>>
@@ -434,10 +428,12 @@ while ($record = mysqli_fetch_array($query)) {
 
             if (id !== idpetugas) {
                 document.getElementById('btnHapus').classList.remove("hidden");
+                document.getElementById("btnBtl").innerText = "Batal";
                 document.getElementById("bodyHapusModal").innerHTML = "Data <span class='text-lg text-red-600 underline'>" + nama + "</span> akan dihapus permanen dari penyimpanan. Lanjutkan proses?";
             } else {
                 document.getElementById("bodyHapusModal").innerText = "Maaf, Anda tidak dapat menghapus data Anda sendiri.";
                 document.getElementById('btnHapus').classList.add("hidden");
+                document.getElementById("btnBtl").innerText = "Kembali";
             }
 
         }
