@@ -7,7 +7,7 @@ if (!empty($_SESSION['username_kingseafood'])) {
 
 <?php include './partials/admin/start.php' ?>
 
-<body class="flex items-center justify-center w-screen h-screen bg-[url(../../public/assets/images/kings.png)] font-fredoka backdrop-blur-lg">
+<body class="flex items-center justify-center w-screen h-screen bg-[url(../images/kings.png)] font-fredoka backdrop-blur-lg">
 
     <div class="flex w-3/5 rounded-lg shadow-xl bg-white/70">
         <div class="flex flex-col items-center justify-center w-1/2 px-2 py-8 rounded-tl-lg rounded-bl-lg bg-red-950">

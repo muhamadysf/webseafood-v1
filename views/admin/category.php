@@ -1,5 +1,5 @@
 <?php
-include "config/connect.php";
+include "./config/connect.php";
 
 $query = mysqli_query($conn, "SELECT * FROM tb_kategori");
 while ($record = mysqli_fetch_array($query)) {
@@ -67,14 +67,14 @@ $timenow = date("j-F-Y-h:i:s A");
                                             $jumlah = $baris['jumlah'];
 
                                             if ($cekbaris > 0) {
-                                                echo number_format($count);
+                                                echo number_format($jumlah);
                                             } else {
                                                 echo 'Belum ada menu';
                                             }
                                             ?>
                                         </td>
                                         <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo isset($row['created_at']) ? $row['created_at'] : '-'; ?></td>
-                                        <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo isset($row['logo_kategori']) ? $row['logo_kategori'] : '-'; ?></td>
+                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center w-auto h-20" src="<?php echo $row['logo_kategori'] ?>"></td>
                                         <td class="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                                             <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
                                                 data-id="<?php echo $row['id_kategori']; ?>"
@@ -87,7 +87,7 @@ $timenow = date("j-F-Y-h:i:s A");
                                                 data-id="<?php echo $row['id_kategori']; ?>"
                                                 data-nama="<?php echo $row['nama_kategori']; ?>"
                                                 @click="selectedId = $el.dataset.id; selectNama = $el.dataset.nama"
-                                                onclick="openModal(this, 'hapus')">
+                                                onclick="openModal(this, 'hapus', './<?php echo $row['logo_kategori']; ?>')">
                                                 Hapus
                                             </button>
                                         </td>
@@ -95,14 +95,11 @@ $timenow = date("j-F-Y-h:i:s A");
 
                             <?php }
                             } else {
-
-                                // Tampilkan pesan jika tidak ada data
-
+                                // ====== Tampilkan pesan jika tidak ada data
                             } ?>
                         </tbody>
                     </table>
-                    <!-- batas akhir table -->
-
+                    <!-- ======= batas akhir table =========================== -->
                 </div>
             </div>
         </div>
@@ -116,7 +113,7 @@ $timenow = date("j-F-Y-h:i:s A");
                     <input type="hidden" x-bind:value="selectedId" name="iduser">
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <h3 id="hs-scale-animation-modal-label" class="text-2xl font-semibold text-gray-800"></h3>
-                        <button type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
+                        <button @click="selectedId = null" type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
                             <span class="sr-only">Close</span>
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 6 18"></path>
@@ -124,12 +121,15 @@ $timenow = date("j-F-Y-h:i:s A");
                             </svg>
                         </button>
                     </div>
-                    <div class="p-4 overflow-y-auto ">
-                        <p id="bodyModalText" class="hidden mt-1 text-gray-800">Data akan dihapus permanen dari sistem. Lanjutkan Proses ?</p>
+                    <div class="w-full p-4 overflow-y-auto">
+                        <div id="bodyModalText" class="flex flex-col items-center justify-center w-full">
+                            <p class="mt-1 text-gray-800">Data <span class="font-semibold underline" x-text='selectNama'></span> akan dihapus permanen dari sistem. <br> Lanjutkan Proses ?</p>
+                            <img id="imgHps" class="object-cover w-24 h-auto mt-2 rounded-full" src="">
+                        </div>
                         <div id="bodyModalInput" class="flex flex-col items-center justify-center gap-y-8">
                             <div class="w-full max-w-sm">
                                 <label for="nama-kategori" class="block mb-2 text-sm font-medium">Nama Kategori</label>
-                                <input name="namakategori" type="text" id="nama-kategori" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Ketik kategori baru..." required>
+                                <input name="namakategori" type="text" id="nama-kategori" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Ketik kategori baru...">
                             </div>
                             <div class="">
                                 <div class="">
@@ -147,7 +147,6 @@ $timenow = date("j-F-Y-h:i:s A");
                                                 </svg>
                                             </span>
                                         </div>
-
                                         <div class="grow">
                                             <div class="flex items-center gap-x-2">
                                                 <button @click="$refs.fileInput.click()" type="button" class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-teal-500 border border-transparent rounded-lg gap-x-2 hover:bg-teal-500/55 hover:ring-2 hover:ring-teal-700 hover:text-teal-700 disabled:opacity-50 disabled:pointer-events-none">
@@ -159,13 +158,11 @@ $timenow = date("j-F-Y-h:i:s A");
                                                     Pilih logo kategori...
                                                 </button>
                                                 <button type="button" class="inline-flex items-center px-3 py-2 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 hover:ring-2 hover:ring-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" onclick="hapusPilihan()">Delete</button>
-
-
                                             </div>
                                         </div>
                                     </div>
                                     <p id="pesanError" class="invisible mt-3 text-sm text-red-500 ">Logo belum dipilih...</p>
-                                    <input type="file" x-ref="fileInput" class="hidden" name="file" id="file" accept="image/*" required>
+                                    <input type="file" x-ref="fileInput" class="hidden" name="file" id="file" accept="image/*">
                                 </div>
 
                             </div>
@@ -188,7 +185,9 @@ $timenow = date("j-F-Y-h:i:s A");
     <script src="./public/assets/js/jquery-3.7.1.min.js"></script>
     <script src="./public/assets/js/datatables.min.js"></script>
     <script>
-        var table;
+        let table;
+        let typeModal = "";
+
         $(document).ready(function() {
             table = $('#myTable').DataTable({
                 dom: "<'flex justify-between items-center mb-2'lf>t<'flex justify-between items-center mt-2'ip>",
@@ -251,6 +250,7 @@ $timenow = date("j-F-Y-h:i:s A");
 
         function hapusPilihan() {
             const fileInput = document.getElementById("file");
+            const inputNama = document.getElementById("nama-kategori");
             const previewDiv = document.getElementById("preview");
             const mockupDiv = document.getElementById("mockup");
             const mockupId = document.getElementById("mockupId");
@@ -260,6 +260,7 @@ $timenow = date("j-F-Y-h:i:s A");
             mockupId.classList.add("border-gray-300");
             mockupId.classList.remove("border-red-500");
             pesanError.classList.add("invisible");
+            inputNama.classList.remove("border-2", "border-red-500", "focus:border-red-500", "focus:ring-red-500");
         }
 
 
@@ -278,34 +279,20 @@ $timenow = date("j-F-Y-h:i:s A");
             });
         }
 
-        document.getElementById("btnSubmit").addEventListener("click", function() {
-            const fileInput = document.getElementById("file");
-            const mockupDiv = document.getElementById("mockupId");
-            const pesanError = document.getElementById("pesanError");
+        function openModal(button = 'default', modalType, imgUrl = '') {
+            typeModal = modalType;
 
-            if (!fileInput.files.length) {
-                mockupDiv.classList.add("border-red-500");
-                pesanError.classList.remove("invisible");
-
-
-            } else {
-                mockupDiv.classList.remove("border-red-500");
-                pesanError.classList.add("invisible");
-
-            }
-        });
-
-        function openModal(button = 'default', modalType) {
-
-            const inputs = document.querySelectorAll('.modalAll input');
             const header = document.getElementById("hs-scale-animation-modal-label");
             const body = document.getElementById("bodyModalText");
             const bodyInput = document.getElementById("bodyModalInput");
             const btnsubmit = document.getElementById("btnSubmit");
+            const inputFile = document.getElementById("file");
 
             const form = document.getElementById("frmmodal");
 
-
+            body.classList.add("hidden");
+            bodyInput.classList.remove("hidden");
+            console.log(modalType);
             if (modalType === 'tambah') {
 
                 header.innerText = "Tambah Kategori Baru";
@@ -316,6 +303,8 @@ $timenow = date("j-F-Y-h:i:s A");
                 form.action = "./proses/proses_kategori_add.php";
 
                 setPreview();
+
+
 
             } else if (modalType === 'edit') {
 
@@ -328,14 +317,20 @@ $timenow = date("j-F-Y-h:i:s A");
 
                 setPreview();
 
+
+
             } else if (modalType === 'hapus') {
                 header.innerText = "Hapus Data Kategori";
 
                 btnsubmit.innerText = "Hapus";
                 btnsubmit.classList.remove("bg-green-500", "hover:bg-green-600");
                 body.classList.remove("hidden");
-                btnsubmit.classList.add("bg-red-600", "hover:bg-red-700");
                 bodyInput.classList.add("hidden");
+                btnsubmit.classList.add("bg-red-600", "hover:bg-red-700");
+
+                const imgHps = document.getElementById("imgHps");
+
+                imgHps.src = imgUrl;
 
                 form.action = "./proses/proses_kategori_delete.php";
 
@@ -343,5 +338,35 @@ $timenow = date("j-F-Y-h:i:s A");
             }
 
         }
+
+        document.getElementById("btnSubmit").addEventListener("click", function(event) {
+            const fileInput = document.getElementById("file");
+            const mockupDiv = document.getElementById("mockupId");
+            const pesanError = document.getElementById("pesanError");
+            const inputNama = document.getElementById("nama-kategori");
+
+            inputNama.value = inputNama.value.trim();
+            console.log(typeModal);
+            if (typeModal === 'tambah') {
+                if (inputNama.value === "") {
+                    inputNama.classList.remove("border-blue-500", "focus:border-blue-500", "focus:ring-blue-500");
+                    inputNama.classList.add("border-2", "border-red-500", "focus:border-red-500", "focus:ring-red-500")
+
+                } else if (!fileInput.files.length) {
+                    event.preventDefault();
+                    mockupDiv.classList.add("border-red-500");
+                    pesanError.classList.remove("invisible");
+
+
+                } else {
+                    inputNama.classList.remove("border-2", "border-red-500", "focus:border-red-500", "focus:ring-red-500");
+                    mockupDiv.classList.remove("border-red-500");
+                    pesanError.classList.add("invisible");
+                }
+
+
+            }
+
+        });
     </script>
 </div>
