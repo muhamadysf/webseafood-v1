@@ -1,5 +1,5 @@
 <?php
-include "proses/connect.php";
+include "config/connect.php";
 
 $petugas = $_SESSION['id'];
 $query = mysqli_query($conn, "SELECT * FROM tb_user");
@@ -320,8 +320,8 @@ while ($record = mysqli_fetch_array($query)) {
     </div>
 
     <!-- JS pembantu -->
-    <script src="./assets/js/jquery-3.7.1.min.js"></script>
-    <script src="./assets/js/datatables.min.js"></script>
+    <script src="./public/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="./public/assets/js/datatables.min.js"></script>
     <script>
         var table;
         $(document).ready(function() {

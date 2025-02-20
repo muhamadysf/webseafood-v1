@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "../config/connect.php";
 $name = (isset($_POST['nama'])) ? htmlentities($_POST['nama']) : "";
 $username = (isset($_POST['email'])) ? htmlentities($_POST['email']) : "";
 $level = (isset($_POST['level'])) ? htmlentities($_POST['level']) : "";

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "connect.php";
+include "../config/connect.php";
 $username = (isset($_POST['email'])) ? htmlentities($_POST['email']) : "";
 $password = (isset($_POST['password'])) ? md5(htmlentities($_POST['password'])) : "";
 

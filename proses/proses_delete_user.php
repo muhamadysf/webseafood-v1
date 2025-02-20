@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "../config/connect.php";
 $id = (isset($_POST['iduser'])) ? htmlentities($_POST['iduser']) : "";
 
 if (isset($_POST['delete_data'])) {

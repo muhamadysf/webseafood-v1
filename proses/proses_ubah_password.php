@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "connect.php";
+include "../config/connect.php";
 
 $id = (isset($_POST['id'])) ? htmlentities($_POST['id']) : "";
 $passwordlama = (isset($_POST['passwordlama'])) ? md5(htmlentities($_POST['passwordlama'])) : "";

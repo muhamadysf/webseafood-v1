@@ -4,7 +4,7 @@ if (empty($_SESSION['username_kingseafood'])) {
     header('location:login');
 }
 
-include "proses/connect.php";
+include "config/connect.php";
 $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$_SESSION[username_kingseafood]'");
 $hasil = mysqli_fetch_array($query);
 ?>

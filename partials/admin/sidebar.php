@@ -1,7 +1,7 @@
 <aside class="fixed z-[999] inset-y-0 left-0 w-56 text-white transition-transform duration-300 transform shadow-xl bg-primary-600" :class="open ? 'translate-x-0' : '-translate-x-full'">
     <div class="flex flex-col py-4 px-7">
         <div class="flex items-center mb-8 hover:cursor-default">
-            <img class="w-10 h-auto" src="./assets/images/logo.png" alt="logo">
+            <img class="w-10 h-auto" src="./public/assets/images/logo.png" alt="logo">
             <h1 class="ml-2 text-lg font-semibold">King Seafood</h1>
         </div>
 
