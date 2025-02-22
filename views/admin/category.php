@@ -33,7 +33,7 @@ $timenow = date("j-F-Y-h:i:s A");
     </div>
 
     <!-- container tabel -->
-    <div class="flex flex-col py-8 bg-white shadow-xl rounded-3xl">
+    <div class="flex flex-col py-8 shadow-xl bg-white/20 rounded-3xl">
         <div class="-m-1.5 h-full w-full overflow-auto scrollbar-hide">
             <div class="p-1.5 min-w-full overflow-auto scrollbar-hide w-full h-full inline-block align-middle">
                 <div class="px-8">
@@ -51,7 +51,7 @@ $timenow = date("j-F-Y-h:i:s A");
                                 <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center bg-white divide-y divide-gray-200">
+                        <tbody class="text-center bg-transparent divide-y divide-gray-400">
                             <?php
                             if (mysqli_num_rows($query) > 0) {
 
@@ -77,7 +77,7 @@ $timenow = date("j-F-Y-h:i:s A");
                                             ?>
                                         </td>
                                         <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo isset($row['created_at']) ? $row['created_at'] : '-'; ?></td>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center w-auto h-20" src="<?php echo $row['logo_kategori'] ?>"></td>
+                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center object-cover w-20 h-20 rounded-full" src="<?php echo $row['logo_kategori'] ?>"></td>
                                         <td class="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                                             <button type="button" class="modal-btn inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
                                                 data-id="<?php echo $row['id_kategori']; ?>"

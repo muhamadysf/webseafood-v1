@@ -63,9 +63,7 @@ while ($record = mysqli_fetch_array($query)) {
     } else {
     ?>
 
-
-
-        <div class="flex flex-col py-8 bg-white shadow-xl rounded-3xl">
+        <div class="flex flex-col py-8 shadow-xl bg-white/20 rounded-3xl">
             <div class="-m-1.5 h-full w-full overflow-auto scrollbar-hide">
                 <div class="p-1.5 min-w-full overflow-auto scrollbar-hide w-full h-full inline-block align-middle">
                     <div class="px-8">
@@ -80,7 +78,7 @@ while ($record = mysqli_fetch_array($query)) {
                                     <th scope="col" class="!text-center px-6 py-3 text-xs font-medium  uppercase ">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-center bg-white divide-y divide-gray-200">
+                            <tbody class="text-center bg-transparent divide-y divide-gray-500">
                                 <?php
                                 $no = 1;
                                 foreach ($result as $row) {
