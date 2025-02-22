@@ -13,7 +13,7 @@ $hasil = mysqli_fetch_array($query);
 
 <?php include './partials/admin/start.php' ?>
 
-<body class="w-screen h-screen overflow-auto font-fredoka scrollbar-hide">
+<body class="w-screen h-screen overflow-auto font-fredoka scrollbar-hide ">
 
     <?php if ((isset($_SESSION['judul'])) && ($_SESSION['judul'] == 'Berhasil.')) : ?>
         <div id="alert-success" class="fixed opacity-0 hidden w-1/3 h-28 z-[9999] shadow-lg p-4 transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 border-t-4 border-teal-500 rounded-lg bg-teal-800/50 backdrop-blur-sm" role="alert" tabindex="-1" aria-labelledby="hs-bordered-success-style-label">
@@ -80,12 +80,13 @@ $hasil = mysqli_fetch_array($query);
 
     <div class="flex w-screen min-h-screen " x-data="{ open: true }">
         <!-- sidebar -->
-        <?php include './partials/admin/sidebar.php' ?>
+        <?php
+        include './partials/admin/sidebar.php'
+        ?>
 
 
         <!-- dashboard -->
-        <div class="flex flex-col flex-1 h-full min-h-screen transition-all duration-300 bg-primary-150"
-            :class="open ? 'ml-56' : 'ml-0 '">
+        <div class="flex flex-col flex-1 h-full min-h-screen transition-all duration-300 bg-primary-150 " :class="open ? 'ml-56' : 'ml-0 '">
 
             <!-- header -->
             <?php include './partials/admin/header.php' ?>

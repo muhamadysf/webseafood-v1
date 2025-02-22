@@ -12,6 +12,7 @@ if (isset($_POST['submit_validate'])) {
         $_SESSION['username_kingseafood'] = $hasil['username'];
         $_SESSION['level_kingseafood'] = $hasil['level'];
         $_SESSION['id'] = $hasil['id'];
+        $_SESSION['nama'] = $hasil['nama'];
         echo "Email yang dimasukkan: " . $_POST['email'];
         header('location: /webseafood/main');
         exit;

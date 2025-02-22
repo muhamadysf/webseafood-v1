@@ -19,8 +19,6 @@ if (!empty($_SESSION['username_kingseafood'])) {
             <div class="w-full mb-8 text-center text-primary-600">
                 <h1 class="text-3xl font-bold ">Selamat Datang !</h1>
                 <p class="text-sm ">Silahkan Login untuk mengakses panel admin.</p>
-
-
             </div>
 
             <div class="">
