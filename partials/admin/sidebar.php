@@ -1,11 +1,11 @@
 <aside class="fixed z-[999] inset-y-0 left-0 w-56 text-white transition-transform duration-300 transform shadow-2xl bg-primary-600" :class="open ? 'translate-x-0' : '-translate-x-full'">
-    <div class="flex flex-col py-4 px-7">
-        <div class="flex items-center mb-8 hover:cursor-default">
+    <div class="flex flex-col">
+        <div class="flex items-center p-4 mb-8 border-b-2 border-primary-150/30 hover:cursor-default">
             <img class="w-10 h-auto" src="./public/assets/images/logo.png" alt="logo">
             <h1 class="ml-2 text-lg font-semibold">King Seafood</h1>
         </div>
 
-        <nav class="flex flex-col gap-y-8">
+        <nav class="flex flex-col gap-y-8 px-7">
             <div class="<?php echo ((isset($_GET['x']) && $_GET['x'] == 'home') || !isset($_GET['x'])) ? 'text-primary-550 bg-white' : 'bg-white/90 text-primary-350'; ?> inline-flex items-center gap-2 py-1 pl-2 rounded-lg  group hover:cursor-pointer hover:text-primary-550 hover:bg-white hover:rounded-lg">
                 <svg class="w-6 h-auto group-hover:text-primary-550" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.918 10.0005H7.082C6.66587 9.99708 6.26541 10.1591 5.96873 10.4509C5.67204 10.7427 5.50343 11.1404 5.5 11.5565V17.4455C5.5077 18.3117 6.21584 19.0078 7.082 19.0005H9.918C10.3341 19.004 10.7346 18.842 11.0313 18.5502C11.328 18.2584 11.4966 17.8607 11.5 17.4445V11.5565C11.4966 11.1404 11.328 10.7427 11.0313 10.4509C10.7346 10.1591 10.3341 9.99708 9.918 10.0005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
