@@ -11,7 +11,10 @@ $timenow = date("j-F-Y-h:i:s A");
 ?>
 
 
-<div x-data="{selectedId: null, selectNama: null}" class="">
+
+<div x-data="{selectedId: null, selectNama: null, selectImg: null }" class="">
+
+
 
     <!-- judul dan tombol tambah -->
     <div class="flex items-center justify-between mb-4 ">
@@ -76,18 +79,20 @@ $timenow = date("j-F-Y-h:i:s A");
                                         <td class="!text-center px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><?php echo isset($row['created_at']) ? $row['created_at'] : '-'; ?></td>
                                         <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center w-auto h-20" src="<?php echo $row['logo_kategori'] ?>"></td>
                                         <td class="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
-                                            <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
+                                            <button type="button" class="modal-btn inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
                                                 data-id="<?php echo $row['id_kategori']; ?>"
                                                 data-nama="<?php echo $row['nama_kategori']; ?>"
-                                                data-logo="<?php echo $row['logo_kategori']; ?>"
+                                                data-logo="./<?php echo $row['logo_kategori']; ?>"
+                                                @click="selectedId = $el.dataset.id; selectNama = $el.dataset.nama; selectImg = $el.dataset.logo"
                                                 onclick="openModal(this, 'edit')">
                                                 Edit
                                             </button>
-                                            <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
+                                            <button type="button" class="modal-btn inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" aria-haspopup="dialog" aria-expanded="false" aria-controls="modalAll" data-hs-overlay="#modalAll"
                                                 data-id="<?php echo $row['id_kategori']; ?>"
                                                 data-nama="<?php echo $row['nama_kategori']; ?>"
-                                                @click="selectedId = $el.dataset.id; selectNama = $el.dataset.nama"
-                                                onclick="openModal(this, 'hapus', './<?php echo $row['logo_kategori']; ?>')">
+                                                data-logo="./<?php echo $row['logo_kategori']; ?>"
+                                                @click="selectedId = $el.dataset.id; selectNama = $el.dataset.nama; selectImg = $el.dataset.logo"
+                                                onclick="openModal(this, 'hapus')">
                                                 Hapus
                                             </button>
                                         </td>
@@ -113,7 +118,7 @@ $timenow = date("j-F-Y-h:i:s A");
                     <input type="hidden" x-bind:value="selectedId" name="iduser">
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <h3 id="hs-scale-animation-modal-label" class="text-2xl font-semibold text-gray-800"></h3>
-                        <button @click="selectedId = null" type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
+                        <button @click="selectedId = null; selectNama = null; selectImg = null" type="button" class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none" aria-label="Close" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
                             <span class="sr-only">Close</span>
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 6 18"></path>
@@ -124,18 +129,18 @@ $timenow = date("j-F-Y-h:i:s A");
                     <div class="w-full p-4 overflow-y-auto">
                         <div id="bodyModalText" class="flex flex-col items-center justify-center w-full">
                             <p class="mt-1 text-gray-800">Data <span class="font-semibold underline" x-text='selectNama'></span> akan dihapus permanen dari sistem. <br> Lanjutkan Proses ?</p>
-                            <img id="imgHps" class="object-cover w-24 h-auto mt-2 rounded-full" src="">
+                            <img id="imgHps" class="object-cover w-24 h-24 mt-2 rounded-full" x-bind:src="selectImg">
                         </div>
                         <div id="bodyModalInput" class="flex flex-col items-center justify-center gap-y-8">
                             <div class="w-full max-w-sm">
                                 <label for="nama-kategori" class="block mb-2 text-sm font-medium">Nama Kategori</label>
-                                <input name="namakategori" type="text" id="nama-kategori" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Ketik kategori baru...">
+                                <input name="namakategori" x-bind:value="selectNama" type="text" id="nama-kategori" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Ketik kategori baru..." required>
                             </div>
                             <div class="">
                                 <div class="">
                                     <div class="flex flex-wrap items-center gap-3 sm:gap-5">
                                         <div id="preview" class=" size-20" @click="$refs.fileInput.click()">
-                                            <img id="previewIMG" class="object-cover w-full h-full rounded-full">
+                                            <img id="previewIMG" x-bind:src="selectImg" class="object-cover w-full h-full rounded-full">
                                         </div>
                                         <div id="mockup" class="group" @click="$refs.fileInput.click()">
                                             <span id="mockupId" class="group-has-[div]:hidden flex shrink-0 justify-center items-center size-20 border-2 border-dotted  text-gray-400 cursor-pointer rounded-full hover:bg-gray-50">
@@ -162,14 +167,14 @@ $timenow = date("j-F-Y-h:i:s A");
                                         </div>
                                     </div>
                                     <p id="pesanError" class="invisible mt-3 text-sm text-red-500 ">Logo belum dipilih...</p>
-                                    <input type="file" x-ref="fileInput" class="hidden" name="file" id="file" accept="image/*">
+                                    <input type="file" x-ref="fileInput" class="hidden" name="file" id="file" accept="image/*" required>
                                 </div>
 
                             </div>
                         </div>
                     </div>
                     <div class="flex items-center justify-center px-4 py-3 border-t gap-x-2">
-                        <button id="btnBatal" @click="selectedId = null" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
+                        <button id="btnBatal" @click="selectedId = null; selectNama = null; selectImg = null" type="button" class="px-3 py-2 text-sm font-medium bg-gray-500 border border-gray-200 rounded-lg shadow-sm text-gray-50 gap-x-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#modalAll" onclick="hapusPilihan()">
                             Batal
                         </button>
                         <button id="btnSubmit" name="btnsubmit" type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
@@ -195,7 +200,10 @@ $timenow = date("j-F-Y-h:i:s A");
                     "emptyTable": "Tidak ada data yang tersedia untuk ditampilkan"
                 },
             });
+
+
         });
+
 
         document.addEventListener("DOMContentLoaded", function() {
             const fileInput = document.getElementById("file");
@@ -279,7 +287,7 @@ $timenow = date("j-F-Y-h:i:s A");
             });
         }
 
-        function openModal(button = 'default', modalType, imgUrl = '') {
+        function openModal(button = 'default', modalType) {
             typeModal = modalType;
 
             const header = document.getElementById("hs-scale-animation-modal-label");
@@ -287,11 +295,18 @@ $timenow = date("j-F-Y-h:i:s A");
             const bodyInput = document.getElementById("bodyModalInput");
             const btnsubmit = document.getElementById("btnSubmit");
             const inputFile = document.getElementById("file");
+            const namaKategori = document.getElementById("nama-kategori");
+
+
+
 
             const form = document.getElementById("frmmodal");
 
             body.classList.add("hidden");
             bodyInput.classList.remove("hidden");
+            namaKategori.required = true;
+            inputFile.required = true;
+
             console.log(modalType);
             if (modalType === 'tambah') {
 
@@ -313,6 +328,12 @@ $timenow = date("j-F-Y-h:i:s A");
                 btnsubmit.classList.remove("bg-red-600", "hover:bg-red-700");
                 btnsubmit.classList.add("bg-green-500", "hover:bg-green-600");
 
+                const previewDiv = document.getElementById("preview");
+                const mockupDiv = document.getElementById("mockup");
+                previewDiv.style.display = "block"; // Tampilkan preview
+                mockupDiv.style.display = "none"; // Sembunyikan mockup
+                inputFile.required = false;
+
                 form.action = "./proses/proses_kategori_edit.php";
 
                 setPreview();
@@ -328,9 +349,8 @@ $timenow = date("j-F-Y-h:i:s A");
                 bodyInput.classList.add("hidden");
                 btnsubmit.classList.add("bg-red-600", "hover:bg-red-700");
 
-                const imgHps = document.getElementById("imgHps");
-
-                imgHps.src = imgUrl;
+                namaKategori.required = false;
+                inputFile.required = false;
 
                 form.action = "./proses/proses_kategori_delete.php";
 
@@ -348,9 +368,12 @@ $timenow = date("j-F-Y-h:i:s A");
             inputNama.value = inputNama.value.trim();
             console.log(typeModal);
             if (typeModal === 'tambah') {
-                if (inputNama.value === "") {
+                if ((inputNama.value === "") && (fileInput.files.length < 1)) {
+                    event.preventDefault();
                     inputNama.classList.remove("border-blue-500", "focus:border-blue-500", "focus:ring-blue-500");
                     inputNama.classList.add("border-2", "border-red-500", "focus:border-red-500", "focus:ring-red-500")
+                    mockupDiv.classList.add("border-red-500");
+                    pesanError.classList.remove("invisible");
 
                 } else if (!fileInput.files.length) {
                     event.preventDefault();

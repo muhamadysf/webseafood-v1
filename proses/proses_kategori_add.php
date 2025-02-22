@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 file_put_contents('log.txt', "Script dieksekusi\n", FILE_APPEND);
 
 date_default_timezone_set("Asia/Bangkok");
@@ -29,21 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_PO
     }
 
     $fileName = basename($_FILES["file"]["name"]);
-    $targetFilePath = $targetDir . $fileName;
-
-    $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-
+    $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION)); // Ambil ekstensi file lalu kecilkan huruf
+    $allowTypes = ["jpg", "png", "jpeg", "gif", "webp"];
 
 
     // Cek jenis file
-    $allowTypes = ["jpg", "png", "jpeg", "gif", "webp"];
+
     if (in_array($fileType, $allowTypes)) {
 
         $randomString = substr(md5(time() . rand()), 0, 5); // String acak 5 karakter
         $namaFileBaru = preg_replace('/[^A-Za-z0-9_\-]/', '_', $namakategori); // Bersihkan karakter aneh
-        $fileExtension = pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION); // Ambil ekstensi file
-        $namaFileFinal = $namaFileBaru . $randomString . "." . $fileExtension;
-
+        $namaFileFinal = $namaFileBaru . $randomString . "." . $fileType;
         $targetFile = $targetDir . $namaFileFinal;
         $targetDb = "public/uploads/kategori/" . $namaFileFinal;
 
@@ -51,31 +47,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_PO
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
 
             if ($conn->connect_error) {
-                die("Koneksi database gagal: " . $conn->connect_error);
+                $_SESSION['judul'] = "Gagal.";
+                $_SESSION['message'] = "Koneksi database gagal: " . $conn->connect_error;
+                header("Location: /webseafood/category");
+                exit();
             }
 
             // =========== proses simpan data ke database ===============================
 
             $sql = "INSERT INTO tb_kategori (nama_kategori, logo_kategori) VALUES (?, ?)";
-            $stmt = mysqli_prepare($conn, $sql);
 
-            mysqli_stmt_bind_param($stmt, "ss", $namakategori, $targetDb);
-            mysqli_stmt_execute($stmt);
 
-            if (mysqli_stmt_affected_rows($stmt) > 0) {
-                echo '<script>window.location = "/webseafood/category"; // Redirect setelah klik OK</script>';
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bind_param("ss", $namakategori, $targetDb);
+            if ($stmt->execute()) {
+                $_SESSION['judul'] = "Berhasil.";
+                $_SESSION['message'] = "Data kategori baru berhasil disimpan !";
             } else {
-                echo "Gagal menyimpan data.";
+                $_SESSION['judul'] = "Gagal.";
+                $_SESSION['message'] = "Data gagal disimpan! Error: " . $stmt->error;
             }
 
-            mysqli_stmt_close($stmt);
-            mysqli_close($conn);
+            $stmt->close();
+            $conn->close();
         } else {
-            echo "Gagal mengunggah gambar.";
+            $_SESSION['judul'] = "Gagal.";
+            $_SESSION['message'] = "Gagal mengunggah gambar.";
         }
     } else {
-        echo "Format file tidak didukung.";
+        $_SESSION['judul'] = "Gagal.";
+        $_SESSION['message'] = "Format file tidak didukung.";
     }
 } else {
-    echo "Tidak ada file yang diunggah.";
+    $_SESSION['judul'] = "Gagal.";
+    $_SESSION['message'] = "Tidak ada file yang diunggah. ";
 }
+header("Location: /webseafood/category");
+exit();

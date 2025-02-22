@@ -1,4 +1,4 @@
-<div class="w-full p-2 bg-white shadow-md">
+<div class="w-full p-2 bg-white shadow-xl">
   <div class="flex items-center justify-between">
     <button @click="open = !open" class="p-1 bg-gray-200 rounded ">☰</button>
     <h3 class="ml-2 text-xl font-light">Selamat bekerja <span class="font-semibold"><?php echo $hasil['nama']; ?> !</span> Semangat !</h3>

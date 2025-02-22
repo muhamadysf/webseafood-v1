@@ -9,13 +9,24 @@ $alamat = (isset($_POST['alamat'])) ? htmlentities($_POST['alamat']) : "";
 $password = md5('password');
 
 if (isset($_POST['input_user_validate'])) {
-    $query = mysqli_query($conn, "UPDATE tb_user SET nama='$name', username='$username', level='$level', nohp='$nohp', alamat='$alamat' WHERE id='$id'");
-    if ($query) {
-        $message = '<script>alert("Data Berhasil Di Edit");
-    window.location="/webseafood/user"</script>
-    </script>';
+    $sql =  "UPDATE tb_user SET nama=?, username=?, level=?, nohp=?, alamat=? WHERE id=?";
+
+
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssissi", $name, $username, $level, $nohp, $alamat, $id);
+
+    if ($stmt->execute()) {
+        $_SESSION['judul'] = "Berhasil.";
+        $_SESSION['message'] = "Data user berhasil diperbarui !";
     } else {
-        $message = '<script>alert("Data Gagal Di Edit")</script>';
+        $_SESSION['judul'] = "Gagal.";
+        $_SESSION['message'] = "Gagal memperbarui data: " . $stmt->error;
     }
+
+
+    $stmt->close();
+    $conn->close();
+    header("Location: /webseafood/user");
+    exit();
 }
-echo $message;
