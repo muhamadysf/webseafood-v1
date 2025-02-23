@@ -1,3 +1,23 @@
+<?php
+include './config/connect.php';
+
+$querypsn = mysqli_query($conn, "SELECT COUNT(id_pesanan) AS JMLPSN FROM tb_pesanan");
+$barispsn = mysqli_fetch_assoc($querypsn);
+$jmlpsn = $barispsn['JMLPSN'];
+
+$querypsn2 = mysqli_query($conn, "SELECT COUNT(id_pesanan) AS JMLPSN2 FROM tb_pesanan WHERE status_pesanan = 'Selesai'");
+$barispsn2 = mysqli_fetch_assoc($querypsn2);
+$jmlpsn2 = $barispsn2['JMLPSN2'];
+
+$queryuser = mysqli_query($conn, "SELECT COUNT(id) AS JMLUSER FROM tb_user WHERE level != 1");
+$barisuser = mysqli_fetch_assoc($queryuser);
+$jmluser = $barisuser['JMLUSER'];
+
+$qpemasukan = mysqli_query($conn, "SELECT SUM(total_harga) AS TOTAL FROM tb_pesanan WHERE status_pesanan = 'Selesai'");
+$barispemasukan = mysqli_fetch_assoc($qpemasukan);
+$totalpemasukan = $barispemasukan['TOTAL'];
+?>
+
 <div class="m-2">
     <div class="w-full px-12 py-8 mb-4 rounded-md shadow-lg bg-white/35 h-44 backdrop-blur-md">
         <h1 class="mb-2 text-3xl">Selamat datang <?php echo $_SESSION['nama']; ?>,</h1>
@@ -6,7 +26,7 @@
     <div class="flex flex-wrap items-center justify-between gap-4 mb-8 gap-y-8">
         <div class="flex items-center justify-between h-40 p-8 rounded-lg shadow-lg w-80 bg-white/30 backdrop-blur-md">
             <div class="">
-                <h1 class="text-6xl font-semibold">00</h1>
+                <h1 class="text-6xl font-semibold"><?php echo $jmlpsn; ?></h1>
                 <p class="text-base">Jumlah Pesanan Hari Ini</p>
             </div>
             <div class="">
@@ -17,7 +37,7 @@
         </div>
         <div class="flex items-center justify-between h-40 p-8 rounded-lg shadow-lg w-80 bg-white/30 backdrop-blur-md">
             <div class="">
-                <h1 class="text-6xl font-semibold">00</h1>
+                <h1 class="text-6xl font-semibold"><?php echo $jmlpsn2; ?></h1>
                 <p class="text-base">jumlah Pesanan Selesai</p>
             </div>
             <div class="">
@@ -28,7 +48,7 @@
         </div>
         <div class="flex items-center justify-between h-40 p-8 rounded-lg shadow-lg w-80 bg-white/30 backdrop-blur-md">
             <div class="">
-                <h1 class="text-6xl font-semibold">00</h1>
+                <h1 class="text-6xl font-semibold"><?php echo $jmluser; ?></h1>
                 <p class="text-base">Jumlah Karyawan</p>
             </div>
             <div class="">
@@ -41,7 +61,7 @@
     <div class="flex flex-wrap items-center justify-center">
         <div class="flex items-center justify-between h-40 p-8 rounded-lg shadow-lg w-80 bg-white/30 backdrop-blur-md">
             <div class="">
-                <h1 class="text-2xl font-semibold">Rp. 000.000.000</h1>
+                <h1 class="text-2xl font-semibold">Rp. <?php echo $totalpemasukan; ?></h1>
                 <p class="text-base">Pendapatan Hari Ini</p>
             </div>
             <div class="">

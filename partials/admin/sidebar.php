@@ -132,9 +132,5 @@
             </div>
 
         </nav>
-
-        <div class="">
-
-        </div>
     </div>
 </aside>
