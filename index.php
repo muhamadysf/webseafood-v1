@@ -2,8 +2,8 @@
 <?php
 session_start();
 if (isset($_GET['x']) && $_GET['x'] == 'home') {
-    // $page = "./views/admin/home.php";
-    // include "./views/admin/main.php";
+    $page = "./views/admin/home.php";
+    include "./views/admin/main.php";
 } else if (isset($_GET['x']) && $_GET['x'] == 'poskasir') {
     $page = "./views/admin/poskasir.php";
     include "./views/admin/main.php";
