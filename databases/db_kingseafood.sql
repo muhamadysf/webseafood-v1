@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2025 at 08:08 AM
+-- Generation Time: Mar 01, 2025 at 07:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,8 +45,17 @@ CREATE TABLE `tb_detail_pesanan` (
 CREATE TABLE `tb_kategori` (
   `id_kategori` int(2) NOT NULL,
   `nama_kategori` varchar(20) NOT NULL,
+  `logo_kategori` varchar(200) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_kategori`
+--
+
+INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `logo_kategori`, `created_at`) VALUES
+(1, 'Makanan', 'public/uploads/kategori/Makanand81a0.jpeg', '2025-02-20 07:06:11'),
+(2, 'Minuman', 'public/uploads/kategori/Minuman775a2.png', '2025-02-20 07:23:40');
 
 -- --------------------------------------------------------
 
@@ -96,7 +105,8 @@ CREATE TABLE `tb_pesanan` (
   `tanggal_pesanan` timestamp NOT NULL DEFAULT current_timestamp(),
   `catatan` varchar(100) NOT NULL,
   `metode_bayar` enum('Cash','Qris') NOT NULL,
-  `status_pesanan` varchar(10) NOT NULL DEFAULT '-'
+  `status_pesanan` enum('Proses','Selesai','Batal') NOT NULL,
+  `keterangan` varchar(20) NOT NULL DEFAULT '-'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -124,8 +134,11 @@ INSERT INTO `tb_user` (`id`, `nama`, `username`, `password`, `level`, `nohp`, `a
 (2, 'Abc1', 'abc1@abc.com', '5f4dcc3b5aa765d61d8327deb882cf99', 2, '12345678910', ''),
 (3, 'Abc2', 'abc2@abc.com', '5f4dcc3b5aa765d61d8327deb882cf99', 3, '12345678910', ''),
 (4, 'Abc3', 'abc3@abc.com', '5f4dcc3b5aa765d61d8327deb882cf99', 4, '12345678910', ''),
-(12, 'Sarah Az-Zahra', 'sarahazahra@zahra.com', '5f4dcc3b5aa765d61d8327deb882cf99', 4, '0897655', 'jalan jalan ke pasar malem'),
-(16, 'amelia', 'ame0124@mail.com', '5f4dcc3b5aa765d61d8327deb882cf99', 2, '087714256988', 'London');
+(18, 'Jack', 'river@mail.com', '950ee36083ec1f3b0e9c00a75b1ea3bd', 3, '0813445266', 'test2'),
+(20, 'Amelia', 'amelia@amelia.com', '33787a5941864ff939e802a4b39f7894', 1, '081321212323', 'Baker Street, London'),
+(21, 'cek', 'ce@mail.com', 'ded883798b86ee93f216e2dae5cd889f', 1, '434343', 'dgffg'),
+(22, 'fdf', 'fdfdf@mail.com', '3ca81657066f40bbcc8fccc8488bc96d', 1, '2323232', 'fdfdf'),
+(25, 'ame', 'ame@mail.com', '66d1c3a87c05d8f691cbfa0ba562a847', 1, '0989898', 'dsds');
 
 --
 -- Indexes for dumped tables
@@ -175,7 +188,7 @@ ALTER TABLE `tb_detail_pesanan`
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tb_menu`
@@ -193,7 +206,7 @@ ALTER TABLE `tb_pesanan`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

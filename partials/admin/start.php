@@ -12,16 +12,24 @@
         body {
             overflow: hidden;
         }
+
+        .dt-layout-row:has(.dt-search),
+        .dt-layout-row:has(.dt-length),
+        .dt-layout-row:has(.dt-paging) {
+            display: none !important;
+        }
     </style>
 
-    <!-- Custom styles for this template -->
+    <!-- tailwindCSS -->
     <link href="./public/assets/css/style.css" rel="stylesheet">
 
-    <!-- css dataTables -->
+    <!-- Datatables CSS -->
     <link href="./public/assets/css/datatables.min.css" rel="stylesheet">
+
+
 
     <!-- Alpnejs -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    
 </head>

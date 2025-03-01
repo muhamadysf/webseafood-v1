@@ -321,7 +321,7 @@ while ($record = mysqli_fetch_array($query)) {
     <script src="./public/assets/js/jquery-3.7.1.min.js"></script>
     <script src="./public/assets/js/datatables.min.js"></script>
     <script>
-        var table;
+        let table;
         $(document).ready(function() {
             table = $('#myTable').DataTable({
                 dom: "<'flex justify-between items-center mb-2'lf>t<'flex justify-between items-center mt-2'ip>",

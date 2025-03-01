@@ -7,6 +7,7 @@
       "./*.{php,html,js}",                    
       'node_modules/preline/dist/*.js',
     ],
+    
     theme: {
         extend: {
           fontFamily: {
