@@ -1,5 +1,5 @@
 <?php
-include "config/connect.php";
+include "./config/connect.php";
 
 $petugas = $_SESSION['id'];
 $query = mysqli_query($conn, "SELECT * FROM tb_user");

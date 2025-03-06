@@ -80,9 +80,7 @@ $hasil = mysqli_fetch_array($query);
 
     <div class="flex w-screen min-h-screen " x-data="{ open: true }">
         <!-- sidebar -->
-        <?php
-        include './partials/admin/sidebar.php'
-        ?>
+        <?php include './partials/admin/sidebar.php' ?>
 
 
         <!-- dashboard -->
@@ -121,7 +119,7 @@ $hasil = mysqli_fetch_array($query);
 
 
                 setTimeout(() => alertBox.classList.add("hidden"), 500);
-            }, 5000);
+            }, 1000);
         }
     </script>
 
