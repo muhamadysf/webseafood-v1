@@ -1,4 +1,4 @@
-<div class="w-full p-2 bg-transparent shadow-xl">
+<div class="w-full p-2 shadow-xl bg-white/30">
   <div class="flex items-center">
     <button @click="open = !open" class="p-1 rounded hover:text-white ">☰</button>
     <div class="flex justify-between flex-1">

@@ -84,7 +84,7 @@ $hasil = mysqli_fetch_array($query);
 
 
         <!-- dashboard -->
-        <div class="flex flex-col flex-1 h-full min-h-screen transition-all duration-300 bg-primary-150 " :class="open ? 'ml-56' : 'ml-0 '">
+        <div class="flex flex-col flex-1 h-full min-h-screen transition-all duration-300 bg-blue-950/30" :class="open ? 'ml-56' : 'ml-0 '">
 
             <!-- header -->
             <?php include './partials/admin/header.php' ?>

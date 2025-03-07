@@ -72,14 +72,14 @@ $timenow = date("j-F-Y-h:i:s A");
                         <path d="M6 12H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M12 18V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Tambah Data User
+                    Tambah Data Kategori
                 </button>
             </div>
         </div>
 
         <!-- tabel kategori -->
         <div class="flex flex-col overflow-hidden ">
-            <table id="myTable" class="min-w-full bg-white shadow-xl rounded-t-3xl">
+            <table id="myTable" class="min-w-full bg-white/30 backdrop-blur-xl shadow-xl rounded-t-3xl">
                 <thead class="bg-gray-100">
                     <tr class="">
                         <th scope="col" class="px-6 rounded-tl-3xl py-3 text-sm font-semibold !text-center text-gray-700 uppercase">No.</th>
@@ -244,7 +244,7 @@ $timenow = date("j-F-Y-h:i:s A");
             buttons: [{
                     extend: 'print',
                     className: 'button-print',
-                    title: '[KingSeafood - Data User ]',
+                    title: '[KingSeafood - Data Kategori ]',
                     exportOptions: {
                         columns: [0, 1, 2, 3]
                     },
@@ -255,7 +255,7 @@ $timenow = date("j-F-Y-h:i:s A");
                 {
                     extend: 'excel',
                     className: 'button-excel',
-                    title: '[KingSeafood - Data User ]',
+                    title: '[KingSeafood - Data Kategori ]',
                     exportOptions: {
                         columns: [0, 1, 2, 3]
                     },

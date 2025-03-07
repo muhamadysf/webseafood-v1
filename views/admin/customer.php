@@ -45,7 +45,7 @@ while ($record = mysqli_fetch_array($query)) {
                         <path d="M6 12H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M12 18V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Tambah Data User
+                    Tambah Data Pembeli
                 </button>
             </div>
         </div>
@@ -160,7 +160,7 @@ while ($record = mysqli_fetch_array($query)) {
             buttons: [{
                     extend: 'print',
                     className: 'button-print',
-                    title: '[KingSeafood - Data User ]',
+                    title: '[KingSeafood - Data Pembeli ]',
                     exportOptions: {
                         columns: [0, 1, 2, 3]
                     },
@@ -171,7 +171,7 @@ while ($record = mysqli_fetch_array($query)) {
                 {
                     extend: 'excel',
                     className: 'button-excel',
-                    title: '[KingSeafood - Data User ]',
+                    title: '[KingSeafood - Data Pembeli ]',
                     exportOptions: {
                         columns: [0, 1, 2, 3]
                     },

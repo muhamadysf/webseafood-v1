@@ -1,5 +1,9 @@
 <?php
+session_start();
+
 include "../config/connect.php";
+
+
 $id = (isset($_POST['id'])) ? htmlentities($_POST['id']) : "";
 $name = (isset($_POST['nama'])) ? htmlentities($_POST['nama']) : "";
 $username = (isset($_POST['email'])) ? htmlentities($_POST['email']) : "";
