@@ -218,7 +218,6 @@ while ($record = mysqli_fetch_array($query)) {
                     </button>
                     <button id="btnSubmit" name="input_user_validate" type="submit" :class="getClass()" class="inline-flex items-center px-3 py-2 font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" x-text="getLabel()"></button>
                 </div>
-
             </form>
         </div>
     </div>
