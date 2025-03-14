@@ -876,6 +876,10 @@ select {
   top: 0.5rem;
 }
 
+.top-\[52px\] {
+  top: 52px;
+}
+
 .top-full {
   top: 100%;
 }
@@ -1114,6 +1118,10 @@ select {
   height: 0.625rem !important;
 }
 
+.h-14 {
+  height: 3.5rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -1146,12 +1154,24 @@ select {
   height: 1.25rem;
 }
 
+.h-56 {
+  height: 14rem;
+}
+
 .h-6 {
   height: 1.5rem;
 }
 
+.h-9 {
+  height: 2.25rem;
+}
+
 .h-\[1px\] {
   height: 1px;
+}
+
+.h-\[2000px\] {
+  height: 2000px;
 }
 
 .h-\[2px\] {
@@ -1254,8 +1274,16 @@ select {
   width: 20rem;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .w-96 {
   width: 24rem;
+}
+
+.w-\[2px\] {
+  width: 2px;
 }
 
 .w-\[calc\(100\%-2rem\)\] {
@@ -1272,6 +1300,10 @@ select {
 
 .w-screen {
   width: 100vw;
+}
+
+.min-w-0 {
+  min-width: 0px;
 }
 
 .min-w-48 {
@@ -1345,6 +1377,10 @@ select {
   animation: spin 1s linear infinite;
 }
 
+.cursor-grab {
+  cursor: grab;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1367,6 +1403,10 @@ select {
 
 .items-center {
   align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .justify-end {
@@ -1482,6 +1522,10 @@ select {
   overflow-x: hidden;
 }
 
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 .scroll-smooth {
   scroll-behavior: smooth;
 }
@@ -1585,6 +1629,10 @@ select {
 
 .border-t {
   border-top-width: 1px;
+}
+
+.border-t-0 {
+  border-top-width: 0px;
 }
 
 .border-t-4 {
@@ -1703,6 +1751,11 @@ select {
   background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
 }
 
+.bg-gray-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
@@ -1754,6 +1807,16 @@ select {
 .bg-red-950 {
   --tw-bg-opacity: 1;
   background-color: rgb(69 10 10 / var(--tw-bg-opacity, 1));
+}
+
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+}
+
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity, 1));
 }
 
 .bg-teal-200 {
@@ -2030,6 +2093,10 @@ select {
 
 .lowercase {
   text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .text-black {
@@ -2619,8 +2686,28 @@ select {
     margin-right: auto;
   }
 
+  .sm\:flex {
+    display: flex;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+
+  .sm\:h-56 {
+    height: 14rem;
+  }
+
+  .sm\:w-\[640px\] {
+    width: 640px;
+  }
+
   .sm\:w-full {
     width: 100%;
+  }
+
+  .sm\:w-44 {
+    width: 11rem;
   }
 
   .sm\:max-w-lg {

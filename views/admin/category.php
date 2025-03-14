@@ -79,7 +79,7 @@ $timenow = date("j-F-Y-h:i:s A");
 
         <!-- tabel kategori -->
         <div class="flex flex-col overflow-hidden ">
-            <table id="myTable" class="min-w-full bg-white/30 backdrop-blur-xl shadow-xl rounded-t-3xl">
+            <table id="myTable" class="min-w-full shadow-xl bg-white/30 backdrop-blur-xl rounded-t-3xl">
                 <thead class="bg-gray-100">
                     <tr class="">
                         <th scope="col" class="px-6 rounded-tl-3xl py-3 text-sm font-semibold !text-center text-gray-700 uppercase">No.</th>
