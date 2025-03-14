@@ -52,13 +52,13 @@ while ($record = mysqli_fetch_array($query)) {
             <h1 class="text-black whitespace-nowrap text-2xl capitalize">Aneka Seafood</h1>
             <hr class="w-full bg-gray-400 h-[2px]">
         </div>
-        <div class="flex flex-wrap w-full mt-4 gap-3 justify-start px-4 ">
+        <div class="flex flex-wrap w-full mt-4 gap-3 sm:justify-start justify-center sm:px-4 ">
             <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
             <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
             <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
             <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
             <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-
+            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
 
         </div>
     </div>

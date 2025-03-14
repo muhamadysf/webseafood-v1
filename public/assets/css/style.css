@@ -1154,10 +1154,6 @@ select {
   height: 1.25rem;
 }
 
-.h-56 {
-  height: 14rem;
-}
-
 .h-6 {
   height: 1.5rem;
 }
@@ -1300,6 +1296,10 @@ select {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-28 {
+  width: 7rem;
 }
 
 .min-w-0 {
@@ -2690,12 +2690,12 @@ select {
     display: flex;
   }
 
-  .sm\:hidden {
-    display: none;
-  }
-
   .sm\:h-56 {
     height: 14rem;
+  }
+
+  .sm\:w-44 {
+    width: 11rem;
   }
 
   .sm\:w-\[640px\] {
@@ -2706,16 +2706,21 @@ select {
     width: 100%;
   }
 
-  .sm\:w-44 {
-    width: 11rem;
-  }
-
   .sm\:max-w-lg {
     max-width: 32rem;
   }
 
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+
   .sm\:gap-5 {
     gap: 1.25rem;
+  }
+
+  .sm\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
