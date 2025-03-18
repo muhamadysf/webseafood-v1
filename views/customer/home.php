@@ -2,23 +2,22 @@
 include "./config/connect.php";
 
 
-$query = mysqli_query($conn, "SELECT * FROM tb_kategori");
-while ($record = mysqli_fetch_array($query)) {
+$kquery = mysqli_query($conn, "SELECT DISTINCT tk.id_kategori, tk.nama_kategori FROM tb_kategori tk JOIN tb_menu tm ON tk.id_kategori = tm.id_kategori");
+while ($record = mysqli_fetch_array($kquery)) {
     $result[] = $record;
 }
-
 
 ?>
 
 
-<div class="w-screen h-[2000px] sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
+<div class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
 
     <?php include './partials/customer/header.php' ?>
 
     <img id="image" src="./public/assets/images/king.png" alt="header" class="object-cover w-full h-auto">
 
     <div id="labelKategori" class="w-full bg-slate-100 flex items-center justify-between sm:w-[640px] h-14">
-        <div class="px-2 h-full flex py-2">
+        <div class="flex h-full px-2 py-2">
             <button id="" type="button" class="inline-flex items-center px-3 py-2 text-xl font-medium text-black gap-x-2">
                 <div class="p-1 rounded-full bg-slate-400">
                     <svg class="text-white shrink-0 size-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,59 +30,49 @@ while ($record = mysqli_fetch_array($query)) {
             </button>
             <hr class="w-[2px] h-full bg-gray-400">
         </div>
-        <div id="overflow-container" class="scroll-container flex items-center flex-1 w-full px-5 overflow-x-hidden select-none text-white cursor-grab flex-nowrap">
-            <div class="flex items-center gap-2 scroll-content select-none justify-center">
+        <div id="overflow-container" class="flex items-center flex-1 w-full px-5 overflow-x-hidden text-white select-none scroll-container cursor-grab flex-nowrap">
+            <div class="flex items-center justify-center gap-2 select-none scroll-content">
 
 
                 <?php $no = 1;
                 foreach ($result as $row) { ?>
 
-                    <a href="#" class="px-2 py-2 bg-gray-700 rounded-md whitespace-nowrap min-w-28 select-none text-center"><?php echo $row['nama_kategori']; ?></a>
+                    <a href="#<?php echo $row['id_kategori'] ?>" class="px-2 py-1 text-center text-black bg-transparent border border-gray-600 rounded-full select-none whitespace-nowrap min-w-28"><?php echo $row['nama_kategori']; ?></a>
                 <?php } ?>
             </div>
         </div>
     </div>
-
-    <div class="w-full px-6 py-8">
-        <div class="flex w-full items-center justify-center gap-3">
-            <h1 class="text-black whitespace-nowrap text-2xl capitalize">Aneka Seafood</h1>
-            <hr class="w-full bg-gray-400 h-[2px]">
-        </div>
-        <div class="flex flex-wrap w-full mt-4 gap-3 sm:justify-start justify-center sm:px-4 ">
-            <?php
-            // Eksekusi query
-            $mquery = mysqli_query($conn, "SELECT * FROM tb_menu");
-
-            // Looping data
-            while ($row = mysqli_fetch_array($mquery)) {
-
-            ?>
-                <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56 p-2">
-                    <div class=" w-full h-full flex flex-col flex-1">
-                        <div class="w-full h-3/5">
-                            <img src="./<?php echo $row['gambar_menu']; ?>" alt="menu" class="w-full h-full object-cover rounded-lg">
-                        </div>
-                        <p class="flex-1"><?php echo $row['nama_menu'] ?></p>
-                        <div class="flex justify-between">
-                            <h3 class="text-xs font-semibold">Rp. <?php echo number_format($row['harga'], 0, ',', '.') ?>, -</h3>
-                            <button class="py-1 px-3 rounded-full border border-gray-200 text-xs">Tambah</button>
+    <?php
+    foreach ($result as $row) {
+        $kategori = $row['id_kategori'];
+    ?>
+        <div class="w-full px-6 py-8">
+            <div class="flex items-center justify-center w-full gap-3">
+                <h1 id="<?php echo $row['id_kategori'] ?>" class="text-2xl text-black whitespace-nowrap"><?php echo $row['nama_kategori']; ?></h1>
+                <hr class="w-full bg-gray-400 h-[2px]">
+            </div>
+            <div class="flex flex-wrap justify-center w-full gap-2 mt-4">
+                <?php
+                $mquery = mysqli_query($conn, "SELECT * FROM tb_menu WHERE id_kategori = $kategori");
+                while ($rows = mysqli_fetch_array($mquery)) {
+                ?>
+                    <div class="h-56 max-w-sm overflow-hidden bg-white border border-gray-400 shadow-lg w-36 rounded-2xl sm:w-44">
+                        <div class="flex flex-col justify-between h-full p-2">
+                            <img class="object-cover object-center w-full h-32 rounded-2xl" src="./<?php echo $rows['gambar_menu']; ?>" alt="Menu Image">
+                            <div class="flex flex-col flex-grow px-2 py-1">
+                                <h2 class="text-sm font-semibold text-gray-800"><?php echo $rows['nama_menu'] ?></h2>
+                                <p class="mt-1 text-xs text-gray-600">Rp. <?php echo number_format($rows['harga'], 0, ',', '.') ?>, -</p>
+                                <div class="mt-auto">
+                                    <button class="w-full px-4 py-[2px] mt-3 text-xs text-black border border-gray-600 transition bg-transparent rounded-full">Tambah</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-            <?php } ?>
-
-
-
-            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-            <div class="border border-gray-200 rounded-xl shadow-xl bg-white w-36 h-44 sm:w-44 sm:h-56"></div>
-
+                <?php } ?>
+            </div>
         </div>
-    </div>
-
+    <?php
+    } ?>
 </div>
 
 <!-- JS -->
@@ -221,5 +210,24 @@ while ($record = mysqli_fetch_array($query)) {
         //         scrollContainer.style.transition = "none";
         //     }, 300);
         // });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            let targetID = this.getAttribute("href").substring(1);
+            let target = document.getElementById(targetID);
+
+            if (target) {
+                let offset = 120;
+                let targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
     });
 </script>
