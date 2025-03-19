@@ -2,6 +2,7 @@ RewriteEngine On
 
 # Jika URL kosong atau hanya "webseafood/", tetap arahkan ke index.php di root
 RewriteRule ^$ index.php [L]
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?x=$1 [QSA,L]
 
 # Jika URL cocok dengan admin.php?x={nama_file}, arahkan ke admin.php
 RewriteRule ^([a-zA-Z0-9_-]+)$ admin.php?x=$1 [QSA,L]

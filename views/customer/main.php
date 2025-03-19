@@ -11,9 +11,7 @@
 <body class="flex flex-col items-center justify-center w-screen min-h-screen overflow-auto font-fredoka scrollbar-hide ">
 
 
-    <?php
-    include $page;
-    ?>
+    <?php include $page; ?>
 
 
 
