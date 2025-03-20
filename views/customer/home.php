@@ -69,7 +69,7 @@ while ($record = mysqli_fetch_array($kquery)) {
                                 <h2 class="text-sm font-semibold text-gray-800"><?php echo $rows['nama_menu'] ?></h2>
                                 <p class="mt-1 text-xs text-gray-600">Rp. <?php echo number_format($rows['harga'], 0, ',', '.') ?>, -</p>
                                 <div class="mt-auto">
-                                    <button class="w-full px-4 py-[2px] mt-3 text-xs text-black border border-gray-600 transition bg-transparent rounded-full">Tambah</button>
+                                    <button type="button" class="w-full px-4 py-[2px] mt-3 text-xs text-black border border-gray-600 transition bg-transparent rounded-full hover:text-white hover:bg-gray-500">Tambah</button>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-file_put_contents('log.txt', "Script dieksekusi\n", FILE_APPEND);
+
 
 date_default_timezone_set("Asia/Bangkok");
 $timenow = date("j-F-Y-h:i:s A");
