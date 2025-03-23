@@ -48,5 +48,9 @@
         [x-cloak] {
             display: none !important;
         }
+
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 12px);
+        }
     </style>
 </head>

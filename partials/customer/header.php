@@ -1,5 +1,5 @@
-<div id="header" class="fixed top-0 left-1/2 transform -translate-x-1/2 w-full sm:w-[640px] bg-transparent text-black">
-    <div class="w-full h-full px-4 py-2">
+<div id="header" class="fixed top-0 left-1/2 transform -translate-x-1/2 w-full sm:w-[640px] bg-transparent text-black z-[998]">
+    <div class="w-full h-full px-4 py-2 ">
         <div class="flex items-center justify-between ">
             <button type="button" class="inline-flex items-center justify-center p-2 bg-white rounded-full w-9 h-9">
                 <svg fill="currentColor" class="shrink-0 size-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
