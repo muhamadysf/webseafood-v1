@@ -10,13 +10,13 @@ while ($record = mysqli_fetch_array($kquery)) {
 ?>
 
 
-<div x-data="{ modal: false, selectedId: null, selectNama: null, selectHarga: null, selectImg: null,  jumlah: 0, keranjang:false, cart: JSON.parse(localStorage.getItem('cart')) || [] }" x-init="$store.keranjang = (JSON.parse(localStorage.getItem('cart')) || []).length > 0; keranjang = cart.length > 0" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
+<div x-data="{ modal: false, selectedId: null, selectNama: null, selectHarga: null, selectImg: null, keranjang:false, cart: JSON.parse(localStorage.getItem('cart')) || [] }" x-init="$store.keranjang = (JSON.parse(localStorage.getItem('cart')) || []).length > 0; keranjang = cart.length > 0" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
 
     <?php include './partials/customer/header.php' ?>
 
     <img id="image" src="./public/assets/images/king.png" alt="header" class="object-cover w-full h-auto">
 
-    <div id="labelKategori" class="w-full bg-slate-100 flex items-center justify-between sm:w-[640px] h-14 z-[998]">
+    <div id="labelKategori" class="w-full bg-slate-100 flex items-center justify-between sm:w-[640px] h-14 z-[997]">
         <div class="flex h-full px-2 py-2">
             <button id="" type="button" class="inline-flex items-center px-3 py-2 text-xl font-medium text-black gap-x-2">
                 <div class="p-1 rounded-full bg-slate-400">
@@ -62,7 +62,7 @@ while ($record = mysqli_fetch_array($kquery)) {
                             data-nama="<?php echo $rows['nama_menu']; ?>"
                             data-harga="<?php echo $rows['harga']; ?>"
                             data-img="./<?php echo $rows['gambar_menu']; ?>"
-                            @click="modal = true, selectedId = $el.dataset.id; selectNama = $el.dataset.nama; selectHarga = $el.dataset.harga; selectImg = $el.dataset.img;" class="w-full cursor-pointer">
+                            @click="modal = true; selectedId = $el.dataset.id; selectNama = $el.dataset.nama; selectHarga = $el.dataset.harga; selectImg = $el.dataset.img;" class="w-full cursor-pointer menuItem">
                             <img class="object-cover object-center w-full h-32 min-h-32 " src="./<?php echo $rows['gambar_menu']; ?>" alt="Menu Image">
                             <div class="px-4 pt-2">
                                 <h2 class="text-sm font-semibold text-gray-800"><?php echo $rows['nama_menu'] ?></h2>
@@ -110,9 +110,12 @@ while ($record = mysqli_fetch_array($kquery)) {
         </div>
     <?php
     } ?>
-
+    <!-- Backdrop modal -->
+    <div x-show="modal" x-cloak class="fixed inset-0 z-[998] bg-black/85 sm:w-[640px] sm:inline-flex sm:mx-auto"
+        x-transition.opacity>
+    </div>
     <!-- Modal detail -->
-    <div x-show="modal" x-cloak
+    <div id="modal-induk" x-show="modal" x-cloak
         class="fixed inset-0 flex items-center justify-center z-[999] overflow-hidden"
         x-transition:enter="transform transition ease-out duration-300"
         x-transition:enter-start="translate-y-full opacity-0"
@@ -120,20 +123,20 @@ while ($record = mysqli_fetch_array($kquery)) {
         x-transition:leave="transform transition ease-in duration-300"
         x-transition:leave-start="translate-y-0 opacity-100"
         x-transition:leave-end="translate-y-full opacity-0">
-        <div class="relative bg-white shadow-lg w-screen min-h-screen sm:w-[640px]">
+        <div id="modal-container" class="relative bg-white shadow-lg w-screen min-h-screen sm:w-[640px]">
             <!-- Tombol Close (X) -->
-            <button @click="modal = false; selectedId= null; selectNama= null; selectHarga= null; selectImg= null; jumlah=0;" class="absolute text-gray-500 top-2 right-2 hover:text-gray-800">
-                <svg class="w-12 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <button id="btn-close" @click="modal = false; selectedId= null; selectNama= null; selectHarga= null; selectImg= null;" class="absolute text-gray-500 top-2 right-2 hover:text-gray-800 z-[99999]">
+                <svg class="w-12 h-auto text-slate-400/85" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
                 </svg>
             </button>
             <div class="">
                 <!-- header modal -->
-                <div class="flex items-center">
+                <div id="modal-img" class="flex items-center">
                     <img :src="selectImg" class="object-cover w-full h-80 min-h-80" alt="menu_img">
                 </div>
 
-                <form action="#" method="post" class="absolute left-0 w-full pb-5 bg-white sm:bottom-0 bottom-24 rounded-t-3xl">
+                <div id="konten-modal" class="absolute bottom-0 left-0 w-full pb-5 bg-white rounded-t-3xl">
                     <!-- Konten Modal -->
                     <div id="" class="w-full py-4 divide-y-4 divide-gray-200 ">
                         <div class="mb-2 px-7">
@@ -152,7 +155,7 @@ while ($record = mysqli_fetch_array($kquery)) {
                         <div class="flex justify-between">
                             <p class="">Jumlah Pesanan : </p>
                             <div class="flex gap-4">
-                                <button type="button" @click="jumlah > 0 ? jumlah-- : 0" class="inline-flex items-center justify-center">
+                                <button id="minQty" type="button" class="inline-flex items-center justify-center">
 
                                     <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 
@@ -168,8 +171,8 @@ while ($record = mysqli_fetch_array($kquery)) {
                                         </g>
                                     </svg>
                                 </button>
-                                <p class="inline-flex items-center justify-center w-12" x-text="jumlah">0</p>
-                                <button type="button" @click="jumlah++" class="inline-flex items-center justify-center">
+                                <p id="modalQty" class="inline-flex items-center justify-center w-12"></p>
+                                <button id="plusQty" type="button" class="inline-flex items-center justify-center">
                                     <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
                                         <defs>
                                         </defs>
@@ -185,20 +188,21 @@ while ($record = mysqli_fetch_array($kquery)) {
                             </div>
                         </div>
                         <div class="w-full ">
-                            <button type="button" class="inline-flex items-center justify-center w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-500 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Tambah Pesanan <span class="" x-text="formatRupiah(jumlah * selectHarga)">0</span></button>
+                            <button id="btn-tambah" type="button" class="inline-flex items-center justify-center w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-500 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Tambah Pesanan <span id="totalHargaDetail" class=""></span></button>
+                            <button @click="modal = false; selectedId= null;" id="btn-batal" type="button" class="items-center justify-center hidden w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-300 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Kembali Ke Menu</button>
                         </div>
 
 
 
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- modal keranjang -->
     <div id="modalcart" x-show="$store.keranjang" x-cloak
-        class="fixed bottom-8 mt-8 left-1/2 translate-x-[-50%] shadow-lg items-center justify-center z-[998] overflow-hidden"
+        class="fixed bottom-8 mt-8 left-1/2 translate-x-[-50%] shadow-lg items-center justify-center z-[997] overflow-hidden"
         x-transition:enter="transform transition ease-out duration-300"
         x-transition:enter-start="translate-y-full opacity-0"
         x-transition:enter-end="translate-y-0 opacity-100"
@@ -403,8 +407,6 @@ while ($record = mysqli_fetch_array($kquery)) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         let modalcart = null;
 
-
-
         document.querySelectorAll(".btn-group").forEach(function(group) {
             let menuId = group.getAttribute("data-id");
             let addButton = document.querySelector(`button[data-id="${menuId}"]`);
@@ -430,7 +432,8 @@ while ($record = mysqli_fetch_array($kquery)) {
             addButton.addEventListener("click", function() {
                 cart.push({
                     id_menu: menuId,
-                    qty: 1
+                    qty: 1,
+                    note: ""
                 });
                 localStorage.setItem("cart", JSON.stringify(cart));
                 quantityDisplay.textContent = 1;
@@ -478,19 +481,17 @@ while ($record = mysqli_fetch_array($kquery)) {
             });
 
 
-
-
-
         });
-
 
 
     });
 
+
+
     async function fetchCartData() {
 
         let totalHarga = document.getElementById("totalHarga");
-        let cart = JSON.parse(localStorage.getItem("cart")) || []; // Ambil cart dari localStorage
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
         if (cart.length === 0) {
             totalHarga.textContent = "";
             return;
@@ -528,4 +529,112 @@ while ($record = mysqli_fetch_array($kquery)) {
         spanQty.textContent = totalQty;
         cartQty.textContent = totalQty;
     }
+
+    // Saat card diklik
+
+    document.querySelectorAll(".menuItem").forEach(item => {
+        item.addEventListener("click", function() {
+
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            const id_menu_cari = this.getAttribute("data-id");
+            const harga = this.getAttribute("data-harga");
+
+            console.log("ID Menu yang dipilih:", id_menu_cari);
+
+            const modalQty = document.getElementById("modalQty");
+            modalQty.textContent = 1;
+            let vqty = parseInt(modalQty.textContent) || 0;
+
+
+            const btnHargaTxt = document.getElementById("totalHargaDetail");
+            const btnTambah = document.getElementById("btn-tambah");
+            const btnBatal = document.getElementById("btn-batal");
+            const btnClose = document.getElementById("btn-close");
+            const catatan = document.getElementById("hs-autoheight-textarea");
+
+            btnBatal.classList.add("hidden");
+            btnBatal.classList.remove("inline-flex");
+            btnTambah.classList.add("inline-flex");
+            btnTambah.classList.remove("hidden");
+
+
+            btnHargaTxt.textContent = formatRupiah(harga);
+
+            const minQty = document.getElementById("minQty");
+            const plusQty = document.getElementById("plusQty");
+
+
+            const itemDitemukan = cart.find(item => item.id_menu == id_menu_cari);
+
+            if (itemDitemukan) {
+                catatan.value = itemDitemukan.note;
+            } else {
+                catatan.value = "";
+            }
+
+
+
+            plusQty.onclick = function() {
+                vqty += 1;
+                modalQty.textContent = vqty;
+                btnHargaTxt.textContent = formatRupiah(harga * vqty);
+
+                btnBatal.classList.add("hidden");
+                btnBatal.classList.remove("inline-flex");
+                btnTambah.classList.add("inline-flex");
+                btnTambah.classList.remove("hidden");
+
+            };
+
+
+            minQty.onclick = function() {
+
+                if (modalQty.textContent > 1) {
+                    vqty -= 1;
+                    modalQty.textContent = vqty;
+                    btnHargaTxt.textContent = formatRupiah(harga * modalQty.textContent);
+                } else {
+                    vqty = 0;
+                    modalQty.textContent = vqty;
+                    btnBatal.classList.remove("hidden");
+                    btnBatal.classList.add("inline-flex");
+                    btnTambah.classList.remove("inline-flex");
+                    btnTambah.classList.add("hidden");
+                }
+
+            };
+
+
+            btnTambah.onclick = function() {
+
+                if (itemDitemukan) {
+                    itemDitemukan.qty += vqty;
+                    itemDitemukan.note = catatan.value;
+
+                } else {
+                    cart.push({
+                        id_menu: id_menu_cari,
+                        qty: vqty,
+                        note: catatan.value
+                    });
+
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+                window.location.href = window.location.href;
+            };
+
+            btnBatal.addEventListener("click", function() {
+                vqty = 0;
+                modalQty.textContent = vqty;
+            });
+
+            btnClose.onclik = function() {
+                vqty = 0;
+                modalQty.textContent = vqty;
+            };
+
+
+        });
+    });
 </script>
