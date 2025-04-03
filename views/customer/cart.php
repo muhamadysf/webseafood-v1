@@ -11,7 +11,7 @@ include "./config/connect.php";
 <div class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white max-w-[640px]">
 
     <!-- header  -->
-    <div class="shadow-xl h-16 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center">
+    <div class="shadow-xl h-16 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center rounded-b-lg">
         <a href="home" class="p-2 ml-5 bg-white rounded-full w-9 h-9">
             <svg fill="currentColor" class="shrink-0 size-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                 <path d="M222.927 580.115l301.354 328.512c24.354 28.708 20.825 71.724-7.883 96.078s-71.724 20.825-96.078-7.883L19.576 559.963a67.846 67.846 0 01-13.784-20.022 68.03 68.03 0 01-5.977-29.488l.001-.063a68.343 68.343 0 017.265-29.134 68.28 68.28 0 011.384-2.6 67.59 67.59 0 0110.102-13.687L429.966 21.113c25.592-27.611 68.721-29.247 96.331-3.656s29.247 68.721 3.656 96.331L224.088 443.784h730.46c37.647 0 68.166 30.519 68.166 68.166s-30.519 68.166-68.166 68.166H222.927z" />
@@ -23,43 +23,43 @@ include "./config/connect.php";
     </div>
 
     <!-- main content -->
-    <div class="mt-20">
+    <div id="main-content" class="pb-24 mt-20">
 
         <!-- tipe pesanan -->
         <div class="px-5">
 
-            <div class="flex items-center justify-between w-full h-10 px-5 rounded-full bg-primary-400/40 ">
-                <h3 class="text-xs font-semibold text-black sm:text-base">Tipe Pemesanan:</h3>
+            <div class="flex items-center justify-between w-full h-10 px-5 rounded-full bg-primary-550 ">
+                <h3 class="text-xs font-semibold text-slate-50 sm:text-base">Tipe Pemesanan:</h3>
                 <div class="flex items-center space-x-4">
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="option" value="ditempat" class="hidden peer">
-                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-black">
-                            <svg id="svgTempat" class="hidden size-4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-slate-50">
+                            <svg id="svgTempat" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
                                 <g>
-                                    <path style="fill:#010002;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
+                                    <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
                                 </g>
                             </svg>
                         </div>
-                        <span class="text-xs text-black sm:text-base whitespace-nowrap">Makan ditempat</span>
+                        <span id="spanTempat" class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Makan ditempat</span>
                     </label>
 
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="option" value="ambil" class="hidden peer">
-                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-black">
+                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-slate-50">
 
-                            <svg id="svgAway" class="hidden size-4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            <svg id="svgAway" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
                                 <g>
-                                    <path style="fill:#010002;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
+                                    <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
                                 </g>
                             </svg>
                         </div>
-                        <span class="text-xs text-black sm:text-base whitespace-nowrap">Take away</span>
+                        <span id="spanAway" class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Take away</span>
                     </label>
                 </div>
             </div>
-            <p class="ml-5 text-xs italic text-black">*Silahkan pilih tipe pesanan anda</p>
+            <p class="mt-3 ml-5 text-xs italic text-center text-black">*Silahkan pilih tipe pesanan anda</p>
             <div id="boxMeja" class="justify-center hidden mt-3">
                 <div class="relative">
                     <input id="inputMeja" type="text" class="peer py-2.5 sm:py-3 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja">
@@ -82,16 +82,81 @@ include "./config/connect.php";
                 <a href="home" class="px-3 py-1 text-sm font-semibold bg-white border-2 rounded-lg border-primary-400 text-primary-400 hover:bg-primary-400/55">+ Tambah Item</a>
             </div>
             <hr class="my-2 border">
-            <div id="cartContainer" class="flex flex-col gap-2 mt-5">
+            <div id="cartContainer" class="flex flex-col gap-2 my-5"></div>
+            <hr class="my-2 border">
+            <button type="button" class="inline-flex items-center w-full ml-5 border-l-4 border-l-primary-400/40">
+                <svg class="text-gray-400 size-8" viewBox="0 0 24 24" fill="none">
+                    <g id="File / Note_Edit">
+                        <path id="Vector" d="M10.0002 4H7.2002C6.08009 4 5.51962 4 5.0918 4.21799C4.71547 4.40973 4.40973 4.71547 4.21799 5.0918C4 5.51962 4 6.08009 4 7.2002V16.8002C4 17.9203 4 18.4801 4.21799 18.9079C4.40973 19.2842 4.71547 19.5905 5.0918 19.7822C5.5192 20 6.07899 20 7.19691 20H16.8031C17.921 20 18.48 20 18.9074 19.7822C19.2837 19.5905 19.5905 19.2839 19.7822 18.9076C20 18.4802 20 17.921 20 16.8031V14M16 5L10 11V14H13L19 8M16 5L19 2L22 5L19 8M16 5L19 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                </svg>
+                <span id="note-lain" class="ml-2 text-gray-400">Tambah catatan lainnya...</span>
+            </button>
+        </div>
 
+        <hr class="my-4 border-2">
 
-
+        <!-- rincian harga -->
+        <div class="px-5">
+            <div class="w-full px-5 py-2 border-2 border-gray-400 rounded-md">
+                <h2 class="text-lg font-semibold text-center text-black">Rincian Pembayaran</h2>
+                <div class="flex flex-col gap-1">
+                    <div class="flex justify-between">
+                        <p class="text-sm font-semibold text-black">Subtotal <span class="font-medium text-gray-400"> (<span class=""></span> menu)</span></p>
+                        <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                    </div>
+                    <hr class="border-t-2 border-gray-400 border-dotted">
+                    <div class="">
+                        <p class="">
+                            <button type="button" class="flex items-center justify-between w-full text-sm font-semibold text-black border border-transparent rounded-lg hs-collapse-toggle gap-x-1 decoration-2 hover:text-gray-800 focus:outline-hidden focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none" id="hs-show-hide-collapse" aria-expanded="false" aria-controls="hs-show-hide-collapse-heading" data-hs-collapse="#hs-show-hide-collapse-heading">
+                                <div class="flex items-center">
+                                    <span class="hs-collapse-open:hidden ">Biaya lainnya</span>
+                                    <span class="hidden hs-collapse-open:block">Biaya lainnya</span>
+                                    <svg class="mt-1 hs-collapse-open:rotate-180 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                            </button>
+                        </p>
+                        <div id="hs-show-hide-collapse-heading" class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-show-hide-collapse">
+                            <hr class="mt-1 border-t-2 border-gray-400 border-dotted">
+                            <div class="flex items-center justify-between my-2 text-gray-500">
+                                <p class="ml-3 text-sm">Pajak Bangunan 1</p>
+                                <p class="text-sm">Rp. xxxxxxxx</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="border-t-2 border-gray-400 border-dotted">
+                    <div class="flex justify-between pb-6">
+                        <p class="text-sm font-semibold text-black">Total</p>
+                        <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- mode keranjang kosong -->
+    <div id="empty-cart" class="flex-col items-center justify-center hidden min-h-screen px-12">
+        <div class="flex flex-col items-center justify-center flex-1 w-full text-center">
+            <img src="public/assets/images/cart-empty.jpg" alt="keranjang kosong" class="rounded-full size-52">
+            <h1 class="mt-5 text-base font-semibold text-black sm:text-xl">Anda belum memilih menu pesanan</h1>
+            <p class="mt-5 text-xs text-black sm:text-sm">Silahkan pilih menu yang ingin Anda pesan dihalaman utama.</p>
+        </div>
+        <a href="home" class="inline-flex items-center justify-center w-full py-2 mb-12 text-xl text-white rounded-lg bg-primary-400/55 hover:bg-primary-400">Menu Utama</a>
+    </div>
+
     <!-- footer -->
-    <div class=""></div>
+    <div class="shadow-xl h-20 bottom-0 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center px-5 py-2 rounded-lg">
+        <div class="flex-1">
+            <p class="text-sm text-gray-400">Total Pembayaran</p>
+            <h3 class="text-xl font-semibold text-black">Rp. XXXXXXXX</h3>
+        </div>
+        <div class="">
+            <a href="" class="px-3 py-2 text-white rounded-lg bg-primary-550/85">Lanjut Pembayaran</a>
+        </div>
+    </div>
 
     <!-- modal -->
     <div class=""></div>
@@ -100,9 +165,12 @@ include "./config/connect.php";
 <!-- JS -->
 <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const mainContent = document.getElementById("main-content");
+    const emptyCart = document.getElementById("empty-cart");
+
+    let dataDB = [];
 
     if (cart.length === 0 || !cart.some(item => item.id_menu)) {
-
         window.location.href = "home";
     }
 
@@ -115,17 +183,15 @@ include "./config/connect.php";
             .then(menuData => {
                 console.log("Data dari server:", menuData);
                 renderCart(menuData);
+                dataDB = menuData;
             })
             .catch(error => console.error("Gagal mengambil data menu:", error));
     }
 
 
     function renderCart(menuData) {
-        console.log("Memproses data untuk ditampilkan:", menuData);
-        const cartContainer = document.getElementById("cartContainer");
 
-        console.log("Cek data menu:", menuData);
-        console.log("Cek item cart:", cart);
+        const cartContainer = document.getElementById("cartContainer");
 
         if (!cartContainer) {
             console.error("Elemen cartContainer tidak ditemukan!");
@@ -135,13 +201,15 @@ include "./config/connect.php";
 
         cart.forEach(item => {
             const menu = menuData.find(m => m.id_menu == item.id_menu);
+
             if (!menu) {
                 console.warn(`Menu dengan ID ${item.id_menu} tidak ditemukan di data menu.`);
                 return;
             }
 
             const card = document.createElement("div");
-            card.classList.add("border", "py-2", "px-4", "rounded-md", "border-2", "border-gray-500", "space-y-2");
+            card.classList.add("border", "py-2", "px-4", "rounded-md", "border-2", "border-gray-500", "space-y-2", "box-Card");
+            card.setAttribute("data-id", item.id_menu);
 
             card.innerHTML = `
             <div class="flex">
@@ -154,19 +222,19 @@ include "./config/connect.php";
                                     <path d="M12.64 8.53003L17.49 9.76003" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M11.66 12.4L14.56 13.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <p class="text-sm text-gray-400 ${item.note ? "" : "italic"}">Catatan: ${item.note ? item.note : "Belum menambahkan catatan"}</p>
+                                <p class="text-xs sm:text-sm text-gray-400 ${item.note ? "" : "italic"}">${item.note ? "Catatan: " + item.note : "Belum menambahkan catatan"}</p>
                             </div>
-                        <p class="text-sm font-semibold">${formatRupiah(menu.harga.toLocaleString())}</p>
+                        <p class="text-sm font-semibold txt-harga">${formatRupiah((menu.harga.toLocaleString())*item.qty)}</p>
                     </div>
-                    <div class="flex flex-col w-20">
-                        <button type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border border-gray-400 rounded-full">
+                    <div class="flex flex-col justify-between w-20">
+                        <button type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border-2 border-gray-400 rounded-full hover:bg-gray-200">
                             <svg fill="currentColor" class="text-gray-400 size-5" viewBox="0 0 16 16">
                                 <path d="M13.8 2.2a2.51 2.51 0 0 0-3.54 0l-6.9 6.91-1.76 3.62a1.26 1.26 0 0 0 1.12 1.8 1.23 1.23 0 0 0 .55-.13l3.62-1.76 6-6 .83-.82.06-.06a2.52 2.52 0 0 0 .02-3.56zm-.89.89a1.25 1.25 0 0 1 0 1.77l-1.77-1.77a1.24 1.24 0 0 1 .86-.37 1.22 1.22 0 0 1 .91.37zM2.73 13.27 4.29 10 6 11.71zm4.16-2.4L5.13 9.11 10.26 4 12 5.74z" />
                             </svg>
                             Ubah
                         </button>
-                        <div class="flex gap-4 mt-3 btn-group" id="">
-                            <button type="button" class="inline-flex items-center justify-center">
+                        <div class="flex gap-4 mt-3 btn-group" data-id=${item.id_menu}>
+                            <button type="button" class="inline-flex items-center justify-center btn-kurang">
                                 <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
                                     <defs>
 
@@ -180,8 +248,8 @@ include "./config/connect.php";
                                     </g>
                                 </svg>
                             </button>
-                            <p class="inline-flex items-center justify-center w-12">0</p>
-                            <button type="button" class="inline-flex items-center justify-center">
+                            <p class="inline-flex items-center justify-center w-12 qty-item">${item.qty}</p>
+                            <button type="button" class="inline-flex items-center justify-center btn-tambah">
                                 <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
                                     <defs>
                                     </defs>
@@ -198,10 +266,88 @@ include "./config/connect.php";
                 </div>
             
         `;
-
             cartContainer.appendChild(card);
         });
     }
+
+    function updateHarga() {
+        const menuData = dataDB;
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.forEach(item => {
+            const menu = menuData.find(m => m.id_menu == item.id_menu);
+
+            if (!menu) {
+                console.warn(`Menu dengan ID ${item.id_menu} tidak ditemukan di data menu.`);
+                return;
+            }
+
+            let hargaSatuan = menu.harga.toLocaleString();
+
+        });
+
+    }
+
+    document.addEventListener("click", function(event) {
+        let button = event.target.closest("button");
+        if (!button) return;
+
+        if (button.classList.contains("btn-kurang")) {
+            let card = button.closest(".box-Card");
+            if (!card) return;
+
+            let idMenu = card.getAttribute("data-id");
+            let textQty = card.querySelector(".qty-item");
+            let textHarga = card.querySelector(".txt-harga");
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+            let menu = dataDB.find(m => m.id_menu == idMenu);
+
+            if (itemIndex !== -1) {
+                cart[itemIndex].qty -= 1;
+
+                if (cart[itemIndex].qty <= 0) {
+                    cart.splice(itemIndex, 1);
+                    card.remove();
+                } else {
+                    textQty.textContent = cart[itemIndex].qty;
+                    textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart[itemIndex].qty);
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+
+            updateCheckoutQty();
+
+            if (cart.length === 0) {
+                mainContent.classList.add("hidden");
+                emptyCart.classList.remove("hidden");
+                emptyCart.classList.add("flex");
+            }
+        }
+
+        if (button.classList.contains("btn-tambah")) {
+            let card = button.closest(".box-Card");
+            if (!card) return;
+
+            let idMenu = card.getAttribute("data-id");
+            let textQty = card.querySelector(".qty-item");
+            let textHarga = card.querySelector(".txt-harga");
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+            let menu = dataDB.find(m => m.id_menu == idMenu);
+
+            if (itemIndex !== -1) {
+                cart[itemIndex].qty += 1;
+                textQty.textContent = cart[itemIndex].qty;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart[itemIndex].qty);
+            }
+
+            updateCheckoutQty();
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         updateCheckoutQty();
@@ -209,6 +355,8 @@ include "./config/connect.php";
         const svgAway = document.getElementById("svgAway");
         const options = document.querySelectorAll("input[name='option']");
         const inputMeja = document.getElementById("inputMeja");
+        const spanAway = document.getElementById("spanAway");
+        const spanTempat = document.getElementById("spanTempat");
 
         options.forEach(option => {
             option.addEventListener('change', () => {
@@ -219,6 +367,10 @@ include "./config/connect.php";
                     svgAway.classList.remove("block");
                     boxMeja.classList.remove("hidden");
                     boxMeja.classList.add("flex");
+                    spanTempat.classList.remove("text-gray-700");
+                    spanTempat.classList.add("text-slate-50");
+                    spanAway.classList.add("text-gray-700");
+                    spanAway.classList.remove("text-slate-50");
                     inputMeja.focus();
                 } else {
                     svgTempat.classList.add("hidden");
@@ -227,10 +379,13 @@ include "./config/connect.php";
                     svgAway.classList.add("block");
                     boxMeja.classList.remove("flex");
                     boxMeja.classList.add("hidden");
+                    spanTempat.classList.add("text-gray-700");
+                    spanTempat.classList.remove("text-slate-50");
+                    spanAway.classList.remove("text-gray-700");
+                    spanAway.classList.add("text-slate-50");
                 }
             });
         });
-
 
 
     });
