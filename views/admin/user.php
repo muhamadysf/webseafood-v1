@@ -225,8 +225,8 @@ while ($record = mysqli_fetch_array($query)) {
 </div>
 
 <!-- javascript -->
-<script src="./public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="./public/assets/js/datatables.min.js"></script>
+<script src="../public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="../public/assets/js/datatables.min.js"></script>
 <script>
     let table;
     $(document).ready(function() {

@@ -54,7 +54,7 @@ if (isset($_POST['btnSubmit'])) {
                 if ($conn->connect_error) {
                     $_SESSION['judul'] = "Gagal.";
                     $_SESSION['message'] = "Koneksi database gagal: " . $conn->connect_error;
-                    header("Location: /webseafood/menu");
+                    header("Location: ../admin/menu");
                     exit();
                 }
 
@@ -62,13 +62,13 @@ if (isset($_POST['btnSubmit'])) {
             } else {
                 $_SESSION['judul'] = "Gagal.";
                 $_SESSION['message'] = "Gagal mengunggah gambar.";
-                header("Location: /webseafood/menu");
+                header("Location: ../admin/menu");
                 exit();
             }
         } else {
             $_SESSION['judul'] = "Gagal.";
             $_SESSION['message'] = "Format file tidak didukung.";
-            header("Location: /webseafood/menu");
+            header("Location: ../admin/menu");
             exit();
         }
     } else {
@@ -90,6 +90,6 @@ if (isset($_POST['btnSubmit'])) {
 
     $stmt->close();
     $conn->close();
-    header("Location: /webseafood/menu");
+    header("Location: ../admin/menu");
     exit();
 }

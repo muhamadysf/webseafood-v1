@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_PO
             if ($conn->connect_error) {
                 $_SESSION['judul'] = "Gagal.";
                 $_SESSION['message'] = "Koneksi database gagal: " . $conn->connect_error;
-                header("Location: /webseafood/menu");
+                header("Location: ../admin/menu");
                 exit();
             }
 
@@ -88,5 +88,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_PO
     $_SESSION['judul'] = "Gagal.";
     $_SESSION['message'] = "Tidak ada file yang diunggah. ";
 }
-header("Location: /webseafood/menu");
+header("Location: ../admin/menu");
 exit();

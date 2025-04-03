@@ -1,6 +1,6 @@
-<script src="./node_modules/preline/dist/preline.js"></script>
-<script src="./node_modules/lodash/lodash.min.js"></script>
-<script src="./node_modules/dropzone/dist/dropzone-min.js"></script>
+<script src="../node_modules/preline/dist/preline.js"></script>
+<script src="../node_modules/lodash/lodash.min.js"></script>
+<script src="../node_modules/dropzone/dist/dropzone-min.js"></script>
 <script>
     function updateClock() {
         const now = new Date();

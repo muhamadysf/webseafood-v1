@@ -87,7 +87,7 @@
 <div id="hs-custom-backdrop-modal" class="hs-overlay [--overlay-backdrop:static] hs-overlay-backdrop-open:bg-primary-950/90 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-custom-backdrop-label">
   <div class="m-3 mt-0 transition-all ease-out opacity-0 hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 sm:max-w-lg sm:w-full sm:mx-auto">
     <div class="flex flex-col bg-white border shadow-sm pointer-events-auto rounded-xl">
-      <form class="" action="proses/proses_ubah_password.php" novalidate method="post">
+      <form class="" action="../proses/proses_ubah_password.php" novalidate method="post">
         <div class="flex items-center justify-between px-4 py-3 border-b">
           <h3 id="hs-custom-backdrop-label" class="font-semibold text-gray-800">
             Ubah Password

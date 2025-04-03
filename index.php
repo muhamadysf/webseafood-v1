@@ -19,12 +19,24 @@ if (isset($_GET['x']) && $_GET['x'] == 'home') {
         include "./views/customer/main.php";
         // 
     } else {
-        // 
+        //
         $page = "./views/customer/home.php";
         include "./views/customer/main.php";
         // 
     }
     // 
+} else if (isset($_GET['x']) && $_GET['x'] == 'cart') {
+    // if (isset($_SESSION['keranjang'])) {
+    // 
+    $page = "./views/customer/cart.php";
+    include "./views/customer/main.php";
+    // 
+    // } else {
+    // 
+    // $page = "./views/customer/home.php";
+    // include "./views/customer/main.php";
+    // 
+    // }
 } else if (isset($_GET['x']) && $_GET['x'] == 'checkout') {
     // 
     $page = "./views/customer/checkout.php";

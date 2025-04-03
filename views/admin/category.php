@@ -116,7 +116,7 @@ $timenow = date("j-F-Y-h:i:s A");
                                     ?>
                                 </td>
                                 <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['created_at']) ? $row['created_at'] : '-'; ?> WIB</td>
-                                <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center object-cover w-20 h-20 rounded-full" src="<?php echo $row['logo_kategori'] ?>"></td>
+                                <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><img class="inline-flex justify-center object-cover w-20 h-20 rounded-full" src="../<?php echo $row['logo_kategori'] ?>"></td>
                                 <td class="px-6 py-4 text-sm  whitespace-nowrap !text-center">
                                     <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-400 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                         data-id="<?php echo $row['id_kategori']; ?>"
@@ -178,7 +178,7 @@ $timenow = date("j-F-Y-h:i:s A");
                     <div class="">
                         <div class="flex flex-wrap items-center gap-3 px-3 sm:gap-5">
                             <div id="preview" :class="selectImg != null ? 'block' : 'hidden'" class="size-20" @click="$refs.fileInput.click()">
-                                <img id="previewIMG" :src="selectImg" class="object-cover w-full h-full rounded-full">
+                                <img id="previewIMG" :src="'../'+selectImg" class="object-cover w-full h-full rounded-full">
                             </div>
                             <div id="mockup" :class="selectImg === null ? 'block' : 'hidden'" class="group" @click="$refs.fileInput.click()">
                                 <span id="mockupId" class="group-has-[div]:hidden flex shrink-0 justify-center items-center size-20 border-2 border-dotted  text-gray-400 cursor-pointer rounded-full hover:bg-gray-50">
@@ -220,8 +220,8 @@ $timenow = date("j-F-Y-h:i:s A");
         </div>
     </div>
 </div>
-<script src="./public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="./public/assets/js/datatables.min.js"></script>
+<script src="../public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="../public/assets/js/datatables.min.js"></script>
 <script>
     let table;
     $(document).ready(function() {

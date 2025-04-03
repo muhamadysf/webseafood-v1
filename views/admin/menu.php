@@ -183,7 +183,7 @@ while ($record = mysqli_fetch_array($query)) {
 
                 <!-- Konten Modal -->
                 <div id="pesanHps" class="hidden px-4 py-3 flex flex-col items-center justify-center gap-4 w-full">
-                    <img :src="selectImg" alt="Logo makanan" class="rounded-xl h-48 w-48">
+                    <img :src="'../'+selectImg" alt="Logo makanan" class="rounded-xl h-48 w-48">
                     <p class="">Data Menu <span class="font-semibold text-red-500" x-text="selectNama"></span> akan dihapus permanen. Anda yakin ingin melanjutkan?</p>
                 </div>
                 <div id="inputModal" class="flex px-6 py-3 border-b justify-between gap-7">
@@ -239,7 +239,7 @@ while ($record = mysqli_fetch_array($query)) {
                         <div class="">
                             <div class="flex flex-col flex-wrap items-center gap-3 px-3 sm:gap-5">
                                 <div id="preview" :class="selectImg != null ? 'block' : 'hidden'" class="size-80" @click="$refs.fileInput.click()">
-                                    <img id="previewIMG" :src="selectImg" class="object-cover w-full h-full rounded-md">
+                                    <img id="previewIMG" :src="'../'+selectImg" class="object-cover w-full h-full rounded-md">
                                 </div>
                                 <div id="mockup" :class="selectImg === null ? 'block' : 'hidden'" class="group flex flex-col justify-center" @click="$refs.fileInput.click()">
                                     <span id="mockupId" class="group-has-[div]:hidden flex shrink-0 justify-center items-center size-80 border-2 border-dotted  text-gray-400 cursor-pointer rounded-xl hover:bg-gray-50">
@@ -294,8 +294,8 @@ while ($record = mysqli_fetch_array($query)) {
 </div>
 
 <!-- javascript -->
-<script src="./public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="./public/assets/js/datatables.min.js"></script>
+<script src="../public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="../public/assets/js/datatables.min.js"></script>
 <script>
     let table;
     $(document).ready(function() {

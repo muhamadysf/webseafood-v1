@@ -31,6 +31,6 @@ if (isset($_POST['input_user_validate'])) {
 
     $stmt->close();
     $conn->close();
-    header("Location: /webseafood/user");
+    header("Location: ../admin/user");
     exit();
 }

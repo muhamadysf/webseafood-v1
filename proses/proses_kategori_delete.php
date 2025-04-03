@@ -23,20 +23,20 @@ if (isset($_POST['btnsubmit'])) {
             mysqli_close($conn);
             $_SESSION['judul'] = "Berhasil.";
             $_SESSION['message'] = "Data berhasil dihapus !";
-            header('location: /webseafood/category');
+            header('location: ../admin/category');
             exit;
         } else {
             mysqli_close($conn);
             $_SESSION['judul'] = "Gagal.";
             $_SESSION['message'] = "Gagal menghapus data!";
-            header("Location: /webseafood/category");
+            header("Location: ../admin/category");
             exit();
         }
     } else {
         mysqli_close($conn);
         $_SESSION['judul'] = "Gagal.";
         $_SESSION['message'] = "Data tidak ditemukan.!";
-        header("Location: /webseafood/category");
+        header("Location: ../admin/category");
         exit();
     }
 }

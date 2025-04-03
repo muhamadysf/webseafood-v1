@@ -14,7 +14,7 @@ if (isset($_POST['submit_validate'])) {
         $_SESSION['id'] = $hasil['id'];
         $_SESSION['nama'] = $hasil['nama'];
         echo "Email yang dimasukkan: " . $_POST['email'];
-        header('location: /webseafood/main');
+        header('location: ../admin/main');
         exit;
     } else {
 
@@ -22,7 +22,7 @@ if (isset($_POST['submit_validate'])) {
 ?>
         <script>
             alert('username atau password yang anda masukkan salah');
-            window.location = '/webseafood/login'
+            window.location = '../admin/login';
         </script>
 <?php
 

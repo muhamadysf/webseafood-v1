@@ -15,6 +15,6 @@ if (isset($_POST['input_user_validate'])) {
         $_SESSION['message'] = "Gagal menghapus data!";
     }
     mysqli_close($conn);
-    header("Location: /webseafood/user");
+    header("Location: ../admin/user");
     exit();
 }

@@ -1,7 +1,7 @@
 <?php
 //session_start();
 if (empty($_SESSION['username_kingseafood'])) {
-    header('location:login');
+    header('location: ../admin/login');
 }
 
 include "config/connect.php";

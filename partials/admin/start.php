@@ -2,8 +2,9 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
+
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/x-icon" href="./public/assets/images/favicon_io/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="../public/assets/images/favicon_io/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>King Seafood - [ Panel Admin ]</title>
 
@@ -21,10 +22,10 @@
     </style>
 
     <!-- tailwindCSS -->
-    <link href="./public/assets/css/style.css" rel="stylesheet">
+    <link href="../public/assets/css/style.css" rel="stylesheet">
 
     <!-- Datatables CSS -->
-    <link href="./public/assets/css/datatables.min.css" rel="stylesheet">
+    <link href="../public/assets/css/datatables.min.css" rel="stylesheet">
 
 
 

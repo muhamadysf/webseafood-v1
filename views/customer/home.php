@@ -10,7 +10,7 @@ while ($record = mysqli_fetch_array($kquery)) {
 ?>
 
 
-<div x-data="{ modal: false, selectedId: null, selectNama: null, selectHarga: null, selectImg: null, keranjang:false, cart: JSON.parse(localStorage.getItem('cart')) || [] }" x-init="$store.keranjang = (JSON.parse(localStorage.getItem('cart')) || []).length > 0; keranjang = cart.length > 0" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
+<div x-data="{ modalKategori:false, modal: false, selectedId: null, selectNama: null, selectHarga: null, selectImg: null, keranjang:false, cart: JSON.parse(localStorage.getItem('cart')) || [] }" x-init="$store.keranjang = (JSON.parse(localStorage.getItem('cart')) || []).length > 0; keranjang = cart.length > 0" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
 
     <?php include './partials/customer/header.php' ?>
 
@@ -18,7 +18,7 @@ while ($record = mysqli_fetch_array($kquery)) {
 
     <div id="labelKategori" class="w-full bg-slate-100 flex items-center justify-between sm:w-[640px] h-14 z-[997]">
         <div class="flex h-full px-2 py-2">
-            <button id="" type="button" class="inline-flex items-center px-3 py-2 text-xl font-medium text-black gap-x-2">
+            <button id="" type="button" @click="modalKategori = true" class="inline-flex items-center px-3 py-2 text-xl font-medium text-black gap-x-2">
                 <div class="p-1 rounded-full bg-slate-400">
                     <svg class="text-white shrink-0 size-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -111,9 +111,11 @@ while ($record = mysqli_fetch_array($kquery)) {
     <?php
     } ?>
     <!-- Backdrop modal -->
-    <div x-show="modal" x-cloak class="fixed inset-0 z-[998] bg-black/85 sm:w-[640px] sm:inline-flex sm:mx-auto"
+    <div x-show="modal || modalKategori" x-cloak class="fixed inset-0 z-[998] bg-black/85 sm:w-[640px] sm:inline-flex sm:mx-auto"
         x-transition.opacity>
     </div>
+
+
     <!-- Modal detail -->
     <div id="modal-induk" x-show="modal" x-cloak
         class="fixed inset-0 flex items-center justify-center z-[999] overflow-hidden"
@@ -126,8 +128,9 @@ while ($record = mysqli_fetch_array($kquery)) {
         <div id="modal-container" class="relative bg-white shadow-lg w-screen min-h-screen sm:w-[640px]">
             <!-- Tombol Close (X) -->
             <button id="btn-close" @click="modal = false; selectedId= null; selectNama= null; selectHarga= null; selectImg= null;" class="absolute text-gray-500 top-2 right-2 hover:text-gray-800 z-[99999]">
-                <svg class="w-12 h-auto text-slate-400/85" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
+                <svg class="w-12 h-12 text-white/50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#000000" />
+                    <path d="M8.96967 8.96967C9.26256 8.67678 9.73744 8.67678 10.0303 8.96967L12 10.9394L13.9697 8.96969C14.2626 8.6768 14.7374 8.6768 15.0303 8.96969C15.3232 9.26258 15.3232 9.73746 15.0303 10.0304L13.0607 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0304 15.0303C9.73746 15.3232 9.26258 15.3232 8.96969 15.0303C8.6768 14.7374 8.6768 14.2626 8.96969 13.9697L10.9394 12L8.96967 10.0303C8.67678 9.73744 8.67678 9.26256 8.96967 8.96967Z" fill="#000000" />
                 </svg>
             </button>
             <div class="">
@@ -201,8 +204,8 @@ while ($record = mysqli_fetch_array($kquery)) {
     </div>
 
     <!-- modal keranjang -->
-    <div id="modalcart" x-show="$store.keranjang" x-cloak
-        class="fixed bottom-8 mt-8 left-1/2 translate-x-[-50%] shadow-lg items-center justify-center z-[997] overflow-hidden"
+    <a href="cart" id="modalcart" x-show="$store.keranjang" x-cloak
+        class="fixed bottom-8 mt-8 left-1/2 translate-x-[-50%] shadow-lg items-center justify-center z-[997] overflow-hidden cursor-pointer"
         x-transition:enter="transform transition ease-out duration-300"
         x-transition:enter-start="translate-y-full opacity-0"
         x-transition:enter-end="translate-y-0 opacity-100"
@@ -217,20 +220,61 @@ while ($record = mysqli_fetch_array($kquery)) {
                     <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </div>
-            <div class="flex items-center justify-between w-full px-5 py-3 bg-white">
+            <div class="flex items-center justify-between w-full px-2 py-3 bg-white sm:pl-5">
                 <div class="flex flex-col gap-1">
                     <p class="text-sm text-black">Total</p>
                     <p class="text-sm font-semibold text-black">Rp. <span id="totalHarga"></span>,-</p>
                 </div>
                 <div class="">
-                    <h3 class="font-semibold text-black">CHECKOUT ( <span id="checkout">0</span> )</h3>
+                    <h3 class="text-sm font-semibold text-black">CHECKOUT ( <span id="checkout">0</span> )</h3>
+                    <p class="w-full text-xs text-black">untuk melanjutkan</p>
                 </div>
-            </div>
 
+            </div>
+            <div class="flex items-center bg-slate-200">
+                <svg class="size-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+
+    </a>
+
+    <!-- modal kategori -->
+    <div id="modal-induk" x-show="modalKategori" x-cloak
+        class="fixed inset-0 flex items-end justify-center z-[999] overflow-hidden "
+        x-transition:enter="transform transition ease-out duration-300"
+        x-transition:enter-start="translate-y-full opacity-0"
+        x-transition:enter-end="translate-y-0 opacity-100"
+        x-transition:leave="transform transition ease-in duration-300"
+        x-transition:leave-start="translate-y-0 opacity-100"
+        x-transition:leave-end="translate-y-full opacity-0">
+        <div id="modal-container" class="relative bg-white shadow-lg w-screen min-h-80 sm:w-[500px] rounded-t-3xl py-5 px-5">
+            <!-- Tombol Close (X) -->
+            <div class="flex items-center justify-between w-full">
+                <h1 class="text-2xl font-semibold">Kategori Menu</h1>
+                <button id="btn-close" @click="modalKategori = false;" class=" text-gray-500  hover:text-gray-800 z-[99999]">
+                    <svg class="w-12 h-12 text-white/50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.1" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#000000" />
+                        <path d="M8.96967 8.96967C9.26256 8.67678 9.73744 8.67678 10.0303 8.96967L12 10.9394L13.9697 8.96969C14.2626 8.6768 14.7374 8.6768 15.0303 8.96969C15.3232 9.26258 15.3232 9.73746 15.0303 10.0304L13.0607 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0304 15.0303C9.73746 15.3232 9.26258 15.3232 8.96969 15.0303C8.6768 14.7374 8.6768 14.2626 8.96969 13.9697L10.9394 12L8.96967 10.0303C8.67678 9.73744 8.67678 9.26256 8.96967 8.96967Z" fill="#000000" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-col gap-2 mt-7">
+                <?php $no = 1;
+                foreach ($result as $row) { ?>
+
+                    <a href="#<?php echo $row['id_kategori'] ?>" @click="modalKategori = false;" class="px-2 py-3 text-center text-black bg-transparent border-2 select-none border-primary-400 hover:bg-primary-400 hover:text-white rounded-xl whitespace-nowrap min-w-28"><?php echo $row['nama_kategori']; ?></a>
+                <?php } ?>
+            </div>
         </div>
     </div>
 
+
+    <?php require_once './partials/customer/footer.php'; ?>
 </div>
+
+<!-- footer -->
 
 
 
@@ -480,7 +524,6 @@ while ($record = mysqli_fetch_array($kquery)) {
                 updateCheckoutQty();
             });
 
-
         });
 
 
@@ -504,14 +547,15 @@ while ($record = mysqli_fetch_array($kquery)) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            let menuData = await response.json(); // Konversi ke JSON
+            let menuData = await response.json();
+
             let totalHarga = 0;
 
             cart.forEach(item => {
-                let menu = menuData.find(menu => menu.id_menu === item.id_menu); // Cari harga berdasarkan id_menu
+                let menu = menuData.find(menu => menu.id_menu === item.id_menu);
                 if (menu) {
-                    let subTotal = menu.harga * item.qty; // Hitung subtotal
-                    totalHarga += subTotal; // Tambahkan ke total harga
+                    let subTotal = menu.harga * item.qty;
+                    totalHarga += subTotal;
                 }
             });
 
@@ -525,7 +569,7 @@ while ($record = mysqli_fetch_array($kquery)) {
         let spanQty = document.getElementById("checkout");
         let cartQty = document.getElementById("cartQty");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0); // Menjumlahkan semua qty
+        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
         spanQty.textContent = totalQty;
         cartQty.textContent = totalQty;
     }

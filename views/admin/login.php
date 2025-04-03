@@ -1,7 +1,7 @@
 <?php
 // session_start();
 if (!empty($_SESSION['username_kingseafood'])) {
-    header('location:home');
+    header('location: ../admin/home');
 }
 ?>
 
@@ -11,7 +11,7 @@ if (!empty($_SESSION['username_kingseafood'])) {
 
     <div class="flex w-3/5 rounded-lg shadow-xl bg-white/70">
         <div class="flex flex-col items-center justify-center w-1/2 px-2 py-8 rounded-tl-lg rounded-bl-lg bg-red-950">
-            <img src="./public/assets/images/logo.png" alt="logo" class="w-48 h-auto mb-4">
+            <img src="../public/assets/images/logo.png" alt="logo" class="w-48 h-auto mb-4">
 
         </div>
 
@@ -22,7 +22,7 @@ if (!empty($_SESSION['username_kingseafood'])) {
             </div>
 
             <div class="">
-                <form class="" action="./proses/proses_login.php" method="post" novalidate>
+                <form class="" action="../proses/proses_login.php" method="post" novalidate>
                     <div class="w-full mb-4 space-y-3">
                         <div class="relative">
                             <input name="email" type="email" class="block w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-lg peer ps-11 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Masukkan email anda..." required>

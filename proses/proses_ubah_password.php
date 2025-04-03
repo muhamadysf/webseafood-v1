@@ -28,8 +28,8 @@ if (isset($_POST['ubah_password_validate'])) {
         $message = '<script>alert("Password Lama Tidak Sesuai"); window.history.back();</script>';
     }
 } else {
-    header('location:../home');
-    exit; // Pastikan menghentikan eksekusi setelah redirect.
+    header('location: ../admin/home');
+    exit;
 }
 
 echo $message;
