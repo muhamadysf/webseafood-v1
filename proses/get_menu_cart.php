@@ -11,7 +11,7 @@ if (empty($ids)) {
 
 
 $idList = implode(',', array_map('intval', $ids));
-$query = "SELECT id_menu, nama_menu, harga FROM tb_menu WHERE id_menu IN ($idList)";
+$query = "SELECT id_menu, nama_menu, harga, gambar_menu FROM tb_menu WHERE id_menu IN ($idList)";
 $result = mysqli_query($conn, $query);
 
 $menuData = [];

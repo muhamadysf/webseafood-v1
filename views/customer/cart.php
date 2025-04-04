@@ -8,7 +8,7 @@ include "./config/connect.php";
 
 <!--  -->
 
-<div class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white max-w-[640px]">
+<div x-data="{ modalEdit:false, modalNote: false }" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white max-w-[640px]">
 
     <!-- header  -->
     <div class="shadow-xl h-16 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center rounded-b-lg">
@@ -23,7 +23,7 @@ include "./config/connect.php";
     </div>
 
     <!-- main content -->
-    <div id="main-content" class="pb-24 mt-20">
+    <div id="main-content" class="pb-24 mt-20 full-cart">
 
         <!-- tipe pesanan -->
         <div class="px-5">
@@ -33,7 +33,7 @@ include "./config/connect.php";
                 <div class="flex items-center space-x-4">
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="option" value="ditempat" class="hidden peer">
-                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-slate-50">
+                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
                             <svg id="svgTempat" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
                                 <g>
@@ -46,7 +46,7 @@ include "./config/connect.php";
 
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="option" value="ambil" class="hidden peer">
-                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full peer-checked:border-slate-50">
+                        <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
 
                             <svg id="svgAway" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
@@ -84,13 +84,13 @@ include "./config/connect.php";
             <hr class="my-2 border">
             <div id="cartContainer" class="flex flex-col gap-2 my-5"></div>
             <hr class="my-2 border">
-            <button type="button" class="inline-flex items-center w-full ml-5 border-l-4 border-l-primary-400/40">
+            <button id="add-note" type="button" @click="modalNote = true" class="inline-flex items-center w-full ml-5 border-l-4 border-l-primary-400/40">
                 <svg class="text-gray-400 size-8" viewBox="0 0 24 24" fill="none">
                     <g id="File / Note_Edit">
                         <path id="Vector" d="M10.0002 4H7.2002C6.08009 4 5.51962 4 5.0918 4.21799C4.71547 4.40973 4.40973 4.71547 4.21799 5.0918C4 5.51962 4 6.08009 4 7.2002V16.8002C4 17.9203 4 18.4801 4.21799 18.9079C4.40973 19.2842 4.71547 19.5905 5.0918 19.7822C5.5192 20 6.07899 20 7.19691 20H16.8031C17.921 20 18.48 20 18.9074 19.7822C19.2837 19.5905 19.5905 19.2839 19.7822 18.9076C20 18.4802 20 17.921 20 16.8031V14M16 5L10 11V14H13L19 8M16 5L19 2L22 5L19 8M16 5L19 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </g>
                 </svg>
-                <span id="note-lain" class="ml-2 text-gray-400">Tambah catatan lainnya...</span>
+                <span id="note-lain" class="ml-2 text-gray-400"></span>
             </button>
         </div>
 
@@ -102,8 +102,8 @@ include "./config/connect.php";
                 <h2 class="text-lg font-semibold text-center text-black">Rincian Pembayaran</h2>
                 <div class="flex flex-col gap-1">
                     <div class="flex justify-between">
-                        <p class="text-sm font-semibold text-black">Subtotal <span class="font-medium text-gray-400"> (<span class=""></span> menu)</span></p>
-                        <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                        <p class="text-sm font-semibold text-black">Subtotal <span class="font-medium text-gray-400"> ( <span id="total-menu" class=""></span> menu )</span></p>
+                        <p class="text-sm font-semibold text-black txt-total"></p>
                     </div>
                     <hr class="border-t-2 border-gray-400 border-dotted">
                     <div class="">
@@ -116,21 +116,21 @@ include "./config/connect.php";
                                         <path d="m6 9 6 6 6-6"></path>
                                     </svg>
                                 </div>
-                                <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                                <p class="text-sm font-semibold text-black">Rp. 0,-</p>
                             </button>
                         </p>
                         <div id="hs-show-hide-collapse-heading" class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-show-hide-collapse">
                             <hr class="mt-1 border-t-2 border-gray-400 border-dotted">
                             <div class="flex items-center justify-between my-2 text-gray-500">
                                 <p class="ml-3 text-sm">Pajak Bangunan 1</p>
-                                <p class="text-sm">Rp. xxxxxxxx</p>
+                                <p class="text-sm">Rp. 0,-</p>
                             </div>
                         </div>
                     </div>
                     <hr class="border-t-2 border-gray-400 border-dotted">
                     <div class="flex justify-between pb-6">
                         <p class="text-sm font-semibold text-black">Total</p>
-                        <p class="text-sm font-semibold text-black">Rp. xxxxxxxx</p>
+                        <p class="text-sm font-semibold text-black txt-total">Rp. xxxxxxxx</p>
                     </div>
                 </div>
             </div>
@@ -148,25 +148,135 @@ include "./config/connect.php";
     </div>
 
     <!-- footer -->
-    <div class="shadow-xl h-20 bottom-0 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center px-5 py-2 rounded-lg">
+    <div class="full-cart shadow-xl h-20 bottom-0 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center px-5 py-2 rounded-lg">
         <div class="flex-1">
             <p class="text-sm text-gray-400">Total Pembayaran</p>
-            <h3 class="text-xl font-semibold text-black">Rp. XXXXXXXX</h3>
+            <h3 class="text-xl font-semibold text-black txt-total"></h3>
         </div>
         <div class="">
             <a href="" class="px-3 py-2 text-white rounded-lg bg-primary-550/85">Lanjut Pembayaran</a>
         </div>
     </div>
 
-    <!-- modal -->
-    <div class=""></div>
+    <!-- Backdrop modal -->
+    <div x-show="modalEdit || modalNote" x-cloak class="fixed inset-0 z-[998] bg-black/85  sm:inline-flex sm:mx-auto"
+        x-transition.opacity>
+    </div>
+
+    <!-- modal catatan tambahan-->
+    <div x-show="modalNote" x-cloak
+        class="fixed inset-0 flex items-end justify-center z-[999] overflow-hidden"
+        x-transition:enter="transform transition ease-out duration-300"
+        x-transition:enter-start="translate-y-full opacity-0"
+        x-transition:enter-end="translate-y-0 opacity-100"
+        x-transition:leave="transform transition ease-in duration-300"
+        x-transition:leave-start="translate-y-0 opacity-100"
+        x-transition:leave-end="translate-y-full opacity-0">
+        <div class="relative bg-white shadow-lg w-screen h-72 sm:w-[600px] pt-2 rounded-t-3xl">
+
+            <!-- Tombol Close (X) -->
+            <button id="btn-note-close" @click="modalNote = false;" class="absolute text-gray-500 top-2 right-2 hover:text-gray-800 z-[99999]">
+                <svg class="w-12 h-12 text-white/50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.1" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#000000" />
+                    <path d="M8.96967 8.96967C9.26256 8.67678 9.73744 8.67678 10.0303 8.96967L12 10.9394L13.9697 8.96969C14.2626 8.6768 14.7374 8.6768 15.0303 8.96969C15.3232 9.26258 15.3232 9.73746 15.0303 10.0304L13.0607 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0304 15.0303C9.73746 15.3232 9.26258 15.3232 8.96969 15.0303C8.6768 14.7374 8.6768 14.2626 8.96969 13.9697L10.9394 12L8.96967 10.0303C8.67678 9.73744 8.67678 9.26256 8.96967 8.96967Z" fill="#000000" />
+                </svg>
+            </button>
+
+            <div class="flex flex-col h-full gap-5 p-5">
+                <h1 class="mb-2 text-xl font-semibold text-black">Catatan Lainnya...</h1>
+                <textarea name="catatan" id="hs-autoheight-textarea-note" class="flex-1 block w-full px-4 py-2 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Catatan tambahan..." data-hs-textarea-auto-height='{"defaultHeight": 72}'></textarea>
+                <button id="btn-tambah-note" type="button" class="w-full py-2 text-white rounded-lg bg-primary-550 hover:font-semibold"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- modal edit pesanan-->
+    <div x-show="modalEdit" x-cloak
+        class="fixed inset-0 flex items-center justify-center z-[999] overflow-hidden"
+        x-transition:enter="transform transition ease-out duration-300"
+        x-transition:enter-start="translate-y-full opacity-0"
+        x-transition:enter-end="translate-y-0 opacity-100"
+        x-transition:leave="transform transition ease-in duration-300"
+        x-transition:leave-start="translate-y-0 opacity-100"
+        x-transition:leave-end="translate-y-full opacity-0">
+        <div id="modal-container" class="relative bg-white shadow-lg w-screen min-h-screen sm:w-[640px]">
+            <!-- Tombol Close (X) -->
+            <button id="btn-close" @click="modalEdit = false;" class="absolute text-white top-2 right-2  z-[99999]">
+                <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="1" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="currentColor" />
+                    <path d="M8.96967 8.96967C9.26256 8.67678 9.73744 8.67678 10.0303 8.96967L12 10.9394L13.9697 8.96969C14.2626 8.6768 14.7374 8.6768 15.0303 8.96969C15.3232 9.26258 15.3232 9.73746 15.0303 10.0304L13.0607 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0304 15.0303C9.73746 15.3232 9.26258 15.3232 8.96969 15.0303C8.6768 14.7374 8.6768 14.2626 8.96969 13.9697L10.9394 12L8.96967 10.0303C8.67678 9.73744 8.67678 9.26256 8.96967 8.96967Z" fill="#000000" />
+                </svg>
+            </button>
+            <div class="">
+                <!-- header modal -->
+                <div class="flex items-center">
+                    <img id="modal-img" src="" class="object-cover w-full sm:h-[484px] h-80 min-h-80" alt="menu_img">
+                </div>
+
+                <div id="konten-modal" class="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl">
+                    <!-- Konten Modal -->
+                    <div id="" class="w-full py-4 divide-y-4 divide-gray-200 ">
+                        <div class="mb-2 px-7">
+                            <h1 id="nama-menu" class="mb-1 text-2xl text-black"></h1>
+                            <h3 id="harga-menu" class="text-lg font-semibold text-black"></h3>
+                        </div>
+                        <div class="mb-2 px-7">
+                            <label for="hs-autoheight-textarea" class="block mt-4 mb-2 text-lg font-semibold sm:text-xl">Catatan :</label>
+                            <textarea name="catatan" id="hs-autoheight-textarea" class="block w-full px-4 py-2 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Opsional..." data-hs-textarea-auto-height='{"defaultHeight": 72}'></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- footer modal -->
+                    <div class="flex flex-col justify-end h-full gap-3 px-4 pt-3 pb-8 bg-slate-100 rounded-t-3xl">
+                        <div class="flex justify-between">
+                            <p class="">Jumlah Pesanan : </p>
+                            <div class="flex gap-4">
+                                <button id="min-qty" type="button" class="inline-flex items-center justify-center">
+                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-516.000000, -1087.000000)" fill="#000000">
+                                                <path d="M532,1117 C524.268,1117 518,1110.73 518,1103 C518,1095.27 524.268,1089 532,1089 C539.732,1089 546,1095.27 546,1103 C546,1110.73 539.732,1117 532,1117 L532,1117 Z M532,1087 C523.163,1087 516,1094.16 516,1103 C516,1111.84 523.163,1119 532,1119 C540.837,1119 548,1111.84 548,1103 C548,1094.16 540.837,1087 532,1087 L532,1087 Z M538,1102 L526,1102 C525.447,1102 525,1102.45 525,1103 C525,1103.55 525.447,1104 526,1104 L538,1104 C538.553,1104 539,1103.55 539,1103 C539,1102.45 538.553,1102 538,1102 L538,1102 Z" id="minus-circle" sketch:type="MSShapeGroup">
+
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <p id="modal-qty" class="inline-flex items-center justify-center w-12"></p>
+                                <button id="plus-qty" type="button" class="inline-flex items-center justify-center">
+                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#000000">
+                                                <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup">
+
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full ">
+                            <button id="btn-perbarui" type="button" class="inline-flex items-center justify-center w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-500 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Perbarui Pesanan <span id="total-harga-edit" class=""></span></button>
+                            <button @click="modalEdit = false;" id="btn-hapus" type="button" class="items-center justify-center hidden w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-300 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Hapus pesanan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- JS -->
 <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const mainContent = document.getElementById("main-content");
     const emptyCart = document.getElementById("empty-cart");
+
+    const fullCart = document.getElementsByClassName("full-cart");
 
     let dataDB = [];
 
@@ -184,6 +294,7 @@ include "./config/connect.php";
                 console.log("Data dari server:", menuData);
                 renderCart(menuData);
                 dataDB = menuData;
+                updateCheckoutQty();
             })
             .catch(error => console.error("Gagal mengambil data menu:", error));
     }
@@ -199,7 +310,9 @@ include "./config/connect.php";
         }
         cartContainer.innerHTML = "";
 
-        cart.forEach(item => {
+        const validCart = cart.filter(item => item.id_menu);
+
+        validCart.forEach(item => {
             const menu = menuData.find(m => m.id_menu == item.id_menu);
 
             if (!menu) {
@@ -227,7 +340,7 @@ include "./config/connect.php";
                         <p class="text-sm font-semibold txt-harga">${formatRupiah((menu.harga.toLocaleString())*item.qty)}</p>
                     </div>
                     <div class="flex flex-col justify-between w-20">
-                        <button type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border-2 border-gray-400 rounded-full hover:bg-gray-200">
+                        <button @click="modalEdit = true" type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border-2 border-gray-400 rounded-full btn-ubah hover:bg-gray-200">
                             <svg fill="currentColor" class="text-gray-400 size-5" viewBox="0 0 16 16">
                                 <path d="M13.8 2.2a2.51 2.51 0 0 0-3.54 0l-6.9 6.91-1.76 3.62a1.26 1.26 0 0 0 1.12 1.8 1.23 1.23 0 0 0 .55-.13l3.62-1.76 6-6 .83-.82.06-.06a2.52 2.52 0 0 0 .02-3.56zm-.89.89a1.25 1.25 0 0 1 0 1.77l-1.77-1.77a1.24 1.24 0 0 1 .86-.37 1.22 1.22 0 0 1 .91.37zM2.73 13.27 4.29 10 6 11.71zm4.16-2.4L5.13 9.11 10.26 4 12 5.74z" />
                             </svg>
@@ -268,12 +381,16 @@ include "./config/connect.php";
         `;
             cartContainer.appendChild(card);
         });
+
+
     }
 
     function updateHarga() {
         const menuData = dataDB;
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.forEach(item => {
+
+        const validCart = cart.filter(item => item.id_menu);
+        validCart.forEach(item => {
             const menu = menuData.find(m => m.id_menu == item.id_menu);
 
             if (!menu) {
@@ -300,6 +417,8 @@ include "./config/connect.php";
             let textHarga = card.querySelector(".txt-harga");
 
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+
             let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
             let menu = dataDB.find(m => m.id_menu == idMenu);
 
@@ -315,14 +434,22 @@ include "./config/connect.php";
                 }
 
                 localStorage.setItem("cart", JSON.stringify(cart));
+
             }
 
             updateCheckoutQty();
 
-            if (cart.length === 0) {
-                mainContent.classList.add("hidden");
+            const tidakAdaIdMenu = !cart.some(item => item.hasOwnProperty("id_menu"));
+
+            if (tidakAdaIdMenu) {
+                cart = cart.filter(item => !item.hasOwnProperty("addnote"));
+                localStorage.setItem("cart", JSON.stringify(cart));
+
                 emptyCart.classList.remove("hidden");
                 emptyCart.classList.add("flex");
+
+                fullCart[0].classList.add("hidden");
+                fullCart[1].classList.add("hidden");
             }
         }
 
@@ -347,6 +474,38 @@ include "./config/connect.php";
 
             updateCheckoutQty();
         }
+
+        if (button.classList.contains("btn-ubah")) {
+            let card = button.closest(".box-Card");
+            if (!card) return;
+
+            let idMenu = card.getAttribute("data-id");
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+
+            let menu = dataDB.find(m => m.id_menu == idMenu);
+
+            let modalImg = document.getElementById("modal-img");
+            let modalNote = document.getElementById("hs-autoheight-textarea");
+            let modalNama = document.getElementById("nama-menu");
+            let modalHarga = document.getElementById("harga-menu");
+            let modalQty = document.getElementById("modal-qty");
+            let modalTotalEdit = document.getElementById("total-harga-edit");
+            let modalMinQty = document.getElementById("min-qty");
+            let modalPlusQty = document.getElementById("plus-qty");
+
+
+
+            if (itemIndex !== -1) {
+                modalImg.src = "/webseafood/" + menu.gambar_menu;
+                modalNama.textContent = menu.nama_menu;
+                modalNote.value = cart[itemIndex].note;
+                modalQty.textContent = cart[itemIndex].qty;
+                modalHarga.textContent = formatRupiah(menu.harga);
+                modalTotalEdit.textContent = formatRupiah(menu.harga * cart[itemIndex].qty);
+            }
+        }
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -357,6 +516,8 @@ include "./config/connect.php";
         const inputMeja = document.getElementById("inputMeja");
         const spanAway = document.getElementById("spanAway");
         const spanTempat = document.getElementById("spanTempat");
+
+        const noteLain = document.getElementById("note-lain");
 
         options.forEach(option => {
             option.addEventListener('change', () => {
@@ -387,15 +548,122 @@ include "./config/connect.php";
             });
         });
 
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "";
+
+        const tidakAdaNote = !cart.some(item => item.hasOwnProperty("addnote"));
+        if (tidakAdaNote) {
+            noteLain.textContent = "Tambah catatan lainnya...";
+        } else {
+            noteLain.textContent = note;
+        }
+
 
     });
+
+    const btnClose = document.getElementById("btn-close");
+    const btnNoteClose = document.getElementById("btn-note-close");
+
+    btnClose.addEventListener("click", function() {
+        document.getElementById("hs-autoheight-textarea").value = "";
+    });
+
+
+    btnNoteClose.addEventListener("click", function() {
+        let modalNoteAdd = document.getElementById("hs-autoheight-textarea-note");
+
+        const noteLain = document.getElementById("note-lain");
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "Tambah catatan lainnya...";
+
+        noteLain.textContent = note;
+    });
+
+
+    const modalAddNote = document.getElementById("add-note");
+
+    modalAddNote.addEventListener("click", function() {
+        const btnTbhNote = document.getElementById("btn-tambah-note");
+        const btnNoteLain = document.getElementById("note-lain");
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const adaAddnote = cart.some(item => item.hasOwnProperty("addnote"));
+
+        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "";
+
+        if (adaAddnote) {
+
+            btnTbhNote.textContent = "Perbarui Catatan";
+        } else {
+            btnTbhNote.textContent = "Tambahkan Catatan";
+        }
+
+        btnTbhNote.addEventListener("click", function() {
+
+            let noteAddModal = document.getElementById("hs-autoheight-textarea-note");
+            let modalNoteAdd = noteAddModal.value;
+            let spanNoteLain = document.getElementById("note-lain");
+
+
+            const indexNote = cart.findIndex(item => item.hasOwnProperty("addnote"));
+            if (modalNoteAdd === "") {
+
+                if (indexNote !== -1) {
+                    cart.splice(indexNote, 1);
+                }
+            } else {
+
+                if (indexNote !== -1) {
+
+                    cart[indexNote].addnote = modalNoteAdd;
+                } else {
+
+                    cart.push({
+                        addnote: modalNoteAdd
+                    });
+                }
+            }
+
+
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            document.getElementById("btn-note-close").click();
+        });
+
+    });
+
 
     function updateCheckoutQty() {
 
         let cartQty = document.getElementById("cartQty");
+        let totalMenu = document.getElementById("total-menu");
+        let txtTotal = document.getElementsByClassName("txt-total");
+
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        let dataDBS = dataDB;
+
+        let totalHarga = 0;
+
+        const validCart = cart.filter(item => item.id_menu);
+        validCart.forEach(item => {
+            let menu = dataDBS.find(m => m.id_menu == item.id_menu);
+            if (menu) {
+                let subTotal = menu.harga * item.qty;
+                totalHarga += subTotal;
+            }
+        });
+
+        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
+        let qtyMenu = validCart.length;
+
         cartQty.textContent = totalQty;
+        totalMenu.textContent = qtyMenu;
+        txtTotal[0].textContent = formatRupiah(totalHarga);
+        txtTotal[1].textContent = formatRupiah(totalHarga);
+        txtTotal[2].textContent = formatRupiah(totalHarga);
+
     }
 
     function formatRupiah(angka) {

@@ -154,7 +154,7 @@ while ($record = mysqli_fetch_array($kquery)) {
                     </div>
 
                     <!-- footer modal -->
-                    <div class="flex flex-col justify-end gap-3 px-4 py-3">
+                    <div class="flex flex-col justify-end gap-3 px-4 py-3 bg-slate-100 rounded-t-3xl">
                         <div class="flex justify-between">
                             <p class="">Jumlah Pesanan : </p>
                             <div class="flex gap-4">
@@ -449,6 +449,7 @@ while ($record = mysqli_fetch_array($kquery)) {
     document.addEventListener("DOMContentLoaded", function() {
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const validCart = cart.filter(item => item.id_menu);
         let modalcart = null;
 
         document.querySelectorAll(".btn-group").forEach(function(group) {
@@ -460,7 +461,7 @@ while ($record = mysqli_fetch_array($kquery)) {
 
 
             // Cek apakah produk ada di localStorage
-            let item = cart.find(item => item.id_menu === menuId);
+            let item = validCart.find(item => item.id_menu === menuId);
             if (item) {
                 quantityDisplay.textContent = item.qty;
                 addButton.classList.add("hidden");
@@ -514,12 +515,22 @@ while ($record = mysqli_fetch_array($kquery)) {
                         group.classList.add("hidden");
                         addButton.classList.remove("hidden");
 
+                        const tidakAdaIdMenu = !cart.some(item => item.hasOwnProperty("id_menu"));
+
+                        if (tidakAdaIdMenu) {
+                            cart = cart.filter(item => !item.hasOwnProperty("addnote"));
+                            localStorage.setItem("cart", JSON.stringify(cart));
+                        }
+
                         Alpine.store('keranjang', cart.length > 0);
                     } else {
                         localStorage.setItem("cart", JSON.stringify(cart));
                         quantityDisplay.textContent = cart[itemIndex].qty;
                     }
                 }
+
+
+
                 fetchCartData();
                 updateCheckoutQty();
             });
@@ -535,7 +546,10 @@ while ($record = mysqli_fetch_array($kquery)) {
 
         let totalHarga = document.getElementById("totalHarga");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        if (cart.length === 0) {
+
+        const validCart = cart.filter(item => item.id_menu);
+
+        if (validCart.length === 0) {
             totalHarga.textContent = "";
             return;
         }
@@ -551,7 +565,8 @@ while ($record = mysqli_fetch_array($kquery)) {
 
             let totalHarga = 0;
 
-            cart.forEach(item => {
+            const validCart = cart.filter(item => item.id_menu);
+            validCart.forEach(item => {
                 let menu = menuData.find(menu => menu.id_menu === item.id_menu);
                 if (menu) {
                     let subTotal = menu.harga * item.qty;
@@ -569,7 +584,11 @@ while ($record = mysqli_fetch_array($kquery)) {
         let spanQty = document.getElementById("checkout");
         let cartQty = document.getElementById("cartQty");
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
+        const validCart = cart.filter(item => item.id_menu);
+
+
+        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
         spanQty.textContent = totalQty;
         cartQty.textContent = totalQty;
     }
