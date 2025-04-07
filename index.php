@@ -6,9 +6,9 @@ if (isset($_GET['x']) && $_GET['x'] == 'home') {
     $page = "./views/customer/home.php";
     include "./views/customer/main.php";
     // -
-} else if (isset($_GET['x']) && $_GET['x'] == 'detail') {
+} else if (isset($_GET['x']) && $_GET['x'] == 'qrcode') {
     // 
-    $page = "./views/customer/detail.php";
+    $page = "./views/customer/qrcode.php";
     include "./views/customer/main.php";
     // 
 } else if (isset($_GET['x']) && $_GET['x'] == 'orders') {

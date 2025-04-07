@@ -1,17 +1,25 @@
 <?php
 include "./config/connect.php";
 
-
+function formatRupiah($angka)
+{
+    return "Rp. " . number_format($angka, 0, ',', '.') . ',-';
+}
 
 ?>
 
 
 <!--  -->
 
-<div x-data="{ modalEdit:false, modalNote: false }" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white max-w-[640px]">
+<div x-data="{ modalEdit:false, modalNote: false, modalDetail: false,
+    selectId: null,
+    selectImg: null,
+    selectNama: null,
+    selectHarga: null,
+}" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white max-w-[640px]">
 
     <!-- header  -->
-    <div class="shadow-xl h-16 fixed bg-slate-100 w-full flex sm:w-[640px] items-center justify-center rounded-b-lg">
+    <div class="shadow-xl h-16 fixed bg-slate-100 w-full z-50 flex sm:w-[640px] items-center justify-center rounded-b-xl">
         <a href="home" class="p-2 ml-5 bg-white rounded-full w-9 h-9">
             <svg fill="currentColor" class="shrink-0 size-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                 <path d="M222.927 580.115l301.354 328.512c24.354 28.708 20.825 71.724-7.883 96.078s-71.724 20.825-96.078-7.883L19.576 559.963a67.846 67.846 0 01-13.784-20.022 68.03 68.03 0 01-5.977-29.488l.001-.063a68.343 68.343 0 017.265-29.134 68.28 68.28 0 011.384-2.6 67.59 67.59 0 0110.102-13.687L429.966 21.113c25.592-27.611 68.721-29.247 96.331-3.656s29.247 68.721 3.656 96.331L224.088 443.784h730.46c37.647 0 68.166 30.519 68.166 68.166s-30.519 68.166-68.166 68.166H222.927z" />
@@ -23,18 +31,18 @@ include "./config/connect.php";
     </div>
 
     <!-- main content -->
-    <div id="main-content" class="pb-24 mt-20 full-cart">
+    <div id="main-content" class="pb-24 full-cart">
 
         <!-- tipe pesanan -->
-        <div class="px-5">
+        <div class="px-5 pt-20 pb-4 bg-primary-400">
 
-            <div class="flex items-center justify-between w-full h-10 px-5 rounded-full bg-primary-550 ">
-                <h3 class="text-xs font-semibold text-slate-50 sm:text-base">Tipe Pemesanan:</h3>
-                <div class="flex items-center space-x-4">
+            <div class="flex items-center justify-between w-full h-10 px-5 bg-white border-transparent rounded-full ">
+                <h3 class="text-xs font-semibold text-black sm:text-base">Tipe Pemesanan :</h3>
+                <div class="flex items-center space-x-2 sm:space-x-4">
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="option" value="ditempat" class="hidden peer">
                         <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
-                            <svg id="svgTempat" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            <svg id="svgTempat" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
                                 <g>
                                     <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
@@ -48,7 +56,7 @@ include "./config/connect.php";
                         <input type="radio" name="option" value="ambil" class="hidden peer">
                         <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
 
-                            <svg id="svgAway" class="hidden size-4 text-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            <svg id="svgAway" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 viewBox="0 0 35.979 35.979" xml:space="preserve">
                                 <g>
                                     <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
@@ -59,10 +67,10 @@ include "./config/connect.php";
                     </label>
                 </div>
             </div>
-            <p class="mt-3 ml-5 text-xs italic text-center text-black">*Silahkan pilih tipe pesanan anda</p>
+            <p class="mt-3 ml-5 text-xs italic text-center text-white">*Silahkan pilih tipe pesanan anda</p>
             <div id="boxMeja" class="justify-center hidden mt-3">
                 <div class="relative">
-                    <input id="inputMeja" type="text" class="peer py-2.5 sm:py-3 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja">
+                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="inputMeja" type="text" class="peer py-2.5 sm:py-3 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja" maxlength="2">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                         <svg class="text-gray-500 shrink-0 size-4" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 48 48" xml:space="preserve">
                             <g>
@@ -73,7 +81,39 @@ include "./config/connect.php";
                 </div>
             </div>
         </div>
-        <hr class="my-4 border-2">
+        <hr class="mb-4 border-2">
+
+        <!-- menu terkait -->
+        <div class="relative px-5">
+            <h3 class="text-base font-semibold text-black">Menu Terkait</h3>
+            <hr class="mt-2 border">
+            <div id="" class="flex h-full gap-2 py-4 overflow-x-auto select-none menu-container-card scroll-smooth snap-x snap-mandatory cursor-grab active:cursor-grabbing">
+
+                <?php
+                $mquery = mysqli_query($conn, "SELECT * FROM tb_menu GROUP BY id_kategori LIMIT 4");
+                while ($mrow = mysqli_fetch_assoc($mquery)) {
+                ?>
+                    <button type="button" class="card-detail flex user-select-none flex-none shadow-lg rounded-lg bg-white border h-24 w-60 min-w-[240px] snap-start items-center"
+                        data-id="<?php echo $mrow['id_menu'] ?>"
+                        data-nama="<?php echo $mrow['nama_menu'] ?>"
+                        data-img="<?php echo $mrow['gambar_menu'] ?>"
+                        data-harga="<?php echo $mrow['harga'] ?>"
+                        @click="modalDetail=true;
+                                selectId = $el.dataset.id;
+                                selectImg = $el.dataset.img;
+                                selectNama = $el.dataset.nama;
+                                selectHarga = $el.dataset.harga;">
+                        <img src="<?php echo $mrow['gambar_menu'] ?>" alt="gambar_menu" class="object-cover m-2 size-20 rounded-xl shrink-0">
+                        <div class="flex flex-col justify-between flex-1 gap-3 px-2">
+                            <p class="text-base font-semibold text-left"><?php echo $mrow["nama_menu"] ?></p>
+                            <p class="text-sm text-left text-gray-700"><?php echo formatRupiah($mrow["harga"]) ?></p>
+                        </div>
+                    </button>
+                <?php  } ?>
+            </div>
+        </div>
+
+        <hr class="mb-4 border-2">
 
         <!-- detail pesanan -->
         <div class="px-5">
@@ -154,12 +194,12 @@ include "./config/connect.php";
             <h3 class="text-xl font-semibold text-black txt-total"></h3>
         </div>
         <div class="">
-            <a href="" class="px-3 py-2 text-white rounded-lg bg-primary-550/85">Lanjut Pembayaran</a>
+            <a href="checkout" id="btn-checkout" class="px-3 py-2 text-white rounded-lg bg-primary-550/85">Lanjut Pembayaran</a>
         </div>
     </div>
 
     <!-- Backdrop modal -->
-    <div x-show="modalEdit || modalNote" x-cloak class="fixed inset-0 z-[998] bg-black/85  sm:inline-flex sm:mx-auto"
+    <div x-show="modalEdit || modalNote || modalDetail" x-cloak class="fixed inset-0 z-[998] bg-black/85  sm:inline-flex sm:mx-auto"
         x-transition.opacity>
     </div>
 
@@ -269,16 +309,102 @@ include "./config/connect.php";
             </div>
         </div>
     </div>
+
+    <!-- modal detail -->
+    <div x-show="modalDetail" x-cloak
+        class="fixed inset-0 flex items-center justify-center z-[999] overflow-hidden"
+        x-transition:enter="transform transition ease-out duration-300"
+        x-transition:enter-start="translate-y-full opacity-0"
+        x-transition:enter-end="translate-y-0 opacity-100"
+        x-transition:leave="transform transition ease-in duration-300"
+        x-transition:leave-start="translate-y-0 opacity-100"
+        x-transition:leave-end="translate-y-full opacity-0">
+        <div class="relative bg-white shadow-lg w-screen min-h-screen sm:w-[640px]">
+            <!-- Tombol Close (X) -->
+            <button id="btn-close-detail" @click="modalDetail = false;  selectId= null; selectImg = null; selectNama = null; selectHarga = null;" class="absolute text-gray-500 top-2 right-2 hover:text-gray-800 z-[99999]">
+                <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="1" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="currentColor" />
+                    <path d="M8.96967 8.96967C9.26256 8.67678 9.73744 8.67678 10.0303 8.96967L12 10.9394L13.9697 8.96969C14.2626 8.6768 14.7374 8.6768 15.0303 8.96969C15.3232 9.26258 15.3232 9.73746 15.0303 10.0304L13.0607 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0304 15.0303C9.73746 15.3232 9.26258 15.3232 8.96969 15.0303C8.6768 14.7374 8.6768 14.2626 8.96969 13.9697L10.9394 12L8.96967 10.0303C8.67678 9.73744 8.67678 9.26256 8.96967 8.96967Z" fill="#000000" />
+                </svg>
+            </button>
+            <div class="">
+                <!-- header modal -->
+                <div class="flex items-center">
+                    <img id="modal-img-detail" :src="selectImg" class="object-cover w-full sm:h-[484px] h-80 min-h-80" alt="menu_img">
+                </div>
+
+                <div id="konten-modal-detail" class="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl">
+                    <!-- Konten Modal -->
+                    <div id="" class="w-full py-4 divide-y-4 divide-gray-200 ">
+                        <div class="mb-2 px-7">
+                            <h1 id="nama-menu-detail" class="mb-1 text-2xl text-black" x-text="selectNama"></h1>
+                            <h3 id="harga-menu-detail" class="text-lg font-semibold text-black" x-text="formatRupiah(selectHarga)"></h3>
+                        </div>
+                        <div class="mb-2 px-7">
+                            <label for="catatan-menu-detail" class="block mt-4 mb-2 text-lg font-semibold sm:text-xl">Catatan :</label>
+                            <textarea name="catatan" id="catatan-menu-detail" class="block w-full px-4 py-2 text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Opsional..." data-hs-textarea-auto-height='{"defaultHeight": 72}'></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- footer modal -->
+                    <div class="flex flex-col justify-end h-full gap-3 px-4 pt-3 pb-8 bg-slate-100 rounded-t-3xl">
+                        <div class="flex justify-between">
+                            <p class="">Jumlah Pesanan : </p>
+                            <div class="flex gap-4">
+                                <button id="min-qty-detail" type="button" class="inline-flex items-center justify-center">
+                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-516.000000, -1087.000000)" fill="#000000">
+                                                <path d="M532,1117 C524.268,1117 518,1110.73 518,1103 C518,1095.27 524.268,1089 532,1089 C539.732,1089 546,1095.27 546,1103 C546,1110.73 539.732,1117 532,1117 L532,1117 Z M532,1087 C523.163,1087 516,1094.16 516,1103 C516,1111.84 523.163,1119 532,1119 C540.837,1119 548,1111.84 548,1103 C548,1094.16 540.837,1087 532,1087 L532,1087 Z M538,1102 L526,1102 C525.447,1102 525,1102.45 525,1103 C525,1103.55 525.447,1104 526,1104 L538,1104 C538.553,1104 539,1103.55 539,1103 C539,1102.45 538.553,1102 538,1102 L538,1102 Z" id="minus-circle" sketch:type="MSShapeGroup">
+
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <p id="modal-qty-detail" class="inline-flex items-center justify-center w-12"></p>
+                                <button id="plus-qty-detail" type="button" class="inline-flex items-center justify-center">
+                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#000000">
+                                                <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup">
+
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full ">
+                            <button id="btn-tambah-detail" type="button" class="inline-flex items-center justify-center w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-500 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Tambah Pesanan <span id="total-harga-detail" class="text-white"></span></button>
+                            <button @click="modalDetail = false;  selectId= null; selectImg = null; selectNama = null; selectHarga = null;" id="btn-batal" type="button" class="items-center justify-center hidden w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-300 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Kembali Ke Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- JS -->
 <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const emptyCart = document.getElementById("empty-cart");
-
+    const btnClose = document.getElementById("btn-close");
+    const btnNoteClose = document.getElementById("btn-note-close");
     const fullCart = document.getElementsByClassName("full-cart");
+    const modalAddNote = document.getElementById("add-note");
+
+    const btnCheckout = document.getElementById("btn-checkout");
 
     let dataDB = [];
+
+    // ====================================================================
 
     if (cart.length === 0 || !cart.some(item => item.id_menu)) {
         window.location.href = "home";
@@ -298,7 +424,6 @@ include "./config/connect.php";
             })
             .catch(error => console.error("Gagal mengambil data menu:", error));
     }
-
 
     function renderCart(menuData) {
 
@@ -404,6 +529,112 @@ include "./config/connect.php";
 
     }
 
+    function checkRadioOption(event) {
+        const radioButtons = document.querySelectorAll('input[name="option"]');
+        const radio = document.querySelector('input[name="option"]:checked');
+        let isChecked = false;
+
+        radioButtons.forEach(radio => {
+            if (radio.checked) {
+                isChecked = true;
+            }
+        });
+
+        if (!isChecked) {
+            event.preventDefault();
+            alert("Silakan pilih salah satu opsi: Makan ditempat atau Take away.");
+            return false;
+        } else {
+            if (radio.value === "ditempat") {
+                const inputMeja = document.getElementById("inputMeja");
+                let data = inputMeja.value;
+                if (data == "") {
+                    event.preventDefault();
+                    alert("Silakan isi nomor meja terlebih dahulu.");
+                    inputMeja.focus();
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function updateCheckoutQty() {
+
+        let cartQty = document.getElementById("cartQty");
+        let totalMenu = document.getElementById("total-menu");
+        let txtTotal = document.getElementsByClassName("txt-total");
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let dataDBS = dataDB;
+
+        let totalHarga = 0;
+
+        const validCart = cart.filter(item => item.id_menu);
+        validCart.forEach(item => {
+            let menu = dataDBS.find(m => m.id_menu == item.id_menu);
+            if (menu) {
+                let subTotal = menu.harga * item.qty;
+                totalHarga += subTotal;
+            }
+        });
+
+        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
+        let qtyMenu = validCart.length;
+
+        cartQty.textContent = totalQty;
+        totalMenu.textContent = qtyMenu;
+        txtTotal[0].textContent = formatRupiah(totalHarga);
+        txtTotal[1].textContent = formatRupiah(totalHarga);
+        txtTotal[2].textContent = formatRupiah(totalHarga);
+
+    }
+
+    function formatRupiah(angka) {
+        let formatted = new Intl.NumberFormat('id-ID').format(angka);
+        return `Rp. ${formatted},-`;
+    }
+
+
+    // ===========================================================================
+
+    const slider = document.querySelector('.menu-container-card');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('dragging');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+
+        // Cegah seleksi teks saat drag
+        e.preventDefault();
+    });
+
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('dragging');
+    });
+
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('dragging');
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5; // kecepatan scroll
+        slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // ===========================================================================
+
+
     document.addEventListener("click", function(event) {
         let button = event.target.closest("button");
         if (!button) return;
@@ -442,7 +673,7 @@ include "./config/connect.php";
             const tidakAdaIdMenu = !cart.some(item => item.hasOwnProperty("id_menu"));
 
             if (tidakAdaIdMenu) {
-                cart = cart.filter(item => !item.hasOwnProperty("addnote"));
+                cart = [];
                 localStorage.setItem("cart", JSON.stringify(cart));
 
                 emptyCart.classList.remove("hidden");
@@ -529,9 +760,9 @@ include "./config/connect.php";
                     boxMeja.classList.remove("hidden");
                     boxMeja.classList.add("flex");
                     spanTempat.classList.remove("text-gray-700");
-                    spanTempat.classList.add("text-slate-50");
+                    spanTempat.classList.add("text-primary-400");
                     spanAway.classList.add("text-gray-700");
-                    spanAway.classList.remove("text-slate-50");
+                    spanAway.classList.remove("text-primary-400");
                     inputMeja.focus();
                 } else {
                     svgTempat.classList.add("hidden");
@@ -541,9 +772,9 @@ include "./config/connect.php";
                     boxMeja.classList.remove("flex");
                     boxMeja.classList.add("hidden");
                     spanTempat.classList.add("text-gray-700");
-                    spanTempat.classList.remove("text-slate-50");
+                    spanTempat.classList.remove("text-primary-400");
                     spanAway.classList.remove("text-gray-700");
-                    spanAway.classList.add("text-slate-50");
+                    spanAway.classList.add("text-primary-400");
                 }
             });
         });
@@ -562,13 +793,9 @@ include "./config/connect.php";
 
     });
 
-    const btnClose = document.getElementById("btn-close");
-    const btnNoteClose = document.getElementById("btn-note-close");
-
     btnClose.addEventListener("click", function() {
         document.getElementById("hs-autoheight-textarea").value = "";
     });
-
 
     btnNoteClose.addEventListener("click", function() {
         let modalNoteAdd = document.getElementById("hs-autoheight-textarea-note");
@@ -579,9 +806,6 @@ include "./config/connect.php";
 
         noteLain.textContent = note;
     });
-
-
-    const modalAddNote = document.getElementById("add-note");
 
     modalAddNote.addEventListener("click", function() {
         const btnTbhNote = document.getElementById("btn-tambah-note");
@@ -634,49 +858,136 @@ include "./config/connect.php";
 
     });
 
+    btnCheckout.addEventListener("click", function(e) {
+        checkRadioOption(e);
 
-    function updateCheckoutQty() {
-
-        let cartQty = document.getElementById("cartQty");
-        let totalMenu = document.getElementById("total-menu");
-        let txtTotal = document.getElementsByClassName("txt-total");
+        const radioDitempat = document.querySelector('input[name="option"][value="ditempat"]');
+        const inputMeja = document.getElementById("inputMeja");
+        const radio = document.querySelector('input[name="option"]:checked');
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let dataDBS = dataDB;
 
-        let totalHarga = 0;
+        if (radio) {
+            const value = radio.value;
 
-        const validCart = cart.filter(item => item.id_menu);
-        validCart.forEach(item => {
-            let menu = dataDBS.find(m => m.id_menu == item.id_menu);
-            if (menu) {
-                let subTotal = menu.harga * item.qty;
-                totalHarga += subTotal;
+            cart = cart.filter(item => !item.hasOwnProperty("tipe"));
+
+            if (value === "ditempat") {
+                const nomorMeja = inputMeja.value;
+                cart.push({
+                    tipe: "ditempat",
+                    nomor_meja: nomorMeja
+                });
+
+            } else if (value === "ambil") {
+                cart.push({
+                    tipe: "ambil"
+                });
             }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cardsDetail = document.querySelectorAll('.card-detail');
+
+        cardsDetail.forEach(card => {
+            card.addEventListener('click', function() {
+                const idMenu = this.getAttribute('data-id');
+                const hargaMenu = this.getAttribute('data-harga');
+
+                const imgDetail = document.getElementById('modal-img-detail');
+                const namaDetail = document.getElementById('nama-menu-detail');
+                const hargaDetail = document.getElementById('harga-menu-detail');
+                const cD = document.getElementById('catatan-menu-detail');
+
+
+                const qtyDetail = document.getElementById('modal-qty-detail');
+                const totalHargaDetail = document.getElementById('total-harga-detail');
+
+                const minQtyDetail = document.getElementById('min-qty-detail');
+                const plusQtyDetail = document.getElementById('plus-qty-detail');
+
+                const btnTambahDetail = document.getElementById('btn-tambah-detail');
+
+                const btnBatal = document.getElementById('btn-batal');
+                const btnCloseDetail = document.getElementById('btn-close-detail');
+
+                let dQty = 1;
+
+                qtyDetail.textContent = dQty;
+
+                totalHargaDetail.textContent = formatRupiah(hargaMenu * dQty);
+
+                plusQtyDetail.addEventListener('click', function() {
+
+                    if (dQty === 0) {
+                        btnBatal.classList.add("hidden");
+                        btnBatal.classList.remove("flex");
+
+                        btnTambahDetail.classList.add("inline-flex");
+                        btnTambahDetail.classList.remove("hidden");
+                    }
+
+                    dQty += 1;
+                    qtyDetail.textContent = dQty;
+
+                    totalHargaDetail.textContent = formatRupiah(hargaMenu * dQty);
+
+                });
+
+                minQtyDetail.addEventListener('click', function() {
+
+                    if (dQty > 0) {
+                        dQty -= 1;
+                        qtyDetail.textContent = dQty;
+                    }
+
+                    if (dQty === 0) {
+                        btnBatal.classList.remove("hidden");
+                        btnBatal.classList.add("flex");
+
+                        btnTambahDetail.classList.remove("inline-flex");
+                        btnTambahDetail.classList.add("hidden");
+                    }
+                    totalHargaDetail.textContent = formatRupiah(hargaMenu * dQty);
+                });
+
+                btnCloseDetail.addEventListener('click', function() {
+                    catatanDetail.value = "";
+                });
+
+                btnTambahDetail.addEventListener('click', function() {
+
+                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                    const itemDitemukan = cart.find(item => item.id_menu === idMenu);
+                    const catatanDetail = cD.value;
+
+                    if (itemDitemukan) {
+
+                        itemDitemukan.qty += dQty;
+
+                        if (itemDitemukan.note) {
+                            itemDitemukan.note += " | " + catatanDetail;
+                        } else {
+                            itemDitemukan.note = catatanDetail;
+                        }
+                    } else {
+                        cart.push({
+                            id_menu: idMenu,
+                            qty: dQty,
+                            note: catatanDetail,
+                        });
+                    }
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    window.location.href = window.location.href;
+                });
+
+            });
         });
-
-        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
-        let qtyMenu = validCart.length;
-
-        cartQty.textContent = totalQty;
-        totalMenu.textContent = qtyMenu;
-        txtTotal[0].textContent = formatRupiah(totalHarga);
-        txtTotal[1].textContent = formatRupiah(totalHarga);
-        txtTotal[2].textContent = formatRupiah(totalHarga);
-
-    }
-
-    function formatRupiah(angka) {
-        let formatted = new Intl.NumberFormat('id-ID').format(angka);
-        return `Rp. ${formatted},-`;
-    }
-
-    // function cekInput() {
-    //     let input = document.getElementById("myInput");
-    //     if (!input.value) {
-    //         alert("Input wajib diisi!");
-    //     } else {
-    //         alert("Input valid!");
-    //     }
-    // }
+    });
 </script>
