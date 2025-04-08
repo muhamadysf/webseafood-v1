@@ -928,6 +928,10 @@ select {
   z-index: 999;
 }
 
+.z-\[999999\] {
+  z-index: 999999;
+}
+
 .m-2 {
   margin: 0.5rem;
 }
@@ -2196,6 +2200,11 @@ select {
   background-color: rgb(254 240 138 / 0.55);
 }
 
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -2385,6 +2394,10 @@ select {
 
 .pt-3 {
   padding-top: 0.75rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .text-left {
@@ -2886,6 +2899,16 @@ select {
   background-color: rgb(253 224 71 / 0.85);
 }
 
+.hover\:bg-gray-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-primary-550:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 13 11 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:font-semibold:hover {
   font-weight: 600;
 }
@@ -3224,6 +3247,10 @@ select {
 
   .sm\:max-w-lg {
     max-width: 32rem;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
   }
 
   .sm\:gap-5 {

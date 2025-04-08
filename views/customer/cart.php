@@ -861,7 +861,7 @@ function formatRupiah($angka)
     btnCheckout.addEventListener("click", function(e) {
         checkRadioOption(e);
 
-        const radioDitempat = document.querySelector('input[name="option"][value="ditempat"]');
+        // const radioDitempat = document.querySelector('input[name="option"][value="ditempat"]');
         const inputMeja = document.getElementById("inputMeja");
         const radio = document.querySelector('input[name="option"]:checked');
 

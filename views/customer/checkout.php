@@ -40,7 +40,7 @@ include "./config/connect.php"
         <hr class="mb-4 border-2">
 
         <!-- metode bayar -->
-        <div class="w-full px-5">
+        <div class="w-full px-5 pb-3">
             <h3 class="text-base font-semibold">Metode Pembayaran</h3>
             <div class="flex items-center justify-center gap-6 my-3">
                 <div id="card-qris" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
@@ -64,27 +64,23 @@ include "./config/connect.php"
 
         <!-- informasi pembayaran -->
         <div class="flex flex-col px-5 mt-5">
-            <div class="">
+            <div class="pb-3">
                 <h3 class="font-semibold sm:text-base">Informasi Pembeli</h3>
                 <p class="text-[10px] sm:text-sm italic">*Data digunakan untuk proses pemesanan agar tidak tertukar.</p>
             </div>
             <div class="self-center w-full max-w-sm mt-2 space-y-1 sm:space-y-3">
-
-
                 <div class="relative">
-                    <input type="text" class="peer py-2.5 sm:py-3 border-2 border-gray-200 px-4 ps-11 block w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nama Lengkap / Panggilan">
+                    <input id="nama" type="text" class="peer input-check py-2.5 sm:py-3 border-2 border-gray-200 px-4 ps-11 block w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nama Lengkap / Panggilan">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                         <svg class="text-gray-500 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-
-
                     </div>
                 </div>
 
                 <div class="relative">
-                    <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="peer py-2.5 sm:py-3 px-4 ps-11 block border-2 border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nomor Telepon/WA">
+                    <input id="telepon" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="peer py-2.5 sm:py-3 px-4 ps-11 block border-2 input-check border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Nomor Telepon/WA">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
 
                         <svg class="text-gray-500 shrink-0 size-4" width="24" height="24" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -103,7 +99,7 @@ include "./config/connect.php"
                 </div>
 
                 <div class="relative">
-                    <input type="text" class="peer py-2.5 sm:py-3 px-4 ps-11 block border-2 border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Email">
+                    <input id="email" type="email" class="peer input-check py-2.5 sm:py-3 px-4 ps-11 block border-2 border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Email">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                         <svg class="text-gray-500 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
@@ -148,7 +144,7 @@ include "./config/connect.php"
                 </button>
                 <h1 id="h1-total-bayar" class="text-xl font-semibold text-black"></h1>
             </div>
-            <a href="qrcode" class="px-4 py-2 text-white rounded-lg bg-primary-500">
+            <a id="btn-pesanan" href="qrcode" class="px-4 py-2 text-white rounded-lg bg-primary-500">
                 Buat Pesanan
             </a>
         </div>
@@ -157,6 +153,25 @@ include "./config/connect.php"
 
 </div>
 <script>
+    const cart = getCart();
+    if (cart.length === 0 || !cart.some(item => item.id_menu)) {
+        window.location.href = "home";
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        history.replaceState(null, "", "/webseafood/");
+    });
+
+    window.addEventListener("pageshow", function(event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            // Halaman dibuka ulang dari cache, redirect ke home
+            window.location.href = "/webseafood/"; // ganti '/' sesuai kebutuhanmu
+        }
+    });
+
+    // =============================================================
     const toggleBtn = document.getElementById('toggleCollapse');
     const collapse = document.getElementById('collapseContent');
     const arrowIcon = document.getElementById('arrowIcon');
@@ -196,7 +211,6 @@ include "./config/connect.php"
 
     function calcHarga(menuData) {
 
-
         const cart = getCart();
         const validCart = cart.filter(item => item.id_menu);
         let totalHarga = 0;
@@ -221,6 +235,42 @@ include "./config/connect.php"
         totalBayar.textContent = formatRupiah(totalHarga);
     }
 
+    function checkRadioOption(event) {
+        const radioButtons = document.querySelectorAll('input[name="option"]');
+        // const radio = document.querySelector('input[name="option"]:checked');
+        let isChecked = false;
+
+        radioButtons.forEach(radio => {
+            if (radio.checked) {
+                isChecked = true;
+            }
+        });
+
+        if (!isChecked) {
+            event.preventDefault();
+            alert("Silakan pilih salah satu opsi: Qris atau Cash.");
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkInput(event) {
+
+        const inputs = document.querySelectorAll(".input-check");
+        let isValid = true;
+
+        inputs.forEach(input => {
+            if (input.value.trim() === "") {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            event.preventDefault();
+            alert("Semua input wajib diisi!");
+        }
+    }
 
     // ===============================================================
 
@@ -259,9 +309,6 @@ include "./config/connect.php"
 
         // =============================================================================
 
-
-
-
         if (cart.length > 0) {
             const idMenus = cart.map(item => item.id_menu).join(',');
 
@@ -273,6 +320,49 @@ include "./config/connect.php"
                 })
                 .catch(error => console.log("Gagal mengambil data menu: ", error));
         }
+
+        // =============================================================================
+
+        const btnPesanan = document.getElementById("btn-pesanan");
+
+        btnPesanan.addEventListener("click", function(e) {
+            checkRadioOption(e);
+            checkInput(e);
+
+            const nama = document.getElementById("nama").value;
+            const telepon = document.getElementById("telepon").value;
+            const email = document.getElementById("email").value;
+
+            const radio = document.querySelector('input[name="option"]:checked');
+
+            let cart = getCart();
+
+            if (radio) {
+                const value = radio.value;
+
+                const keysToExclude = ["metode_bayar", "nama", "telepon", "email"];
+                cart = cart.filter(item =>
+                    !keysToExclude.some(key => item.hasOwnProperty(key))
+                );
+
+                if (value === "cash") {
+                    cart.push({
+                        nama: nama,
+                        telepon: telepon,
+                        email: email,
+                        metode_bayar: "cash"
+                    });
+                } else if (value === "kris") {
+                    cart.push({
+                        nama: nama,
+                        telepon: telepon,
+                        email: email,
+                        metode_bayar: "kris"
+                    });
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+        });
 
     });
 </script>
