@@ -393,7 +393,12 @@ function formatRupiah($angka)
 
 <!-- JS -->
 <script>
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || {
+        pemesanan: [],
+        info: {},
+        pelanggan: {},
+        catatan: ""
+    };
     const emptyCart = document.getElementById("empty-cart");
     const btnClose = document.getElementById("btn-close");
     const btnNoteClose = document.getElementById("btn-note-close");
@@ -406,13 +411,13 @@ function formatRupiah($angka)
 
     // ====================================================================
 
-    if (cart.length === 0 || !cart.some(item => item.id_menu)) {
+    if (cart.pemesanan.length === 0 || !cart.pemesanan.some(item => item.id_menu)) {
         window.location.href = "home";
     }
 
-    if (cart.length > 0) {
+    if (cart.pemesanan.length > 0) {
 
-        const idMenus = cart.map(item => item.id_menu).join(',');
+        const idMenus = cart.pemesanan.map(item => item.id_menu).join(',');
 
         fetch(`/webseafood/proses/get_menu_cart.php?ids=${idMenus}`)
             .then(response => response.json())
@@ -435,9 +440,9 @@ function formatRupiah($angka)
         }
         cartContainer.innerHTML = "";
 
-        const validCart = cart.filter(item => item.id_menu);
+        // const validCart = cart.pemesanan.filter(item => item.id_menu);
 
-        validCart.forEach(item => {
+        cart.pemesanan.forEach(item => {
             const menu = menuData.find(m => m.id_menu == item.id_menu);
 
             if (!menu) {
@@ -512,10 +517,15 @@ function formatRupiah($angka)
 
     function updateHarga() {
         const menuData = dataDB;
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
 
-        const validCart = cart.filter(item => item.id_menu);
-        validCart.forEach(item => {
+        // const validCart = cart.filter(item => item.id_menu);
+        cart.pemesanan.forEach(item => {
             const menu = menuData.find(m => m.id_menu == item.id_menu);
 
             if (!menu) {
@@ -566,13 +576,18 @@ function formatRupiah($angka)
         let totalMenu = document.getElementById("total-menu");
         let txtTotal = document.getElementsByClassName("txt-total");
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
         let dataDBS = dataDB;
 
         let totalHarga = 0;
 
-        const validCart = cart.filter(item => item.id_menu);
-        validCart.forEach(item => {
+        // const validCart = cart.filter(item => item.id_menu);
+        cart.pemesanan.forEach(item => {
             let menu = dataDBS.find(m => m.id_menu == item.id_menu);
             if (menu) {
                 let subTotal = menu.harga * item.qty;
@@ -580,8 +595,8 @@ function formatRupiah($angka)
             }
         });
 
-        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
-        let qtyMenu = validCart.length;
+        let totalQty = cart.pemesanan.reduce((sum, item) => sum + item.qty, 0);
+        let qtyMenu = cart.pemesanan.length;
 
         cartQty.textContent = totalQty;
         totalMenu.textContent = qtyMenu;
@@ -647,21 +662,27 @@ function formatRupiah($angka)
             let textQty = card.querySelector(".qty-item");
             let textHarga = card.querySelector(".txt-harga");
 
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cart = JSON.parse(localStorage.getItem("cart")) || {
+                pemesanan: [],
+                info: {},
+                pelanggan: {},
+                catatan: ""
+            };
 
 
-            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+            let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === idMenu);
             let menu = dataDB.find(m => m.id_menu == idMenu);
 
             if (itemIndex !== -1) {
-                cart[itemIndex].qty -= 1;
+                cart.pemesanan[itemIndex].qty -= 1;
 
-                if (cart[itemIndex].qty <= 0) {
-                    cart.splice(itemIndex, 1);
+                if (cart.pemesanan[itemIndex].qty <= 0) {
+                    cart.pemesanan.splice(itemIndex, 1);
+                    cart.catatan = "";
                     card.remove();
                 } else {
-                    textQty.textContent = cart[itemIndex].qty;
-                    textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart[itemIndex].qty);
+                    textQty.textContent = cart.pemesanan[itemIndex].qty;
+                    textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart.pemesanan[itemIndex].qty);
                 }
 
                 localStorage.setItem("cart", JSON.stringify(cart));
@@ -670,10 +691,10 @@ function formatRupiah($angka)
 
             updateCheckoutQty();
 
-            const tidakAdaIdMenu = !cart.some(item => item.hasOwnProperty("id_menu"));
+            const tidakAdaIdMenu = !cart.pemesanan.some(item => item.hasOwnProperty("id_menu"));
 
             if (tidakAdaIdMenu) {
-                cart = [];
+                cart.pemesanan = [];
                 localStorage.setItem("cart", JSON.stringify(cart));
 
                 emptyCart.classList.remove("hidden");
@@ -692,15 +713,20 @@ function formatRupiah($angka)
             let textQty = card.querySelector(".qty-item");
             let textHarga = card.querySelector(".txt-harga");
 
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+            let cart = JSON.parse(localStorage.getItem("cart")) || {
+                pemesanan: [],
+                info: {},
+                pelanggan: {},
+                catatan: ""
+            };
+            let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === idMenu);
             let menu = dataDB.find(m => m.id_menu == idMenu);
 
             if (itemIndex !== -1) {
-                cart[itemIndex].qty += 1;
-                textQty.textContent = cart[itemIndex].qty;
+                cart.pemesanan[itemIndex].qty += 1;
+                textQty.textContent = cart.pemesanan[itemIndex].qty;
                 localStorage.setItem("cart", JSON.stringify(cart));
-                textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart[itemIndex].qty);
+                textHarga.textContent = formatRupiah((menu.harga.toLocaleString()) * cart.pemesanan[itemIndex].qty);
             }
 
             updateCheckoutQty();
@@ -712,8 +738,13 @@ function formatRupiah($angka)
 
             let idMenu = card.getAttribute("data-id");
 
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let itemIndex = cart.findIndex(item => item.id_menu === idMenu);
+            let cart = JSON.parse(localStorage.getItem("cart")) || {
+                pemesanan: [],
+                info: {},
+                pelanggan: {},
+                catatan: ""
+            };
+            let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === idMenu);
 
             let menu = dataDB.find(m => m.id_menu == idMenu);
 
@@ -731,10 +762,10 @@ function formatRupiah($angka)
             if (itemIndex !== -1) {
                 modalImg.src = "/webseafood/" + menu.gambar_menu;
                 modalNama.textContent = menu.nama_menu;
-                modalNote.value = cart[itemIndex].note;
-                modalQty.textContent = cart[itemIndex].qty;
+                modalNote.value = cart.pemesanan[itemIndex].note;
+                modalQty.textContent = cart.pemesanan[itemIndex].qty;
                 modalHarga.textContent = formatRupiah(menu.harga);
-                modalTotalEdit.textContent = formatRupiah(menu.harga * cart[itemIndex].qty);
+                modalTotalEdit.textContent = formatRupiah(menu.harga * cart.pemesanan[itemIndex].qty);
             }
         }
     });
@@ -779,12 +810,16 @@ function formatRupiah($angka)
             });
         });
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
 
-        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "";
+        const note = cart.catatan || "";
 
-        const tidakAdaNote = !cart.some(item => item.hasOwnProperty("addnote"));
-        if (tidakAdaNote) {
+        if (cart.catatan === "") {
             noteLain.textContent = "Tambah catatan lainnya...";
         } else {
             noteLain.textContent = note;
@@ -801,8 +836,13 @@ function formatRupiah($angka)
         let modalNoteAdd = document.getElementById("hs-autoheight-textarea-note");
 
         const noteLain = document.getElementById("note-lain");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "Tambah catatan lainnya...";
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
+        const note = cart.catatan || "Tambah catatan lainnya...";
 
         noteLain.textContent = note;
     });
@@ -811,13 +851,17 @@ function formatRupiah($angka)
         const btnTbhNote = document.getElementById("btn-tambah-note");
         const btnNoteLain = document.getElementById("note-lain");
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const adaAddnote = cart.some(item => item.hasOwnProperty("addnote"));
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
+        // const adaAddnote = cart.some(item => item.hasOwnProperty("catatan"));
 
-        const note = cart.find(item => item.hasOwnProperty("addnote"))?.addnote || "";
+        const note = cart.catatan || "";
 
-        if (adaAddnote) {
-
+        if (cart.catatan !== "") {
             btnTbhNote.textContent = "Perbarui Catatan";
         } else {
             btnTbhNote.textContent = "Tambahkan Catatan";
@@ -830,23 +874,10 @@ function formatRupiah($angka)
             let spanNoteLain = document.getElementById("note-lain");
 
 
-            const indexNote = cart.findIndex(item => item.hasOwnProperty("addnote"));
             if (modalNoteAdd === "") {
-
-                if (indexNote !== -1) {
-                    cart.splice(indexNote, 1);
-                }
+                cart.catatan = "";
             } else {
-
-                if (indexNote !== -1) {
-
-                    cart[indexNote].addnote = modalNoteAdd;
-                } else {
-
-                    cart.push({
-                        addnote: modalNoteAdd
-                    });
-                }
+                cart.catatan = modalNoteAdd;
             }
 
 
@@ -865,7 +896,12 @@ function formatRupiah($angka)
         const inputMeja = document.getElementById("inputMeja");
         const radio = document.querySelector('input[name="option"]:checked');
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
 
         if (radio) {
             const value = radio.value;
@@ -874,15 +910,16 @@ function formatRupiah($angka)
 
             if (value === "ditempat") {
                 const nomorMeja = inputMeja.value;
-                cart.push({
+
+                cart.info = {
                     tipe: "ditempat",
                     nomor_meja: nomorMeja
-                });
+                };
 
             } else if (value === "ambil") {
-                cart.push({
+                cart.info = {
                     tipe: "ambil"
-                });
+                };
             }
 
             localStorage.setItem("cart", JSON.stringify(cart));
@@ -961,9 +998,14 @@ function formatRupiah($angka)
 
                 btnTambahDetail.addEventListener('click', function() {
 
-                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    let cart = JSON.parse(localStorage.getItem("cart")) || {
+                        pemesanan: [],
+                        info: {},
+                        pelanggan: {},
+                        catatan: ""
+                    };
 
-                    const itemDitemukan = cart.find(item => item.id_menu === idMenu);
+                    const itemDitemukan = cart.pemesanan.find(item => item.id_menu === idMenu);
                     const catatanDetail = cD.value;
 
                     if (itemDitemukan) {

@@ -10,7 +10,20 @@ while ($record = mysqli_fetch_array($kquery)) {
 ?>
 
 
-<div x-data="{ modalKategori:false, modal: false, selectedId: null, selectNama: null, selectHarga: null, selectImg: null, keranjang:false, cart: JSON.parse(localStorage.getItem('cart')) || [] }" x-init="$store.keranjang = (JSON.parse(localStorage.getItem('cart')) || []).length > 0; keranjang = cart.length > 0" class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
+<div x-data='{
+  modalKategori: false,
+  modal: false,
+  selectedId: null,
+  selectNama: null,
+  selectHarga: null,
+  selectImg: null,
+  keranjang: false,
+  cart: JSON.parse(localStorage.getItem("cart") || "{\"pemesanan\": [], \"info\": {}, \"pelanggan\": {}, \"catatan\": \"\"}")
+}' x-init='
+  cart = JSON.parse(localStorage.getItem("cart") || "{\"pemesanan\": [], \"info\": {}, \"pelanggan\": {}, \"catatan\": \"\"}");
+  $store.keranjang = cart.pemesanan.length > 0;
+  keranjang = cart.pemesanan.length > 0;
+' class="w-screen min-h-screen sm:w-[640px] relative overflow-y-scroll scrollbar-hide border border-t-0 border-gray-300 bg-white">
 
     <?php include './partials/customer/header.php' ?>
 
@@ -371,48 +384,7 @@ while ($record = mysqli_fetch_array($kquery)) {
             });
         });
 
-        // let isDragging = false;
-        // let startX;
-        // let scrollLeft;
-        // let lastMove;
-        // let velocity = 0;
-        // let raf;
-        // let offsetX = 0;
 
-        // scrollContainer.addEventListener("mousedown", (e) => {
-        //     isDragging = true;
-        //     startX = e.pageX;
-        //     scrollLeft = scrollContainer.scrollLeft;
-        //     lastMove = scrollLeft;
-        //     offsetX = 0;
-        //     cancelAnimationFrame(raf);
-        // });
-
-        // window.addEventListener("mousemove", (e) => {
-        //     if (!isDragging) return;
-        //     e.preventDefault();
-
-        //     let moveX = e.pageX - startX;
-        //     offsetX = moveX;
-        //     scrollContainer.style.transform = `translateX(${moveX}px)`;
-
-        //     velocity = moveX - lastMove;
-        //     lastMove = moveX;
-        // });
-
-        // window.addEventListener("mouseup", () => {
-        //     if (!isDragging) return;
-        //     isDragging = false;
-
-        //     // Efek Kembali ke Posisi Navbar
-        //     scrollContainer.style.transition = "transform 0.3s ease-out";
-        //     scrollContainer.style.transform = "translateX(0)";
-
-        //     // Reset setelah animasi selesai
-        //     setTimeout(() => {
-        //         scrollContainer.style.transition = "none";
-        //     }, 300);
-        // });
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -440,7 +412,12 @@ while ($record = mysqli_fetch_array($kquery)) {
     }
 
     document.addEventListener('alpine:init', () => {
-        Alpine.store('keranjang', (JSON.parse(localStorage.getItem('cart')) || []).length > 0);
+        Alpine.store('keranjang', (JSON.parse(localStorage.getItem('cart')) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        }).length > 0);
     });
 
     document.addEventListener("DOMContentLoaded", fetchCartData);
@@ -448,8 +425,13 @@ while ($record = mysqli_fetch_array($kquery)) {
 
     document.addEventListener("DOMContentLoaded", function() {
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const validCart = cart.filter(item => item.id_menu);
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
+        // const validCart = cart.filter(item => item.id_menu);
         let modalcart = null;
 
         document.querySelectorAll(".btn-group").forEach(function(group) {
@@ -461,7 +443,7 @@ while ($record = mysqli_fetch_array($kquery)) {
 
 
             // Cek apakah produk ada di localStorage
-            let item = validCart.find(item => item.id_menu === menuId);
+            let item = cart.pemesanan.find(item => item.id_menu === menuId);
             if (item) {
                 quantityDisplay.textContent = item.qty;
                 addButton.classList.add("hidden");
@@ -475,7 +457,7 @@ while ($record = mysqli_fetch_array($kquery)) {
 
             // Saat tombol "Tambah" ditekan
             addButton.addEventListener("click", function() {
-                cart.push({
+                cart.pemesanan.push({
                     id_menu: menuId,
                     qty: 1,
                     note: ""
@@ -486,18 +468,18 @@ while ($record = mysqli_fetch_array($kquery)) {
                 group.classList.remove("hidden");
                 group.classList.add("flex");
 
-                Alpine.store('keranjang', cart.length > 0);
+                Alpine.store('keranjang', cart.pemesanan && cart.pemesanan.length > 0);
                 fetchCartData();
                 updateCheckoutQty();
             });
 
             // Saat tombol "+" ditekan
             incrementBtn.addEventListener("click", function() {
-                let itemIndex = cart.findIndex(item => item.id_menu === menuId);
+                let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === menuId);
                 if (itemIndex !== -1) {
-                    cart[itemIndex].qty += 1;
+                    cart.pemesanan[itemIndex].qty += 1;
                     localStorage.setItem("cart", JSON.stringify(cart));
-                    quantityDisplay.textContent = cart[itemIndex].qty;
+                    quantityDisplay.textContent = cart.pemesanan[itemIndex].qty;
                 }
                 fetchCartData();
                 updateCheckoutQty();
@@ -505,27 +487,27 @@ while ($record = mysqli_fetch_array($kquery)) {
 
             // Saat tombol "-" ditekan
             decrementBtn.addEventListener("click", function() {
-                let itemIndex = cart.findIndex(item => item.id_menu === menuId);
+                let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === menuId);
                 if (itemIndex !== -1) {
-                    cart[itemIndex].qty -= 1;
-                    if (cart[itemIndex].qty <= 0) {
-                        cart.splice(itemIndex, 1); // Hapus produk dari localStorage jika qty 0
+                    cart.pemesanan[itemIndex].qty -= 1;
+                    if (cart.pemesanan[itemIndex].qty <= 0) {
+                        cart.pemesanan.splice(itemIndex, 1); // Hapus produk dari localStorage jika qty 0
                         localStorage.setItem("cart", JSON.stringify(cart));
                         quantityDisplay.textContent = 0;
                         group.classList.add("hidden");
                         addButton.classList.remove("hidden");
 
-                        const tidakAdaIdMenu = !cart.some(item => item.hasOwnProperty("id_menu"));
+                        // const tidakAdaIdMenu = !cart.pemesanan.some(item => item.hasOwnProperty("id_menu"));
 
-                        if (tidakAdaIdMenu) {
-                            cart = cart.filter(item => !item.hasOwnProperty("addnote"));
-                            localStorage.setItem("cart", JSON.stringify(cart));
-                        }
+                        // if (tidakAdaIdMenu) {
+                        //     cart = cart.filter(item => !item.hasOwnProperty("addnote"));
+                        //     localStorage.setItem("cart", JSON.stringify(cart));
+                        // }
 
-                        Alpine.store('keranjang', cart.length > 0);
+                        Alpine.store('keranjang', cart.pemesanan && cart.pemesanan.length > 0);
                     } else {
                         localStorage.setItem("cart", JSON.stringify(cart));
-                        quantityDisplay.textContent = cart[itemIndex].qty;
+                        quantityDisplay.textContent = cart.pemesanan[itemIndex].qty;
                     }
                 }
 
@@ -545,11 +527,16 @@ while ($record = mysqli_fetch_array($kquery)) {
     async function fetchCartData() {
 
         let totalHarga = document.getElementById("totalHarga");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
 
-        const validCart = cart.filter(item => item.id_menu);
+        // const validCart = cart.filter(item => item.id_menu);
 
-        if (validCart.length === 0) {
+        if (cart.pemesanan.length === 0) {
             totalHarga.textContent = "";
             return;
         }
@@ -565,8 +552,8 @@ while ($record = mysqli_fetch_array($kquery)) {
 
             let totalHarga = 0;
 
-            const validCart = cart.filter(item => item.id_menu);
-            validCart.forEach(item => {
+            // const validCart = cart.filter(item => item.id_menu);
+            cart.pemesanan.forEach(item => {
                 let menu = menuData.find(menu => menu.id_menu === item.id_menu);
                 if (menu) {
                     let subTotal = menu.harga * item.qty;
@@ -583,12 +570,17 @@ while ($record = mysqli_fetch_array($kquery)) {
     function updateCheckoutQty() {
         let spanQty = document.getElementById("checkout");
         let cartQty = document.getElementById("cartQty");
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
 
-        const validCart = cart.filter(item => item.id_menu);
+        // const validCart = cart.filter(item => item.id_menu);
 
 
-        let totalQty = validCart.reduce((sum, item) => sum + item.qty, 0);
+        let totalQty = cart.pemesanan.reduce((sum, item) => sum + item.qty, 0);
         spanQty.textContent = totalQty;
         cartQty.textContent = totalQty;
     }
@@ -598,7 +590,12 @@ while ($record = mysqli_fetch_array($kquery)) {
     document.querySelectorAll(".menuItem").forEach(item => {
         item.addEventListener("click", function() {
 
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cart = JSON.parse(localStorage.getItem("cart")) || {
+                pemesanan: [],
+                info: {},
+                pelanggan: {},
+                catatan: ""
+            };
 
             const id_menu_cari = this.getAttribute("data-id");
             const harga = this.getAttribute("data-harga");
@@ -628,7 +625,7 @@ while ($record = mysqli_fetch_array($kquery)) {
             const plusQty = document.getElementById("plusQty");
 
 
-            const itemDitemukan = cart.find(item => item.id_menu == id_menu_cari);
+            const itemDitemukan = cart.pemesanan.find(item => item.id_menu == id_menu_cari);
 
             if (itemDitemukan) {
                 catatan.value = itemDitemukan.note;
@@ -676,7 +673,7 @@ while ($record = mysqli_fetch_array($kquery)) {
                     itemDitemukan.note = catatan.value;
 
                 } else {
-                    cart.push({
+                    cart.pemesanan.push({
                         id_menu: id_menu_cari,
                         qty: vqty,
                         note: catatan.value

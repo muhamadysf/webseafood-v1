@@ -73,21 +73,18 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. Setelah semua konten terload, hapus cart dalam 3 detik
         setTimeout(() => {
-            localStorage.removeItem("cart");
+            // localStorage.removeItem("cart");
             console.log("Cart dihapus dari localStorage");
         }, 3000);
 
-        // 2. Ganti history sebelumnya menjadi halaman utama
-        history.replaceState(null, "", "/webseafood/"); // ganti '/' dengan path halaman utamamu jika perlu
+        history.replaceState(null, "", "/webseafood/");
     });
 
-    // 3. Deteksi jika halaman dibuka ulang dari cache saat gesture back
     window.addEventListener("pageshow", function(event) {
         if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-            // Halaman dibuka ulang dari cache, redirect ke home
-            window.location.href = "/webseafood/"; // ganti '/' sesuai kebutuhanmu
+
+            window.location.href = "/webseafood/";
         }
     });
 
@@ -176,7 +173,7 @@
 
     // ===============================================================
 
-    // if (cart.length === 0) return alert("Keranjang masih kosong!");
+
 
     const encodedCart = JSON.stringify(cart);
 
