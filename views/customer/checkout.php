@@ -154,7 +154,7 @@ include "./config/connect.php"
 </div>
 <script>
     const cart = getCart();
-    if (cart.length === 0 || !cart.some(item => item.id_menu)) {
+    if (!cart.pemesanan.some(item => item.id_menu)) {
         window.location.href = "home";
     }
 
@@ -197,7 +197,12 @@ include "./config/connect.php"
     // ===============================================================
 
     function getCart() {
-        return JSON.parse(localStorage.getItem("cart")) || [];
+        return JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
     }
 
     function saveCart(cart) {
@@ -212,7 +217,7 @@ include "./config/connect.php"
     function calcHarga(menuData) {
 
         const cart = getCart();
-        const validCart = cart.filter(item => item.id_menu);
+        const validCart = cart.pemesanan.filter(item => item.id_menu);
         let totalHarga = 0;
 
         validCart.forEach(item => {
@@ -233,6 +238,11 @@ include "./config/connect.php"
 
         textSubTotal.textContent = formatRupiah(totalHarga);
         totalBayar.textContent = formatRupiah(totalHarga);
+
+        if (!cart.hasOwnProperty("harga_total")) {
+            cart.harga_total = totalHarga;
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
     }
 
     function checkRadioOption(event) {
@@ -279,10 +289,10 @@ include "./config/connect.php"
 
         const cart = getCart();
 
-        const modePsn = cart.find(item => item.hasOwnProperty("tipe"))?.tipe || "";
-        const noMeja = cart.find(item => item.hasOwnProperty("nomor_meja"))?.nomor_meja || "";
+        const modePsn = cart.info?.tipe || "";
+        const noMeja = cart.info?.nomor_meja || "";
 
-        if (modePsn === "ambil") {
+        if (modePsn === "Take Away") {
             spanModePsn.textContent = "Take Away";
         } else {
             spanModePsn.textContent = "Makan ditempat ( Meja : " + noMeja + ")";
@@ -309,8 +319,8 @@ include "./config/connect.php"
 
         // =============================================================================
 
-        if (cart.length > 0) {
-            const idMenus = cart.map(item => item.id_menu).join(',');
+        if (cart.pemesanan.length > 0) {
+            const idMenus = cart.pemesanan.map(item => item.id_menu).join(',');
 
             fetch(`/webseafood/proses/get_menu_cart.php?ids=${idMenus}`)
                 .then(response => response.json())
@@ -340,27 +350,18 @@ include "./config/connect.php"
             if (radio) {
                 const value = radio.value;
 
-                const keysToExclude = ["metode_bayar", "nama", "telepon", "email"];
-                cart = cart.filter(item =>
-                    !keysToExclude.some(key => item.hasOwnProperty(key))
-                );
+                cart.pelanggan = {};
 
-                if (value === "cash") {
-                    cart.push({
+                if (nama && telepon && email && (value === "cash" || value === "kris")) {
+                    cart.pelanggan = {
                         nama: nama,
                         telepon: telepon,
                         email: email,
-                        metode_bayar: "cash"
-                    });
-                } else if (value === "kris") {
-                    cart.push({
-                        nama: nama,
-                        telepon: telepon,
-                        email: email,
-                        metode_bayar: "kris"
-                    });
+                        metode_bayar: value
+                    };
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
                 }
-                localStorage.setItem("cart", JSON.stringify(cart));
             }
         });
 

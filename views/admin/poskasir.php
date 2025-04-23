@@ -113,13 +113,9 @@
             </div>
         </div>
 
-
     </div>
 
-
-
-
-    <!-- Modal -->
+    <!-- Modal untuk scanner barcode -->
     <div x-show="modal" x-cloak class="fixed inset-0 flex items-center justify-center z-[99999]"
         x-transition.scale>
         <div class="relative w-1/3 bg-white rounded-lg shadow-lg">
@@ -185,7 +181,6 @@
                     </button>
                     <button id="btnSubmit" name="btnsubmit" type="submit" :class="getClass()" class="inline-flex items-center px-3 py-2 font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" x-text="getLabel()"></button>
                 </div>
-
             </form>
         </div>
     </div>

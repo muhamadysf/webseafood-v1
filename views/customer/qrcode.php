@@ -118,7 +118,12 @@
 
 
     function getCart() {
-        return JSON.parse(localStorage.getItem("cart")) || [];
+        return JSON.parse(localStorage.getItem("cart")) || {
+            pemesanan: [],
+            info: {},
+            pelanggan: {},
+            catatan: ""
+        };
     }
 
     function saveCart(cart) {
@@ -133,10 +138,10 @@
     function calcHarga(menuData) {
 
         const cart = getCart();
-        const validCart = cart.filter(item => item.id_menu);
+        // const validCart = cart.pemesanan.filter(item => item.id_menu);
         let totalHarga = 0;
 
-        validCart.forEach(item => {
+        cart.pemesanan.forEach(item => {
             let menu = menuData.find(m => m.id_menu == item.id_menu);
 
             if (menu) {
@@ -159,8 +164,8 @@
 
     // ===============================================================
 
-    if (cart.length > 0) {
-        const idMenus = cart.map(item => item.id_menu).join(',');
+    if (cart.pemesanan.length > 0) {
+        const idMenus = cart.pemesanan.map(item => item.id_menu).join(',');
 
         fetch(`/webseafood/proses/get_menu_cart.php?ids=${idMenus}`)
             .then(response => response.json())
@@ -173,23 +178,40 @@
 
     // ===============================================================
 
+    // Kirim data ke server
+    fetch("/webseafood/proses/simpan_data_pesanan.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(cart)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Pesanan berhasil disimpan! ID Pesanan: " + data.kode);
+                localStorage.removeItem("cart");
 
+                const encodedCart = data.kode;
 
-    const encodedCart = JSON.stringify(cart);
+                const qrcodeDiv = document.getElementById("qrcode");
+                qrcodeDiv.innerHTML = "";
 
-    // localStorage.removeItem("cart");
+                new QRCode(qrcodeDiv, {
+                    text: encodedCart,
+                    width: 200,
+                    height: 200,
+                });
 
+            } else {
+                alert("Gagal menyimpan pesanan.");
+            }
+        })
+        .catch(error => {
+            console.error("Terjadi kesalahan:", error);
+            alert("Terjadi kesalahan saat mengirim data.");
+        });
 
-    const qrcodeDiv = document.getElementById("qrcode");
-    qrcodeDiv.innerHTML = "";
-
-    new QRCode(qrcodeDiv, {
-        text: encodedCart,
-        width: 200,
-        height: 200,
-    });
-
-    // cart = [];
 
     // ===============================================================
 
@@ -200,10 +222,10 @@
 
         const cart = getCart();
 
-        const modePsn = cart.find(item => item.hasOwnProperty("tipe"))?.tipe || "";
-        const noMeja = cart.find(item => item.hasOwnProperty("nomor_meja"))?.nomor_meja || "";
+        const modePsn = cart.info?.tipe || "";
+        const noMeja = cart.info?.nomor_meja || "";
 
-        if (modePsn === "ambil") {
+        if (modePsn === "Take Away") {
             spanModePsn.textContent = "Take Away";
         } else {
             spanModePsn.textContent = "Makan ditempat ( Meja : " + noMeja + ")";

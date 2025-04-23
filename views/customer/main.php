@@ -14,7 +14,4 @@
     <?php include $page; ?>
 
 
-    <?php
-
-    require_once './partials/customer/end.php';
-    ?>
+    <?php require_once './partials/customer/end.php'; ?>

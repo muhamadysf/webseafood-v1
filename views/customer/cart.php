@@ -381,7 +381,7 @@ function formatRupiah($angka)
                         </div>
                         <div class="w-full ">
                             <button id="btn-tambah-detail" type="button" class="inline-flex items-center justify-center w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-500 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Tambah Pesanan <span id="total-harga-detail" class="text-white"></span></button>
-                            <button @click="modalDetail = false;  selectId= null; selectImg = null; selectNama = null; selectHarga = null;" id="btn-batal" type="button" class="items-center justify-center hidden w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-300 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Kembali Ke Menu</button>
+                            <button @click="modalDetail = false;  selectId= null; selectImg = null; selectNama = null; selectHarga = null;" id="btn-batal" type="button" class="items-center justify-center hidden w-full px-3 py-2 font-medium text-white border border-transparent rounded-lg bg-primary-300 gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Kembali Ke Keranjang</button>
                         </div>
                     </div>
                 </div>
@@ -470,7 +470,7 @@ function formatRupiah($angka)
                         <p class="text-sm font-semibold txt-harga">${formatRupiah((menu.harga.toLocaleString())*item.qty)}</p>
                     </div>
                     <div class="flex flex-col justify-between w-20">
-                        <button @click="modalEdit = true" type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border-2 border-gray-400 rounded-full btn-ubah hover:bg-gray-200">
+                        <button @click="modalEdit = true" type="button" class="inline-flex items-center justify-center gap-1 px-3 text-sm border-2 border-gray-400 rounded-full btn-ubah-group btn-ubah hover:bg-gray-200">
                             <svg fill="currentColor" class="text-gray-400 size-5" viewBox="0 0 16 16">
                                 <path d="M13.8 2.2a2.51 2.51 0 0 0-3.54 0l-6.9 6.91-1.76 3.62a1.26 1.26 0 0 0 1.12 1.8 1.23 1.23 0 0 0 .55-.13l3.62-1.76 6-6 .83-.82.06-.06a2.52 2.52 0 0 0 .02-3.56zm-.89.89a1.25 1.25 0 0 1 0 1.77l-1.77-1.77a1.24 1.24 0 0 1 .86-.37 1.22 1.22 0 0 1 .91.37zM2.73 13.27 4.29 10 6 11.71zm4.16-2.4L5.13 9.11 10.26 4 12 5.74z" />
                             </svg>
@@ -733,6 +733,7 @@ function formatRupiah($angka)
         }
 
         if (button.classList.contains("btn-ubah")) {
+
             let card = button.closest(".box-Card");
             if (!card) return;
 
@@ -744,29 +745,80 @@ function formatRupiah($angka)
                 pelanggan: {},
                 catatan: ""
             };
+
             let itemIndex = cart.pemesanan.findIndex(item => item.id_menu === idMenu);
 
             let menu = dataDB.find(m => m.id_menu == idMenu);
 
             let modalImg = document.getElementById("modal-img");
-            let modalNote = document.getElementById("hs-autoheight-textarea");
             let modalNama = document.getElementById("nama-menu");
             let modalHarga = document.getElementById("harga-menu");
-            let modalQty = document.getElementById("modal-qty");
+
+            let modalNote = document.getElementById("hs-autoheight-textarea");
+
+            let btnUpdateEdit = document.getElementById("btn-perbarui");
+            let btnHpsEdit = document.getElementById("btn-hapus");
             let modalTotalEdit = document.getElementById("total-harga-edit");
+
             let modalMinQty = document.getElementById("min-qty");
+            let modalQty = document.getElementById("modal-qty");
             let modalPlusQty = document.getElementById("plus-qty");
 
+            let eQty = 0;
+
+            btnHpsEdit.classList.add("hidden");
+            btnUpdateEdit.classList.add("inline-flex");
+            btnHpsEdit.classList.remove("inline-flex");
+            btnUpdateEdit.classList.remove("hidden");
 
 
             if (itemIndex !== -1) {
                 modalImg.src = "/webseafood/" + menu.gambar_menu;
                 modalNama.textContent = menu.nama_menu;
                 modalNote.value = cart.pemesanan[itemIndex].note;
-                modalQty.textContent = cart.pemesanan[itemIndex].qty;
                 modalHarga.textContent = formatRupiah(menu.harga);
                 modalTotalEdit.textContent = formatRupiah(menu.harga * cart.pemesanan[itemIndex].qty);
+                eQty = cart.pemesanan[itemIndex].qty;
+                modalQty.textContent = eQty;
             }
+
+            modalMinQty.addEventListener('click', function() {
+                if (eQty > 0) {
+                    eQty -= 1;
+                    modalQty.textContent = eQty;
+                }
+
+                if (eQty === 0) {
+                    btnHpsEdit.classList.remove("hidden");
+                    btnUpdateEdit.classList.remove("inline-flex");
+                    btnHpsEdit.classList.add("inline-flex");
+                    btnUpdateEdit.classList.add("hidden");
+                }
+                modalTotalEdit.textContent = formatRupiah(menu.harga * eQty);
+            });
+
+            modalPlusQty.addEventListener('click', function() {
+                if (eQty === 0) {
+                    btnHpsEdit.classList.add("hidden");
+                    btnUpdateEdit.classList.add("inline-flex");
+                    btnHpsEdit.classList.remove("inline-flex");
+                    btnUpdateEdit.classList.remove("hidden");
+                }
+
+                eQty += 1;
+                modalQty.textContent = eQty;
+                modalTotalEdit.textContent = formatRupiah(menu.harga * eQty);
+            });
+
+            btnHpsEdit.addEventListener('click', function() {
+                cart.pemesanan.splice(itemIndex, 1);
+                localStorage.setItem("cart", JSON.stringify(cart));
+            });
+
+            btnUpdateEdit.addEventListener('click', function() {
+
+            });
+
         }
     });
 
@@ -824,6 +876,7 @@ function formatRupiah($angka)
         } else {
             noteLain.textContent = note;
         }
+
 
 
     });
@@ -906,19 +959,19 @@ function formatRupiah($angka)
         if (radio) {
             const value = radio.value;
 
-            cart = cart.filter(item => !item.hasOwnProperty("tipe"));
+            // cart = cart.filter(item => !item.hasOwnProperty("tipe"));
 
             if (value === "ditempat") {
                 const nomorMeja = inputMeja.value;
 
                 cart.info = {
-                    tipe: "ditempat",
+                    tipe: "Dine In",
                     nomor_meja: nomorMeja
                 };
 
             } else if (value === "ambil") {
                 cart.info = {
-                    tipe: "ambil"
+                    tipe: "Take Away"
                 };
             }
 
@@ -993,6 +1046,7 @@ function formatRupiah($angka)
                 });
 
                 btnCloseDetail.addEventListener('click', function() {
+                    const catatanDetail = document.getElementById('catatan-menu-detail');
                     catatanDetail.value = "";
                 });
 
