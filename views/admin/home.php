@@ -19,7 +19,7 @@ $totalpemasukan = $barispemasukan['TOTAL'];
 ?>
 
 <div class="m-2">
-    <div class="w-full px-12 py-8 mb-4 rounded-md shadow-lg bg-white/35 h-44 backdrop-blur-md">
+    <div class="w-full px-12 py-4 mb-4 rounded-md shadow-lg h-28 bg-white/35 backdrop-blur-md">
         <h1 class="mb-2 text-3xl">Selamat datang <?php echo $_SESSION['nama']; ?>,</h1>
         <p class="">Mari kita awali pekerjaan kita dengan <span class="font-semibold underline">Bismillaahirrahmaanirrahiim...</span></p>
     </div>
