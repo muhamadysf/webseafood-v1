@@ -179,7 +179,7 @@
     // ===============================================================
 
     // Kirim data ke server
-    fetch("/webseafood/proses/simpan_data_pesanan.php", {
+    fetch("/webseafood/proses/data_pesanan_simpan.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

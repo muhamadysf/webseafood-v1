@@ -19,18 +19,27 @@ $nomor_meja = isset($info['nomor_meja']) ? $info['nomor_meja'] : "";
 // =============================================================================================================
 function generateKodePesanan($conn)
 {
-    $prefix = "KSF-";
-    $today = date("Y-m-d");
+    $prefix = "KSF";
+    $tanggalKode = date("d") . date("m");
 
-    $query = "SELECT COUNT(*) as total FROM tb_pesanan WHERE DATE(tanggal_pesanan) = '$today'";
+    $todayDate = date("Y-m-d");
+
+
+    $query = "SELECT COUNT(*) as total FROM tb_pesanan WHERE DATE(tanggal_pesanan) = '$todayDate'";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
-    $jumlahPesananHariIni = $row['total'];
+    $jumlahPesananHariIni = $row ? (int)$row['total'] : 0;
 
     $nomorAntrian = $jumlahPesananHariIni + 1;
 
-    $nomorStr = str_pad($nomorAntrian, 6, "0", STR_PAD_LEFT);
-    return $prefix . $nomorStr;
+
+    if ($nomorAntrian > 999) {
+        throw new Exception("Nomor antrian untuk hari ini sudah penuh. Hubungi admin.");
+    }
+
+    $nomorStr = str_pad($nomorAntrian, 3, "0", STR_PAD_LEFT);
+
+    return $prefix . $tanggalKode . $nomorStr;
 }
 
 
