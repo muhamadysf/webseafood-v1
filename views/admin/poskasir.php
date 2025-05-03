@@ -17,7 +17,7 @@ function formatRupiah($angka)
 
 <!-- ================================================================================================================= -->
 
-<div class="w-full" x-data="{ modal: false, modalInput: false, modalBayar: false, modalEdit: true, modalHapus: false, selectNama: null, selectedId: null}">
+<div class="w-full" x-data="{ modal: false, modalInput: false, modalBayar: false, modalEdit: false, modalHapus: false, selectNama: null, selectedId: null}">
     <div class="flex items-end w-full mb-7">
         <div class="flex items-center justify-center w-full gap-3 px-5 py-2 bg-primary-300 rounded-xl">
             <h3 class="text-xl text-white">Proses pesanan :</h3>
@@ -562,16 +562,16 @@ function formatRupiah($angka)
     });
 
     // Aktifkan kamera
-    // Instascan.Camera.getCameras().then(function(cameras) {
-    //     if (cameras.length > 0) {
-    //         scanner.start(cameras[0]);
-    //     } else {
-    //         alert('Tidak ditemukan kamera.');
-    //     }
-    // }).catch(function(e) {
-    //     console.error(e);
-    //     alert('Gagal mengakses kamera: ' + e);
-    // });
+    Instascan.Camera.getCameras().then(function(cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            alert('Tidak ditemukan kamera.');
+        }
+    }).catch(function(e) {
+        console.error(e);
+        alert('Gagal mengakses kamera: ' + e);
+    });
 
     // =======================================================================================
 
