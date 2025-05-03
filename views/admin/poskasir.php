@@ -8,6 +8,11 @@ while ($record = mysqli_fetch_array($query)) {
 }
 
 
+function formatRupiah($angka)
+{
+    return "Rp. " . number_format($angka, 0, ',', '.') . ',-';
+}
+
 ?>
 
 <!-- ================================================================================================================= -->
@@ -183,21 +188,77 @@ while ($record = mysqli_fetch_array($query)) {
 
                 <div class="px-5 py-2 space-y-2 bg-gray-300 border border-dashed">
                     <div class="flex gap-3">
-
-
-                        <div class="w-1/4 bg-white rounded-lg shadow-lg">
+                        <div class="w-1/4 bg-white rounded-lg shadow-lg ">
                             <h2 class="py-1 font-semibold text-center text-black ">Daftar Menu</h2>
                             <hr class="border-1">
-                            <div class="px-4 py-2">
+                            <div class="flex flex-col gap-2 px-4 py-2 space-y-2 overflow-y-auto max-h-80">
+
+                                <?php
+                                $mquery = mysqli_query($conn, "SELECT * FROM tb_menu");
+                                while ($mrow = mysqli_fetch_assoc($mquery)) {
+                                ?>
+
+                                    <div class="flex h-full px-4 py-1 border-2 border-gray-500 rounded-md" data-id="<?php echo $mrow['id_menu'] ?>">
+                                        <div class="flex flex-col justify-center flex-1 w-full">
+                                            <h3 class="text-sm font-medium "><?php echo $mrow['nama_menu'] ?></h3>
+
+                                            <p class="text-xs "><?php echo formatRupiah($mrow["harga"]) ?></p>
+                                        </div>
+                                        <div class="flex flex-col items-center justify-end h-full gap-2">
+                                            <!-- =========================================================================== -->
+                                            <img src="../<?php echo $mrow['gambar_menu'] ?>" alt="gambar_menu" class="object-cover size-10 rounded-xl shrink-0">
+                                            <button type="button" class="  px-4 py-[2px]  text-xs text-white border border-transparent transition bg-red-600 rounded-lg hover:text-white hover:bg-red-500" data-id="">
+                                                Tambah
+                                            </button>
+
+                                            <div x-cloak class="hidden gap-4 mt-3 btn-group" data-id="">
+                                                <button type="button" class="inline-flex items-center justify-center btn-kurang">
+                                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                                        <defs>
+
+                                                        </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-516.000000, -1087.000000)" fill="#000000">
+                                                                <path d="M532,1117 C524.268,1117 518,1110.73 518,1103 C518,1095.27 524.268,1089 532,1089 C539.732,1089 546,1095.27 546,1103 C546,1110.73 539.732,1117 532,1117 L532,1117 Z M532,1087 C523.163,1087 516,1094.16 516,1103 C516,1111.84 523.163,1119 532,1119 C540.837,1119 548,1111.84 548,1103 C548,1094.16 540.837,1087 532,1087 L532,1087 Z M538,1102 L526,1102 C525.447,1102 525,1102.45 525,1103 C525,1103.55 525.447,1104 526,1104 L538,1104 C538.553,1104 539,1103.55 539,1103 C539,1102.45 538.553,1102 538,1102 L538,1102 Z" id="minus-circle" sketch:type="MSShapeGroup">
+
+                                                                </path>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                                <p class="inline-flex items-center justify-center w-12 qty-item">xx</p>
+                                                <button type="button" class="inline-flex items-center justify-center btn-tambah">
+                                                    <svg class="shrink-0 size-5" viewBox="0 0 32 32" version="1.1">
+                                                        <defs>
+                                                        </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                                            <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#000000">
+                                                                <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup">
+                                                                </path>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <!-- ================================================================================= -->
+
+
+                                        </div>
+                                    </div>
+
+
+                                <?php  } ?>
 
                             </div>
+
                         </div>
 
                         <div class="w-3/4 bg-white rounded-lg shadow-lg">
                             <h2 class="py-1 font-semibold text-center text-black">Detail Pesanan</h2>
                             <hr class="border-1">
 
-                            <div class="px-4 py-2">
+                            <div class="px-4 py-2 max-h-52 h-52">
                                 <table id="" class="min-w-full shadow-xl bg-white/30 backdrop-blur-xl rounded-t-3xl ">
                                     <thead class="bg-gray-300">
                                         <tr class="">
@@ -218,12 +279,12 @@ while ($record = mysqli_fetch_array($query)) {
                                         // 
                                         ?>
                                         <tr>
-                                            <td class="px-6 py-4 text-xs font-medium text-gray-800 whitespace-nowrap !text-center"></td>
-                                            <td class="px-6 py-4 text-xs text-center text-gray-800 whitespace-nowrap"></td>
-                                            <td class="px-6 py-4 text-xs text-center text-gray-800 whitespace-nowrap"></td>
-                                            <td class="px-6 py-4 text-xs text-center text-gray-800 whitespace-nowrap"></td>
+                                            <td class="px-6 py-1 text-xs font-medium text-gray-800 whitespace-nowrap !text-center"></td>
+                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
+                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
+                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
 
-                                            <td class=" py-4 text-sm  whitespace-nowrap !text-center">
+                                            <td class=" py-1 text-sm  whitespace-nowrap !text-center">
                                                 <button type="button" class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium text-red-500 border-2 border-red-500 rounded-lg bg-red-200/55 gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                                     data-id=""
                                                     data-nama="">
@@ -237,24 +298,121 @@ while ($record = mysqli_fetch_array($query)) {
                                     </tbody>
                                 </table>
                             </div>
+
+                            <hr class="border-2">
+                            <div class="flex w-full px-3 py-2">
+                                <div class="max-w-80">
+                                    <div class="flex flex-col items-end gap-1 w-72">
+                                        <div class="">
+                                            <label for="input-nama" class="text-sm">Nama Pemesan :</label>
+                                            <input id="input-nama" name="input-nama" type="text" class="w-40 p-1 rounded-md">
+                                        </div>
+                                        <div class="">
+                                            <label for="input-nohp" class="text-sm">No. Handphone :</label>
+                                            <input id="input-nohp" name="input-nohp" type="text" class="w-40 p-1 rounded-md" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                        </div>
+                                        <div class="">
+                                            <label for="input-email" class="text-sm">Email Pemesan :</label>
+                                            <input id="input-email" name="input-email" type="text" class="w-40 p-1 rounded-md">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-10 w-[580px]">
+                                    <div class="flex items-center w-full h-10">
+                                        <h3 class="text-sm text-black">Tipe Pesanan :</h3>
+                                        <div class="flex items-center ml-3 space-x-2 sm:space-x-4">
+                                            <label class="flex items-center space-x-2 cursor-pointer">
+                                                <input type="radio" name="option" value="ambil" class="hidden peer">
+                                                <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
+
+                                                    <svg id="svgAway" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                        viewBox="0 0 35.979 35.979" xml:space="preserve">
+                                                        <g>
+                                                            <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <span id="spanAway" class="text-sm text-gray-700 whitespace-nowrap">Take away</span>
+                                            </label>
+
+                                            <label class="flex items-center space-x-2 cursor-pointer">
+                                                <input type="radio" name="option" value="ditempat" class="hidden peer">
+                                                <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
+                                                    <svg id="svgTempat" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                        viewBox="0 0 35.979 35.979" xml:space="preserve">
+                                                        <g>
+                                                            <path style="fill:currentColor;" d="M26.84,6.252l-14.046,14.23L2.464,15.12l-1.98,3.815c-1.094,2.106-0.272,4.701,1.836,5.794 l12.094,6.277C14.46,31.03,35.979,9.232,35.979,9.232L32.92,6.211C31.23,4.545,28.509,4.563,26.84,6.252z" />
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <span id="spanTempat" class="text-sm text-gray-700 whitespace-nowrap">Makan ditempat</span>
+                                            </label>
+
+                                            <div id="boxMeja" class="justify-center">
+                                                <div class="relative">
+                                                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="inputMeja" type="text" class="peer py-2.5 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-md sm:text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja" maxlength="2">
+                                                    <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                                        <svg class="text-gray-500 shrink-0 size-4" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 48 48" xml:space="preserve">
+                                                            <g>
+                                                                <path d="M48,0.5H0v6h12.523c-0.018,0.119-0.041,0.237-0.041,0.358c0,0.987,0.613,1.642,1.666,2.642h-0.01 c0,0,0.055,0.097,0.148,0.161c0.114,0.082,0.225,0.194,0.348,0.273c1.261,0.892,4.684,3.454,7.18,6.566H20v28h-5v3h20v-3h-5v-28 h-1.616c1.741-2.325,4.058-4.919,6.911-7h-0.002c0.952-0.766,1.497-1.645,1.497-2.581c0-0.142-0.022-0.28-0.048-0.419H48V0.5z" />
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="flex ">
+                                        <label for="input-catatan" class="pr-4 ml-8 text-sm">Catatan :</label>
+                                        <textarea name="input-catatan" id="input-catatan" class="block px-4 py-2 text-sm border-gray-200 rounded-lg w-60 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="" data-hs-textarea-auto-height='{"defaultHeight": 72}' required></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex justify-end w-full bg-white rounded-lg shadow-lg">
-                        <div class="flex gap-3 px-5 py-3">
-
-                            <div class="flex flex-col gap-1 text-end">
-                                <p class="">Total :</p>
-                                <label for="jumlah-uang" class="py-1">Jumlah Uang :</label>
-                                <p class="">Kembalian : </p>
+                    <div class="flex w-full h-32 bg-white rounded-lg shadow-lg">
+                        <div class="flex-col flex-1 px-5 py-3">
+                            <h3 class="text-base text-center">Metode Pembayaran :</h3>
+                            <div class="flex items-center justify-center gap-6 my-3">
+                                <div id="card-qris" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="option-dua" value="kris" class=" peer">
+                                        <img src="../public/assets/images/qr.png" alt="kris" class="object-cover size-12 ">
+                                        <span class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Qris</span>
+                                    </label>
+                                </div>
+                                <div id="card-cash" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="option-dua" value="cash" class=" peer">
+                                        <img src="../public/assets/images/cash.png" alt="cash" class="object-cover size-12">
+                                        <span class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Cash</span>
+                                    </label>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="flex flex-col justify-start gap-1">
-                                <p class="">Rp. XXX.XXX,-</p>
-                                <input id="jumlah-uang" name="jumlah-uang" type="text" maxlength="11" class="py-1 border-2 rounded-md focus:border-green-500 focus:ring-green-500 w-28" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                <p class="">Rp. XXX.XXX,-</p>
+                        <div class="w-1 h-full bg-gray-400"></div>
+
+                        <!-- ============================= -->
+                        <div class="flex justify-end w-72">
+                            <div class="flex gap-3 px-5 py-3">
+                                <div class="flex flex-col gap-1 text-end">
+                                    <p class="">Total :</p>
+                                    <label for="jumlah-uang" class="py-1">Jumlah Uang :</label>
+                                    <p class="">Kembalian : </p>
+                                </div>
+
+                                <div class="flex flex-col justify-start gap-1">
+                                    <p class="">Rp. XXX.XXX,-</p>
+                                    <input id="jumlah-uang" name="jumlah-uang" type="text" maxlength="11" class="py-1 border-2 rounded-md focus:border-green-500 focus:ring-green-500 w-28" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <p class="">Rp. XXX.XXX,-</p>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -478,6 +636,53 @@ while ($record = mysqli_fetch_array($query)) {
             let value = event.target.value;
             event.target.value = formatRupiah(value);
         });
+
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const svgTempat = document.getElementById("svgTempat");
+        const svgAway = document.getElementById("svgAway");
+        const options = document.querySelectorAll("input[name='option']");
+        const inputMeja = document.getElementById("inputMeja");
+        const spanAway = document.getElementById("spanAway");
+        const spanTempat = document.getElementById("spanTempat");
+
+
+
+        options.forEach(option => {
+            option.addEventListener('change', () => {
+                if (option.value === "ditempat") {
+                    svgTempat.classList.remove("hidden");
+                    svgTempat.classList.add("block");
+                    svgAway.classList.add("hidden");
+                    svgAway.classList.remove("block");
+                    boxMeja.classList.remove("hidden");
+                    boxMeja.classList.add("flex");
+                    spanTempat.classList.remove("text-gray-700");
+                    spanTempat.classList.add("text-primary-400");
+                    spanAway.classList.add("text-gray-700");
+                    spanAway.classList.remove("text-primary-400");
+                    inputMeja.focus();
+                } else {
+                    svgTempat.classList.add("hidden");
+                    svgTempat.classList.remove("block");
+                    svgAway.classList.remove("hidden");
+                    svgAway.classList.add("block");
+                    boxMeja.classList.remove("flex");
+                    boxMeja.classList.add("hidden");
+                    spanTempat.classList.add("text-gray-700");
+                    spanTempat.classList.remove("text-primary-400");
+                    spanAway.classList.remove("text-gray-700");
+                    spanAway.classList.add("text-primary-400");
+                }
+            });
+        });
+
+
+
+
 
     });
 </script>
