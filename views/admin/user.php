@@ -301,16 +301,16 @@ while ($record = mysqli_fetch_array($query)) {
             inputModal.classList.add("hidden");
             pesanHps.classList.remove("hidden");
 
-            form.action = "./proses/proses_delete_user.php";
+            form.action = "../proses/proses_delete_user.php";
 
         } else {
             pesanHps.classList.add("hidden");
             inputModal.classList.remove("hidden");
 
             if (modalType == "edit") {
-                form.action = "./proses/proses_edit_user.php";
+                form.action = "../proses/proses_edit_user.php";
             } else {
-                form.action = "./proses/proses_input_user.php";
+                form.action = "../proses/proses_input_user.php";
             }
         }
 

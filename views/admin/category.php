@@ -309,16 +309,16 @@ $timenow = date("j-F-Y-h:i:s A");
             inputModal.classList.add("hidden");
             pesanHps.classList.remove("hidden");
 
-            form.action = "./proses/proses_kategori_delete.php";
+            form.action = "../proses/proses_kategori_delete.php";
 
         } else {
             pesanHps.classList.add("hidden");
             inputModal.classList.remove("hidden");
 
             if (modalType == "edit") {
-                form.action = "./proses/proses_kategori_edit.php";
+                form.action = "../proses/proses_kategori_edit.php";
             } else {
-                form.action = "./proses/proses_kategori_add.php";
+                form.action = "../proses/proses_kategori_add.php";
             }
         }
 

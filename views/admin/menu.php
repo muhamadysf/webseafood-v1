@@ -351,16 +351,16 @@ while ($record = mysqli_fetch_array($query)) {
             inputModal.classList.add("hidden");
             pesanHps.classList.remove("hidden");
 
-            form.action = "./proses/proses_menu_delete.php";
+            form.action = "../proses/proses_menu_delete.php";
 
         } else {
             pesanHps.classList.add("hidden");
             inputModal.classList.remove("hidden");
 
             if (modalType == "edit") {
-                form.action = "./proses/proses_menu_edit.php";
+                form.action = "../proses/proses_menu_edit.php";
             } else {
-                form.action = "./proses/proses_menu_add.php";
+                form.action = "../proses/proses_menu_add.php";
             }
         }
 
