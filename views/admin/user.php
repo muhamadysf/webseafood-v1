@@ -192,9 +192,7 @@ while ($record = mysqli_fetch_array($query)) {
                             <select name="level" id="hs-select-label" x-model="selectLevel" :disabled="typeAksi == 'Detail Data' ? true : false" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:text-black disabled:pointer-events-none" required>
                                 <option value="" selected="">Silahkan pilih...</option>
                                 <option value="1">Admin</option>
-                                <option value="2">Kasir</option>
-                                <option value="3">Pelayan</option>
-                                <option value="4">Dapur</option>
+                                <option value="2">Kasir</option>s
                             </select>
                         </div>
                         <div class="w-full max-w-sm">
