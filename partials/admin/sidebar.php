@@ -57,7 +57,7 @@
                 <h3 class="mb-4 text-xs text-gray-400">User & Pembeli</h3>
 
                 <div class="space-y-3">
-                    <div class="<?php echo ($_SESSION['level_kingseafood'] == 1) ? 'flex flex-col' : 'hidden'; ?> rounded-lg inline-flex items-center w-full gap-2 py-1 pl-3 group hover:cursor-pointer hover:text-primary-550 hover:bg-white hover:rounded-lg
+                    <div class="<?php echo ($_SESSION['level_kingseafood'] == 1) ? 'flex' : 'hidden'; ?> rounded-lg inline-flex items-center w-full gap-2 py-1 pl-3 group hover:cursor-pointer hover:text-primary-550 hover:bg-white hover:rounded-lg
                     <?php echo ((isset($_GET['x']) && $_GET['x'] == 'user')) ? 'text-primary-550 bg-white font-semibold' : ' text-white'; ?>">
                         <svg fill="currentColor" class="w-6 h-auto group-hover:text-primary-550" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             viewBox="0 0 472.615 472.615" xml:space="preserve">
