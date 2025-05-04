@@ -21,7 +21,7 @@ function formatRupiah($angka)
     <div class="flex items-end w-full mb-7">
         <div class="flex items-center justify-center w-full gap-3 px-5 py-2 bg-primary-300 rounded-xl">
             <h3 class="text-xl text-white">Proses pesanan :</h3>
-            <button class="p-2 text-black rounded-lg bg-slate-200 hover:bg-slate-400" type="button" @click="modal = true">
+            <button id="" class="p-2 text-black rounded-lg bg-slate-200 hover:bg-slate-400" type="button" @click="modal = true">
                 <svg fill="#000000" class="size-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4,4h6v6H4V4M20,4v6H14V4h6M14,15h2V13H14V11h2v2h2V11h2v2H18v2h2v3H18v2H16V18H13v2H11V16h3V15m2,0v3h2V15H16M4,20V14h6v6H4M6,6V8H8V6H6M16,6V8h2V6H16M6,16v2H8V16H6M4,11H6v2H4V11m5,0h4v4H11V13H9V11m2-5h2v4H11V6M2,2V6H0V2A2,2,0,0,1,2,0H6V2H2M22,0a2,2,0,0,1,2,2V6H22V2H18V0h4M2,18v4H6v2H2a2,2,0,0,1-2-2V18H2m20,4V18h2v4a2,2,0,0,1-2,2H18V22Z" />
                 </svg>
@@ -89,12 +89,12 @@ function formatRupiah($angka)
         x-transition.scale>
         <div class="relative w-1/3">
             <!-- Tombol Close (X) -->
-            <button @click="modal= false" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
+            <button @click="modal= false; selectNama= null; selectedId= null" id="btnCloseModal" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
                 <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
                 </svg>
             </button>
-            <div class="w-full max-w-md p-6 space-y-4 bg-white shadow-2xl rounded-2xl">
+            <div class="w-full p-6 space-y-4 bg-white shadow-2xl rounded-2xl">
                 <h2 class="text-2xl font-bold text-center text-gray-800">Scan QR Code</h2>
 
                 <video id="preview" class="w-full border border-gray-300 rounded-lg"></video>
@@ -102,86 +102,34 @@ function formatRupiah($angka)
                 <div id="result" class="p-4 mt-4 text-sm text-gray-700 border border-gray-300 border-dashed rounded-lg bg-gray-50">
                     Hasil scan akan muncul di sini...
                 </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" @click="modal= false;" class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700">
-                        Batal
-                    </button>
-                    <!-- Tombol Scan Ulang -->
-                    <button type="button" id="btnScanUlang" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700">
+                <div class="flex justify-end">
+                    <button @click="selectNama= null; selectedId= null" type="button" id="btnScanUlang" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700">
                         Scan Ulang
                     </button>
-                    <button id="btnSubmit" name="btnsubmit" type="submit" :class="getClass()" class="inline-flex items-center px-3 py-2 font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" x-text="getLabel()"></button>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal untuk input data pesanan -->
-    <div x-show="modalInput" x-cloak class="fixed inset-0 flex items-center justify-center z-[99999]"
-        x-transition.scale>
-        <div class="relative w-1/3">
-            <!-- Tombol Close (X) -->
-            <button @click="modalInput= false" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
-                <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
-                </svg>
-            </button>
-            <div class="w-full max-w-md p-6 space-y-4 bg-white shadow-2xl rounded-2xl">
-                <h2 class="text-2xl font-bold text-center text-gray-800">Scan QR Code</h2>
 
-                <!-- <video id="preview" class="w-full border border-gray-300 rounded-lg"></video>
 
-                <div id="result" class="p-4 mt-4 text-sm text-gray-700 border border-gray-300 border-dashed rounded-lg bg-gray-50">
-                    Hasil scan akan muncul di sini...
-                </div> -->
-                <div class="flex justify-end gap-3 px-4 py-3">
-                    <button type="button" @click="modalInput= false;" class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700">
-                        Batal
-                    </button>
-                    <button id="btnSubmit" name="btnsubmit" type="submit" :class="getClass()" class="inline-flex items-center px-3 py-2 font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" x-text="getLabel()"></button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal bayar pesanan -->
-    <div x-show="modalBayar" x-cloak class="fixed inset-0 flex items-center justify-center z-[99999]"
-        x-transition.scale>
-        <div class="relative w-1/3">
-            <!-- Tombol Close (X) -->
-            <button @click="modalBayar= false" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
-                <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
-                </svg>
-            </button>
-            <div class="w-full max-w-md p-6 space-y-4 bg-white shadow-2xl rounded-2xl">
-                <h2 class="text-2xl font-bold text-center text-gray-800">Scan QR Code</h2>
-
-                <!-- <video id="preview" class="w-full border border-gray-300 rounded-lg"></video>
-
-                <div id="result" class="p-4 mt-4 text-sm text-gray-700 border border-gray-300 border-dashed rounded-lg bg-gray-50">
-                    Hasil scan akan muncul di sini...
-                </div> -->
-                <div class="flex justify-end gap-3 px-4 py-3">
-                    <button type="button" @click="modalBayar= false;" class="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700">
-                        Batal
-                    </button>
-                    <button id="btnSubmit" name="btnsubmit" type="submit" :class="getClass()" class="inline-flex items-center px-3 py-2 font-medium text-white border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none" x-text="getLabel()"></button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal edit pesanan -->
     <div x-show="modalEdit" x-cloak class="fixed inset-0 flex items-center justify-center z-[99999]"
         x-transition.scale>
         <div class="relative w-5/6 bg-white shadow-2xl rounded-2xl">
             <!-- Tombol Close (X) -->
-            <button @click="modalEdit= false" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
+            <button @click="modalEdit= false; selectNama= null; selectedId= null" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
                 <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
                 </svg>
             </button>
+            <form method="POST">
+                <input id="input-id-edit" type="hidden" name="selected_id" :value="selectedId">
+                <button type="submit" class="hidden" id="btnSubmitData">Submit</button>
+            </form>
             <div class="w-full ">
                 <h2 class="px-5 py-2 text-2xl font-bold text-center text-gray-800">Edit Pesanan</h2>
                 <hr class="border-1">
@@ -192,7 +140,6 @@ function formatRupiah($angka)
                             <h2 class="py-1 font-semibold text-center text-black ">Daftar Menu</h2>
                             <hr class="border-1">
                             <div class="flex flex-col gap-2 px-4 py-2 space-y-2 overflow-y-auto max-h-80">
-
                                 <?php
                                 $mquery = mysqli_query($conn, "SELECT * FROM tb_menu");
                                 while ($mrow = mysqli_fetch_assoc($mquery)) {
@@ -246,19 +193,14 @@ function formatRupiah($angka)
 
                                         </div>
                                     </div>
-
-
                                 <?php  } ?>
-
                             </div>
-
                         </div>
 
                         <div class="w-3/4 bg-white rounded-lg shadow-lg">
                             <h2 class="py-1 font-semibold text-center text-black">Detail Pesanan</h2>
                             <hr class="border-1">
-
-                            <div class="px-4 py-2 max-h-52 h-52">
+                            <div class="px-4 py-2 max-h-52 h-52 !overflow-y-scroll">
                                 <table id="" class="min-w-full shadow-xl bg-white/30 backdrop-blur-xl rounded-t-3xl ">
                                     <thead class="bg-gray-300">
                                         <tr class="">
@@ -269,38 +211,14 @@ function formatRupiah($angka)
                                             <th scope="col" class="rounded-tr-xl px-6 py-1 text-xs font-semibold !text-center text-gray-700 uppercase">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-gray-200">
-                                        <?php
-                                        // if (empty($result)) {
-                                        //     //;
-                                        // } else {
-                                        //     $no = 1;
-                                        //     foreach ($result as $row) {
-                                        // 
-                                        ?>
-                                        <tr>
-                                            <td class="px-6 py-1 text-xs font-medium text-gray-800 whitespace-nowrap !text-center"></td>
-                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
-                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
-                                            <td class="px-6 py-1 text-xs text-center text-gray-800 whitespace-nowrap"></td>
-
-                                            <td class=" py-1 text-sm  whitespace-nowrap !text-center">
-                                                <button type="button" class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium text-red-500 border-2 border-red-500 rounded-lg bg-red-200/55 gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                                    data-id=""
-                                                    data-nama="">
-                                                    X
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        // } } 
-                                        ?>
+                                    <tbody id="table-body" class="divide-y divide-gray-200 bg-slate-100">
+                                        <!--  -->
                                     </tbody>
                                 </table>
                             </div>
 
                             <hr class="border-2">
-                            <div class="flex w-full px-3 py-2">
+                            <div class="flex w-full py-2">
                                 <div class="max-w-80">
                                     <div class="flex flex-col items-end gap-1 w-72">
                                         <div class="">
@@ -532,50 +450,174 @@ function formatRupiah($angka)
 
     // =======================================================================================
 
-
     let scanner = new Instascan.Scanner({
         video: document.getElementById('preview')
+
     });
 
     scanner.addListener('scan', function(content) {
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = `<div class="font-semibold text-blue-700">Kode ditemukan:</div> <div>${content}</div><div class="mt-2 text-gray-500">Mengambil data pesanan...</div>`;
-
-        // Kirim kode ke server
         fetch('/webseafood/proses/proses_cari_pesanan.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: 'kode=' + encodeURIComponent(content)
             })
             .then(response => response.text())
-            .then(data => {
-                resultDiv.innerHTML = `
-            <div class="font-semibold text-green-700">Data Pesanan:</div>
-            <div class="mt-2 text-sm">${data}</div>
-        `;
+            .then(text => {
+                console.log('RESPON SERVER:', text); // tampilkan respon mentahnya
+                try {
+                    const data = JSON.parse(text); // coba parse JSON
+                    const resultDiv = document.getElementById('result');
+
+                    if (data.status === 'success') {
+                        resultDiv.innerHTML = `
+                    <div class="">
+                        <p><strong>Kode Pesanan:</strong> <span class="ml-2 text-sm">${data.kode_pesanan}</span></p>
+                        <p><strong>Nama Pembeli:</strong> <span class="ml-2 text-sm">${data.nama_pembeli}</span></p>
+                        <p><strong>Total Harga:</strong> <span class="ml-2 text-sm">Rp${data.total_harga}</span></p>
+                    </div>
+
+                    <div class="flex items-center justify-center mt-3">
+                        <button type="button"  id="btn-proses" class="px-4 py-2 text-yellow-500 border-2 border-yellow-500 rounded-lg hover:bg-yellow-300/85 focus:outline-none bg-yellow-200/55" data-id="${data.id_pesanan}" @click="modalEdit = true; selectedId = $el.dataset.id;">
+                            Proses
+                        </button>
+                    </div>
+                `;
+                        resultDiv.classList.remove('border-gray-300', 'border-red-500');
+                        resultDiv.classList.add('border-green-500');
+
+                        // Stop kamera
+                        scanner.stop();
+                        document.getElementById('preview').classList.add('hidden');
+                    } else {
+                        resultDiv.textContent = 'Data tidak ditemukan.';
+                        resultDiv.classList.remove('border-gray-300', 'border-green-500');
+                        resultDiv.classList.add('border-red-500');
+                    }
+                } catch (e) {
+                    console.error('Gagal parse JSON:', e);
+                }
             })
             .catch(error => {
-                resultDiv.innerHTML = `<div class="text-red-600">Gagal mengambil data: ${error}</div>`;
+                console.error('Error:', error);
+                const resultDiv = document.getElementById('result');
+                resultDiv.textContent = 'Terjadi kesalahan saat memproses data.';
+                resultDiv.classList.remove('border-green-500');
+                resultDiv.classList.add('border-red-500');
             });
     });
 
-    // Aktifkan kamera
+
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
             scanner.start(cameras[0]);
         } else {
-            alert('Tidak ditemukan kamera.');
+            alert('Tidak ada kamera ditemukan.');
         }
     }).catch(function(e) {
         console.error(e);
-        alert('Gagal mengakses kamera: ' + e);
+        alert('Gagal mengakses kamera.');
+    });
+
+
+    function resetScannerUI() {
+        document.getElementById('result').textContent = 'Hasil scan akan muncul di sini...';
+        document.getElementById('result').className = 'p-4 mt-4 text-sm text-gray-700 border border-gray-300 border-dashed rounded-lg bg-gray-50';
+        document.getElementById('preview').classList.remove('hidden');
+
+        Instascan.Camera.getCameras().then(function(cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            }
+        });
+    }
+
+    document.getElementById('btnScanUlang').addEventListener('click', resetScannerUI);
+
+
+    document.getElementById('btnCloseModal').addEventListener('click', () => {
+        // scanner.stop();
+        resetScannerUI();
+        // document.getElementById('preview').classList.add('hidden');
+        // document.getElementById('modal').classList.add('hidden');
     });
 
     // =======================================================================================
 
 
+    function loadDetailPesanan(selectedId) {
+        fetch('/webseafood/proses/data_pesanan_detail.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'selected_id=' + encodeURIComponent(selectedId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('table-body');
+                tbody.innerHTML = '';
+
+                if (data.status === 'success') {
+                    data.items.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td class="px-6 py-1 text-xs text-center">${index + 1}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.qty}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.nama_menu}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.catatan}</td>
+                        <td class="py-1 text-sm text-center">
+                            <button type="button" class="px-2 py-1 text-sm font-medium text-red-500 border-2 border-red-500 rounded-lg hapus-btn bg-red-200/55"
+                                    data-id="${item.id_detail}">
+                            X
+                            </button>
+                        </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" class="py-2 text-sm text-center text-gray-600">Data tidak ditemukan.</td></tr>`;
+                }
+            });
+    }
+
+
+
+
+    // document.addEventListener('click', function(e) {
+    //     if (e.target.classList.contains('hapus-btn')) {
+    //         const id_detail = e.target.dataset.id;
+    //         const selectedId = document.getElementById('input-id-edit').value;
+    //         hapusData(id_detail, selectedId);
+    //     }
+    // });
+
+    // =======================================================================================
+
+
+    function hapusData(id_detail, selectedId) {
+        if (!confirm('Yakin ingin menghapus item ini?')) return;
+
+        fetch('hapus_detail_pesanan.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id_detail=' + encodeURIComponent(id_detail)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    loadDetailPesanan(selectedId); // reload data
+                } else {
+                    alert('Gagal menghapus data.');
+                }
+            });
+    }
+
+
+    // =======================================================================================
 
     document.getElementById('btnHapus').addEventListener('click', function() {
 
@@ -636,6 +678,17 @@ function formatRupiah($angka)
             let value = event.target.value;
             event.target.value = formatRupiah(value);
         });
+
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'btn-proses') {
+                const selectedId = document.getElementById('input-id-edit').value;
+                loadDetailPesanan(selectedId);
+                console.log(selectedId);
+            }
+        });
+
+
 
     });
 
