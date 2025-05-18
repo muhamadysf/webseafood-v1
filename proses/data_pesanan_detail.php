@@ -7,26 +7,48 @@ date_default_timezone_set("Asia/Bangkok");
 if (isset($_POST['selected_id'])) {
     $selected_id = $_POST['selected_id'];
 
-    $query = "SELECT dp.id_detail, dp.qty, m.nama_menu, dp.catatan 
-                FROM tb_detail_pesanan dp
+    $query = "SELECT p.*, pb.*,
+                dp.id_detail, dp.qty, m.nama_menu, dp.catatan AS catatan_detail, 
+                p.catatan AS catatan_pesanan
+                FROM tb_pesanan p
+                JOIN tb_detail_pesanan dp ON dp.id_pesanan = p.id_pesanan
                 JOIN tb_menu m ON dp.id_menu = m.id_menu
-                WHERE dp.id_pesanan = '$selected_id'";
+                JOIN tb_pembeli pb ON p.id_pembeli = pb.id_pembeli
+                WHERE p.id_pesanan = '$selected_id'";
 
     $result = mysqli_query($conn, $query);
-    $data = [];
+    $items = [];
+    $pesanan = null;
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = [
+
+        if ($pesanan === null) {
+            // Ambil data pesanan sekali saja
+            $pesanan = [
+                'id_pesanan' => $selected_id,
+                'nama_pembeli' => $row['nama_pembeli'],
+                'email_pembeli' => $row['email_pembeli'],
+                'no_hp' => $row['no_hp'],
+                'jenis_pesanan' => $row['jenis_pesanan'],
+                'no_meja' => $row['no_meja'],
+                'catatan_pesanan' => $row['catatan_pesanan'],
+                'total_harga' => $row['total_harga'],
+                'metode_bayar' => $row['metode_bayar']
+            ];
+        }
+
+        $items[] = [
             'id_detail' => $row['id_detail'],
             'qty' => $row['qty'],
             'nama_menu' => $row['nama_menu'],
-            'catatan' => $row['catatan']
+            'catatan_detail' => $row['catatan_detail']
         ];
     }
 
     echo json_encode([
         'status' => 'success',
-        'items' => $data
+        'pesanan' => $pesanan,
+        'items' => $items
     ]);
 } else {
     echo json_encode(['status' => 'error']);

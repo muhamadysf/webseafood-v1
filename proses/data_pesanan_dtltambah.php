@@ -4,8 +4,8 @@ header('Content-Type: application/json');
 include '../config/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 
-if (isset($_POST['id_detail'])) {
-    $id_detail = $_POST['id_detail'];
+if (isset($_POST['id_menu'])) {
+    $id_menu = $_POST['id_menu'];
     $selectedId = $_POST['selectedId'];
 
     $queryDel = mysqli_query($conn, "DELETE FROM tb_detail_pesanan WHERE id_detail = '$id_detail'");

@@ -8,6 +8,9 @@ while ($record = mysqli_fetch_array($query)) {
 }
 
 
+
+
+
 function formatRupiah($angka)
 {
     return "Rp. " . number_format($angka, 0, ',', '.') . ',-';
@@ -52,13 +55,30 @@ function formatRupiah($angka)
                 } else {
                     $no = 1;
                     foreach ($result as $row) {
+
+                        $status = isset($row['status_pesanan']) ? $row['status_pesanan'] : '-';
+
+                        switch ($status) {
+                            case 'Belum Bayar':
+                                $colorClass = 'text-red-600 bg-red-100 p-1 rounded-md';
+                                break;
+                            case 'Proses':
+                                $colorClass = 'text-yellow-600 bg-yellow-100 p-1 rounded-md';
+                                break;
+                            case 'Selesai':
+                                $colorClass = 'text-green-600 bg-green-100 p-1 rounded-md';
+                                break;
+                            default:
+                                $colorClass = 'text-gray-600 bg-gray-100 p-1 rounded-md';
+                                break;
+                        }
                 ?>
                         <tr>
                             <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap !text-center"><?php echo $no++; ?></td>
                             <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['kode_pesanan']) ? $row['kode_pesanan'] : '-'; ?></td>
                             <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['nama_pembeli']) ? $row['nama_pembeli'] : '-'; ?></td>
                             <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap">Rp. <?php echo isset($row['total_harga']) ? number_format($row['total_harga'], 0, ',', '.') : '-'; ?></td>
-                            <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['status_pesanan']) ? $row['status_pesanan'] : '-'; ?></td>
+                            <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"><span class="<?php echo $colorClass; ?>"><?php echo isset($row['status_pesanan']) ? $row['status_pesanan'] : '-'; ?></span></td>
                             <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['tanggal_pesanan']) ? date('d-m-Y H:i:s', strtotime($row['tanggal_pesanan'])) : '-'; ?></td>
                             <td class=" py-4 text-sm  whitespace-nowrap !text-center">
                                 <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
@@ -131,12 +151,12 @@ function formatRupiah($angka)
                 <button type="submit" class="hidden" id="btnSubmitData">Submit</button>
             </form>
             <div class="w-full ">
-                <h2 class="px-5 py-2 text-2xl font-bold text-center text-gray-800">Edit Pesanan</h2>
+                <h2 class="px-5 py-2 text-2xl font-bold text-center text-gray-800">Kelola Pesanan</h2>
                 <hr class="border-1">
 
                 <div class="px-5 py-2 space-y-2 bg-gray-300 border border-dashed">
                     <div class="flex gap-3">
-                        <div class="w-1/4 bg-white rounded-lg shadow-lg ">
+                        <div id="daftar-menu" class="w-1/4 bg-white rounded-lg shadow-lg ">
                             <h2 class="py-1 font-semibold text-center text-black ">Daftar Menu</h2>
                             <hr class="border-1">
                             <div class="flex flex-col gap-2 px-4 py-2 space-y-2 overflow-y-auto max-h-80">
@@ -154,7 +174,7 @@ function formatRupiah($angka)
                                         <div class="flex flex-col items-center justify-end h-full gap-2">
                                             <!-- =========================================================================== -->
                                             <img src="../<?php echo $mrow['gambar_menu'] ?>" alt="gambar_menu" class="object-cover size-10 rounded-xl shrink-0">
-                                            <button type="button" class="  px-4 py-[2px]  text-xs text-white border border-transparent transition bg-red-600 rounded-lg hover:text-white hover:bg-red-500" data-id="">
+                                            <button type="button" class="tambah-btn  px-4 py-[2px]  text-xs text-white border border-transparent transition bg-red-600 rounded-lg hover:text-white hover:bg-red-500 disabled:bg-red-300" data-id="<?php echo $mrow['id_menu'] ?>">
                                                 Tambah
                                             </button>
 
@@ -197,7 +217,7 @@ function formatRupiah($angka)
                             </div>
                         </div>
 
-                        <div class="w-3/4 bg-white rounded-lg shadow-lg">
+                        <div id="detail-pesanan" class="w-3/4 bg-white rounded-lg shadow-lg">
                             <h2 class="py-1 font-semibold text-center text-black">Detail Pesanan</h2>
                             <hr class="border-1">
                             <div class="px-4 py-2 max-h-52 h-52 !overflow-y-scroll">
@@ -219,28 +239,28 @@ function formatRupiah($angka)
 
                             <hr class="border-2">
                             <div class="flex w-full py-2">
-                                <div class="max-w-80">
-                                    <div class="flex flex-col items-end gap-1 w-72">
+                                <div class="pl-5 max-w-72">
+                                    <div class="flex flex-col items-end w-64 gap-1">
                                         <div class="">
-                                            <label for="input-nama" class="text-sm">Nama Pemesan :</label>
-                                            <input id="input-nama" name="input-nama" type="text" class="w-40 p-1 rounded-md">
+                                            <label for="input-nama" class="text-xs">Nama Pemesan :</label>
+                                            <input id="input-nama" name="input-nama" type="text" class="w-40 p-1 text-xs rounded-md" readonly>
                                         </div>
                                         <div class="">
-                                            <label for="input-nohp" class="text-sm">No. Handphone :</label>
-                                            <input id="input-nohp" name="input-nohp" type="text" class="w-40 p-1 rounded-md" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                            <label for="input-nohp" class="text-xs">No. Handphone :</label>
+                                            <input id="input-nohp" name="input-nohp" type="text" class="w-40 p-1 text-xs rounded-md" oninput="this.value = this.value.replace(/[^0-9]/g, '')" readonly>
                                         </div>
                                         <div class="">
-                                            <label for="input-email" class="text-sm">Email Pemesan :</label>
-                                            <input id="input-email" name="input-email" type="text" class="w-40 p-1 rounded-md">
+                                            <label for="input-email" class="text-xs">Email Pemesan :</label>
+                                            <input id="input-email" name="input-email" type="text" class="w-40 p-1 text-xs rounded-md" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ml-10 w-[580px]">
+                                <div class="ml-7 max-w-[580px]">
                                     <div class="flex items-center w-full h-10">
-                                        <h3 class="text-sm text-black">Tipe Pesanan :</h3>
-                                        <div class="flex items-center ml-3 space-x-2 sm:space-x-4">
-                                            <label class="flex items-center space-x-2 cursor-pointer">
-                                                <input type="radio" name="option" value="ambil" class="hidden peer">
+                                        <h3 class="text-xs text-black w-16">Tipe :</h3>
+                                        <div class="flex items-center ml-1 space-x-2 sm:space-x-4">
+                                            <label class="flex items-center space-x-2">
+                                                <input id="input-ambil" type="radio" name="option" value="ambil" class="hidden peer" disabled>
                                                 <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
 
                                                     <svg id="svgAway" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -250,11 +270,11 @@ function formatRupiah($angka)
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                <span id="spanAway" class="text-sm text-gray-700 whitespace-nowrap">Take away</span>
+                                                <span id="spanAway" class="text-xs text-gray-700 whitespace-nowrap">Take away</span>
                                             </label>
 
-                                            <label class="flex items-center space-x-2 cursor-pointer">
-                                                <input type="radio" name="option" value="ditempat" class="hidden peer">
+                                            <label class="flex items-center space-x-2">
+                                                <input id="input-ditempat" type="radio" name="option" value="ditempat" class="hidden peer" disabled>
                                                 <div class="flex items-center justify-center w-5 h-5 border-2 border-gray-700 rounded-full ">
                                                     <svg id="svgTempat" class="hidden size-4 text-primary-400" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                                         viewBox="0 0 35.979 35.979" xml:space="preserve">
@@ -263,12 +283,12 @@ function formatRupiah($angka)
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                <span id="spanTempat" class="text-sm text-gray-700 whitespace-nowrap">Makan ditempat</span>
+                                                <span id="spanTempat" class="text-xs text-gray-700 whitespace-nowrap">Makan ditempat</span>
                                             </label>
 
                                             <div id="boxMeja" class="justify-center">
                                                 <div class="relative">
-                                                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="inputMeja" type="text" class="peer py-2.5 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-md sm:text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja" maxlength="2">
+                                                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="inputMeja" type="text" class="peer py-2.5 px-4 ps-11 block w-32 border-2 border-gray-200 bg-white  rounded-md sm:text-xs focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="No. Meja" maxlength="2" readonly>
                                                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                                                         <svg class="text-gray-500 shrink-0 size-4" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 48 48" xml:space="preserve">
                                                             <g>
@@ -282,30 +302,57 @@ function formatRupiah($angka)
                                         </div>
                                     </div>
 
-                                    <div class="flex ">
-                                        <label for="input-catatan" class="pr-4 ml-8 text-sm">Catatan :</label>
-                                        <textarea name="input-catatan" id="input-catatan" class="block px-4 py-2 text-sm border-gray-200 rounded-lg w-60 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="" data-hs-textarea-auto-height='{"defaultHeight": 72}' required></textarea>
+                                    <div class="flex w-full">
+                                        <label for="input-catatan" class=" text-xs w-16">Catatan :</label>
+                                        <textarea name="input-catatan" id="input-catatan" class="block ml-1 px-4 py-2 text-sm border-gray-200 rounded-lg w-full focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="" data-hs-textarea-auto-height='{"defaultHeight": 72}'></textarea>
                                     </div>
 
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="flex w-full h-32 bg-white rounded-lg shadow-lg">
-                        <div class="flex-col flex-1 px-5 py-3">
-                            <h3 class="text-base text-center">Metode Pembayaran :</h3>
-                            <div class="flex items-center justify-center gap-6 my-3">
-                                <div id="card-qris" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" name="option-dua" value="kris" class=" peer">
-                                        <img src="../public/assets/images/qr.png" alt="kris" class="object-cover size-12 ">
-                                        <span class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Qris</span>
-                                    </label>
+                        <div class="flex-col px-5 py-3">
+                            <h3 class="text-base font-semibold text-center  mb-3">1. Kunci Pesanan :</h3>
+                            <div class="flex items-center justify-center gap-1">
+                                <button id="btn-kunci" name="btn-kunci" type="submit" class="inline-flex items-center px-2 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none disabled:bg-green-500/50 disabled:cursor-none">
+                                    <svg class="size-6" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 6V4C4 1.79086 5.79086 0 8 0C10.2091 0 12 1.79086 12 4V6H14V16H2V6H4ZM6 4C6 2.89543 6.89543 2 8 2C9.10457 2 10 2.89543 10 4V6H6V4ZM7 13V9H9V13H7Z" fill="currentColor" />
+                                    </svg>
+                                </button>
+                                <button id="btn-buka-kunci" name="btn-buka-kunci" type="submit" class="inline-flex items-center px-2 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none disabled:bg-green-500/50 disabled:cursor-none" disabled>
+                                    <svg class="size-6" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 2C10.6716 2 10 2.67157 10 3.5V6H13V16H1V6H8V3.5C8 1.567 9.567 0 11.5 0C13.433 0 15 1.567 15 3.5V4H13V3.5C13 2.67157 12.3284 2 11.5 2ZM9 10H5V12H9V10Z" fill="currentColor" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="w-1 h-full bg-gray-400"></div>
+
+
+                        <div id="div-metode-bayar" class="flex-col px-5 py-3 w-[520px] hidden">
+                            <h3 class="text-base font-semibold text-center  mb-3">2. Metode Pembayaran :</h3>
+                            <div class="flex items-center space-x-3">
+                                <div class="flex ">
+                                    <div id="card-qris" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
+                                        <label class="flex items-center space-x-2">
+                                            <input id="input-kris" type="radio" name="option-dua" value="kris" class=" peer">
+                                            <img src="../public/assets/images/qr.png" alt="kris" class="object-cover size-12 ">
+                                            <span class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Qris</span>
+                                        </label>
+
+                                    </div>
+                                    <div id="div-keterangan" class="flex flex-col pl-3">
+                                        <label for="input-keterangan" class="text-xs">Nama Rekening :</label>
+                                        <input id="input-keterangan" name="input-keterangan" type="text" class="w-40 p-1 rounded-md focus:border-green-500 focus:ring-green-500 focus:border-2">
+                                    </div>
                                 </div>
                                 <div id="card-cash" class="px-4 py-2 border border-gray-200 rounded-lg shadow-xl select-none">
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" name="option-dua" value="cash" class=" peer">
+                                    <label class="flex items-center space-x-2">
+                                        <input id="input-cash" type="radio" name="option-dua" value="cash" class=" peer">
                                         <img src="../public/assets/images/cash.png" alt="cash" class="object-cover size-12">
                                         <span class="text-xs text-gray-700 sm:text-base whitespace-nowrap">Cash</span>
                                     </label>
@@ -316,7 +363,7 @@ function formatRupiah($angka)
                         <div class="w-1 h-full bg-gray-400"></div>
 
                         <!-- ============================= -->
-                        <div class="flex justify-end w-72">
+                        <div id="div-total-bayar" class=" justify-end w-72">
                             <div class="flex gap-3 px-5 py-3">
                                 <div class="flex flex-col gap-1 text-end">
                                     <p class="">Total :</p>
@@ -325,9 +372,9 @@ function formatRupiah($angka)
                                 </div>
 
                                 <div class="flex flex-col justify-start gap-1">
-                                    <p class="">Rp. XXX.XXX,-</p>
-                                    <input id="jumlah-uang" name="jumlah-uang" type="text" maxlength="11" class="py-1 border-2 rounded-md focus:border-green-500 focus:ring-green-500 w-28" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                    <p class="">Rp. XXX.XXX,-</p>
+                                    <p id="" class="">Rp. <span id="total-harga">0</span>,-</p>
+                                    <input id="jumlah-uang" name="jumlah-uang" type="text" maxlength="11" class="py-1 border-transparent rounded-md focus:border-green-500 focus:ring-green-500 w-28 focus:border-2 disabled:border-transparent">
+                                    <p id="" class="">Rp. <span id="kembalian">0</span>,-</p>
                                 </div>
 
                             </div>
@@ -340,7 +387,7 @@ function formatRupiah($angka)
                     <button type="button" @click="modalEdit= false;" class="px-3 text-white bg-gray-500 rounded-lg hover:bg-gray-700">
                         Kembali
                     </button>
-                    <button id="btnSubmit" name="btnsubmit" type="submit" class="inline-flex items-center px-6 py-2 font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none">Proses</button>
+                    <button id="btn-proses" name="btn-proses" type="submit" class="inline-flex items-center px-6 py-2 font-medium text-white bg-green-500 border border-transparent rounded-lg gap-x-2 focus:outline-none disabled:opacity-50 disabled:pointer-events-none disabled:bg-green-500/50 disabled:cursor-none" disabled>Proses</button>
                 </div>
             </div>
         </div>
@@ -465,7 +512,7 @@ function formatRupiah($angka)
             })
             .then(response => response.text())
             .then(text => {
-                console.log('RESPON SERVER:', text); // tampilkan respon mentahnya
+                // console.log('RESPON SERVER:', text); // tampilkan respon mentahnya
                 try {
                     const data = JSON.parse(text); // coba parse JSON
                     const resultDiv = document.getElementById('result');
@@ -546,7 +593,9 @@ function formatRupiah($angka)
     // =======================================================================================
 
 
-    function loadDetailPesanan(selectedId) {
+    let rincianpesanan;
+
+    function loadDetailPesanan(selectedId, totalHarga = null) {
         fetch('/webseafood/proses/data_pesanan_detail.php', {
                 method: 'POST',
                 headers: {
@@ -559,23 +608,82 @@ function formatRupiah($angka)
                 const tbody = document.getElementById('table-body');
                 tbody.innerHTML = '';
 
+                const txtHarga = document.getElementById('total-harga');
+
+
+
                 if (data.status === 'success') {
+
+                    rincianpesanan = data.pesanan;
+
+
                     data.items.forEach((item, index) => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                         <td class="px-6 py-1 text-xs text-center">${index + 1}</td>
                         <td class="px-6 py-1 text-xs text-center">${item.qty}</td>
                         <td class="px-6 py-1 text-xs text-center">${item.nama_menu}</td>
-                        <td class="px-6 py-1 text-xs text-center">${item.catatan}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.catatan_detail}</td>
                         <td class="py-1 text-sm text-center">
-                            <button type="button" class="px-2 py-1 text-sm font-medium text-red-500 border-2 border-red-500 rounded-lg hapus-btn bg-red-200/55"
+                            <button type="button"  class="px-2 py-1 text-sm font-medium text-red-500 border-2 border-red-500 rounded-lg hapus-btn bg-red-200/55"
                                     data-id="${item.id_detail}">
                             X
                             </button>
                         </td>
                         `;
                         tbody.appendChild(row);
+
                     });
+
+                    txtHarga.textContent = formatRupiah(totalHarga);
+                    // console.log(totalHarga);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" class="py-2 text-sm text-center text-gray-600">Data tidak ditemukan.</td></tr>`;
+                }
+            });
+    }
+
+    // =======================================================================================
+
+    function loadKunciPesanan(selectedId, totalHarga = null) {
+        fetch('/webseafood/proses/data_pesanan_detail.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'selected_id=' + encodeURIComponent(selectedId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('table-body');
+                tbody.innerHTML = '';
+
+                const txtHarga = document.getElementById('total-harga');
+
+
+
+                if (data.status === 'success') {
+
+                    // rincianpesanan = data.pesanan;
+
+
+                    data.items.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td class="px-6 py-1 text-xs text-center">${index + 1}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.qty}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.nama_menu}</td>
+                        <td class="px-6 py-1 text-xs text-center">${item.catatan_detail}</td>
+                        <td class="py-1 text-sm text-center">
+                            -
+                        </td>
+                        `;
+                        tbody.appendChild(row);
+
+                    });
+
+                    txtHarga.textContent = formatRupiah(totalHarga);
+                    // console.log(totalHarga);
                 } else {
                     tbody.innerHTML = `<tr><td colspan="5" class="py-2 text-sm text-center text-gray-600">Data tidak ditemukan.</td></tr>`;
                 }
@@ -584,32 +692,75 @@ function formatRupiah($angka)
 
 
 
+    // =======================================================================================
 
-    // document.addEventListener('click', function(e) {
-    //     if (e.target.classList.contains('hapus-btn')) {
-    //         const id_detail = e.target.dataset.id;
-    //         const selectedId = document.getElementById('input-id-edit').value;
-    //         hapusData(id_detail, selectedId);
-    //     }
-    // });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('hapus-btn') && !e.target.disabled) {
+            const id_detail = e.target.dataset.id;
+            const selectedId = document.getElementById('input-id-edit').value;
+            hapusData(id_detail, selectedId);
+        }
+    });
 
     // =======================================================================================
 
 
-    function hapusData(id_detail, selectedId) {
-        if (!confirm('Yakin ingin menghapus item ini?')) return;
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('tambah-btn') && !e.target.disabled) {
+            const id_menu = e.target.dataset.id;
+            const selectedId = document.getElementById('input-id-edit').value;
+            tambahMenu(id_menu, selectedId);
+        }
+    });
 
-        fetch('hapus_detail_pesanan.php', {
+
+    // =======================================================================================
+
+
+    function tambahMenu(id_menu, selectedId) {
+        fetch('/webseafood/proses/data_pesanan_dtltambah.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'id_detail=' + encodeURIComponent(id_detail)
+                body: 'id_menu=' + encodeURIComponent(id_menu) + '&selectedId=' + encodeURIComponent(selectedId)
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    loadDetailPesanan(selectedId); // reload data
+                    totalHargaUtama = data.total_harga;
+                    loadDetailPesanan(selectedId, totalHargaUtama);
+                } else if (data.status === 'hapus') {
+                    // location.reload();
+                } else {
+                    alert('Gagal menambah data.');
+                }
+            });
+    }
+
+
+    // =======================================================================================
+
+    let totalHargaUtama = 0;
+
+    function hapusData(id_detail, selectedId) {
+        if (!confirm('Yakin ingin menghapus item ini?')) return;
+
+        fetch('/webseafood/proses/data_pesanan_dtlhapus.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id_detail=' + encodeURIComponent(id_detail) + '&selectedId=' + encodeURIComponent(selectedId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    totalHargaUtama = data.total_harga;
+                    loadDetailPesanan(selectedId, totalHargaUtama);
+                } else if (data.status === 'hapus') {
+                    location.reload();
                 } else {
                     alert('Gagal menghapus data.');
                 }
@@ -662,17 +813,39 @@ function formatRupiah($angka)
 
 
     function formatRupiah(angka) {
-        return angka.replace(/\D/g, '')
-            .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        angka = String(angka).replace(/\D/g, '');
+        return angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        // return 'Rp ' + angka.replace(...); // bisa juga kalau mau pakai "Rp"
     }
 
 
     // =======================================================================================
 
+    let dataPesanan = null;
 
     document.addEventListener("DOMContentLoaded", function() {
 
-        const inputNominal = document.getElementById("jumlah-uang")
+        const inputNominal = document.getElementById("jumlah-uang");
+
+        const inputNama = document.getElementById('input-nama');
+        const inputNohp = document.getElementById('input-nohp');
+        const inputEmail = document.getElementById('input-email');
+
+        const inputCatatanPesanan = document.getElementById('input-catatan');
+        const inputKris = document.getElementById('input-kris');
+        const inputCash = document.getElementById('input-cash');
+
+        const inputAmbil = document.getElementById('input-ambil');
+        const inputDitempat = document.getElementById('input-ditempat');
+
+        const txtHarga = document.getElementById('total-harga');
+        const txtKembalian = document.getElementById('kembalian');
+
+        const divKet = document.getElementById('div-keterangan');
+        const inputKeterangan = document.getElementById('input-keterangan');
+        const inputUang = document.getElementById('jumlah-uang');
+
+        const btnProses = document.getElementById('btn-proses');
 
         inputNominal.addEventListener("input", function(event) {
             let value = event.target.value;
@@ -681,14 +854,126 @@ function formatRupiah($angka)
 
 
         document.addEventListener('click', function(e) {
+
             if (e.target && e.target.id === 'btn-proses') {
                 const selectedId = document.getElementById('input-id-edit').value;
                 loadDetailPesanan(selectedId);
-                console.log(selectedId);
+
+                fetch('/webseafood/proses/data_pesanan_detail.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'selected_id=' + encodeURIComponent(selectedId)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.status === 'success') {
+
+                            dataPesanan = data.pesanan;
+
+                            const jenis = data.pesanan.jenis_pesanan;
+                            const metode = data.pesanan.metode_bayar;
+
+
+                            if (jenis === 'Dine In') {
+                                svgTempat.classList.remove("hidden");
+                                svgTempat.classList.add("block");
+                                svgAway.classList.add("hidden");
+                                svgAway.classList.remove("block");
+                                boxMeja.classList.remove("hidden");
+                                boxMeja.classList.add("flex");
+                                spanTempat.classList.remove("text-gray-700");
+                                spanTempat.classList.add("text-primary-400");
+                                spanAway.classList.add("text-gray-700");
+                                spanAway.classList.remove("text-primary-400");
+                                inputMeja.value = data.pesanan.no_meja;
+                            } else if (jenis === 'Take Away') {
+                                svgTempat.classList.add("hidden");
+                                svgTempat.classList.remove("block");
+                                svgAway.classList.remove("hidden");
+                                svgAway.classList.add("block");
+                                boxMeja.classList.remove("flex");
+                                boxMeja.classList.add("hidden");
+                                spanTempat.classList.add("text-gray-700");
+                                spanTempat.classList.remove("text-primary-400");
+                                spanAway.classList.remove("text-gray-700");
+                                spanAway.classList.add("text-primary-400");
+
+                            }
+
+                            if (metode === 'kris') {
+                                inputKris.checked = true;
+                                divKet.classList.remove('hidden');
+                                document.getElementById('card-qris').classList.remove('border-gray-200', 'border');
+                                document.getElementById('card-qris').classList.add('border-green-500', 'border-2');
+                                // setTimeout(() => inputKeterangan.focus(), 10);
+                                // inputKeterangan.focus();
+                            } else if (metode === 'cash') {
+                                divKet.classList.add('hidden');
+                                inputCash.checked = true;
+                                // inputUang.focus();
+                                document.getElementById('card-cash').classList.remove('border-gray-200', 'border');
+                                document.getElementById('card-cash').classList.add('border-green-500', 'border-2');
+                                // setTimeout(() => inputUang.focus(), 10);
+                            }
+
+
+                            inputNama.value = data.pesanan.nama_pembeli;
+                            inputEmail.value = data.pesanan.email_pembeli;
+                            inputNohp.value = data.pesanan.no_hp;
+                            inputCatatanPesanan.value = data.pesanan.catatan_pesanan;
+
+                            totalHargaUtama = data.pesanan.total_harga;
+                            txtHarga.textContent = formatRupiah(totalHargaUtama);
+
+                        } else {
+                            // 
+                        }
+                    });
+
             }
         });
 
 
+        inputUang.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+
+                const inputUangRaw = inputUang.value;
+                const bayarBersih = inputUangRaw.replace(/\D/g, '');
+
+                const nominal = parseInt(bayarBersih, 10);
+                totalHarga = parseFloat(totalHargaUtama || 0);
+
+                let kembalian = 0;
+
+                if (isNaN(nominal) || nominal < totalHarga) {
+                    alert(`Jumlah bayar tidak boleh kurang dari total: Rp ${totalHarga}`);
+                    this.focus();
+                } else {
+
+                    kembalian = nominal - totalHarga;
+
+                    txtHarga.textContent = formatRupiah(totalHargaUtama);
+                    this.setAttribute('disabled', '');
+                    this.classList.add('text-gray-200', 'ring-gray-200', 'border-green-300');
+                    btnProses.removeAttribute('disabled');
+                    btnProses.focus();
+                    txtKembalian.textContent = formatRupiah(kembalian);
+
+
+                    const hapusButtons = document.querySelectorAll('.hapus-btn');
+
+                    console.log(hapusButtons);
+                    document.querySelectorAll('.hapus-btn').forEach(btn => {
+                        btn.disabled = true;
+                        btn.classList.add('pointer-events-none', 'opacity-50');
+                    });
+
+                }
+            }
+        });
 
     });
 
@@ -698,11 +983,21 @@ function formatRupiah($angka)
         const svgTempat = document.getElementById("svgTempat");
         const svgAway = document.getElementById("svgAway");
         const options = document.querySelectorAll("input[name='option']");
+        const optionsDua = document.querySelectorAll("input[name='option-dua']");
         const inputMeja = document.getElementById("inputMeja");
         const spanAway = document.getElementById("spanAway");
         const spanTempat = document.getElementById("spanTempat");
+        const inputUang = document.getElementById('jumlah-uang');
+        const divKet = document.getElementById('div-keterangan');
+        const inputKeterangan = document.getElementById('input-keterangan');
 
+        const btnKunci = document.getElementById('btn-kunci');
+        const btnBukaKunci = document.getElementById('btn-buka-kunci');
+        const daftarMenu = document.getElementById('daftar-menu');
+        const daftarDetail = document.getElementById('detail-pesanan');
 
+        const divMetodeBayar = document.getElementById('div-metode-bayar');
+        const divTotalHarga = document.getElementById('div-total-bayar');
 
         options.forEach(option => {
             option.addEventListener('change', () => {
@@ -733,6 +1028,65 @@ function formatRupiah($angka)
             });
         });
 
+
+        optionsDua.forEach(optionDua => {
+            optionDua.addEventListener('change', () => {
+                if (optionDua.value === "cash") {
+                    inputUang.removeAttribute('disabled');
+                    divKet.classList.add('hidden');
+                    setTimeout(() => inputUang.focus(), 10);
+                    // inputUang.focus();
+                    document.getElementById('card-cash').classList.remove('border-gray-200', 'border');
+                    document.getElementById('card-cash').classList.add('border-green-500', 'border-2');
+
+                    document.getElementById('card-qris').classList.add('border-gray-200', 'border');
+                    document.getElementById('card-qris').classList.remove('border-green-500', 'border-2');
+                } else {
+                    // inputKeterangan.focus();
+                    inputUang.setAttribute('disabled', 'true');
+                    divKet.classList.remove('hidden');
+                    setTimeout(() => inputKeterangan.focus(), 10);
+                    document.getElementById('card-cash').classList.add('border-gray-200', 'border');
+                    document.getElementById('card-cash').classList.remove('border-green-500', 'border-2');
+
+                    document.getElementById('card-qris').classList.remove('border-gray-200', 'border');
+                    document.getElementById('card-qris').classList.add('border-green-500', 'border-2');
+                }
+            });
+        });
+
+
+        btnKunci.addEventListener('click', function() {
+            btnBukaKunci.removeAttribute('disabled');
+            btnKunci.setAttribute('disabled', '');
+            daftarMenu.classList.add('hidden');
+            daftarDetail.classList.add('w-full');
+            daftarDetail.classList.remove('w-3/4');
+            divMetodeBayar.classList.remove('hidden');
+            // divTotalHarga.classList.remove('hidden');
+            const selectedId = document.getElementById('input-id-edit').value;
+            loadKunciPesanan(selectedId, totalHargaUtama);
+        });
+
+        btnBukaKunci.addEventListener('click', function() {
+            btnKunci.removeAttribute('disabled');
+            btnBukaKunci.setAttribute('disabled', '');
+            daftarMenu.classList.remove('hidden');
+            daftarDetail.classList.remove('w-full');
+            daftarDetail.classList.add('w-3/4');
+            divMetodeBayar.classList.add('hidden');
+            // divTotalHarga.classList.add('hidden');
+            const selectedId = document.getElementById('input-id-edit').value;
+            loadDetailPesanan(selectedId, totalHargaUtama);
+        });
+
+        document.getElementById('card-qris').addEventListener('click', function() {
+            document.getElementById('input-keterangan').focus();
+        });
+
+        document.getElementById('card-cash').addEventListener('click', function() {
+            document.getElementById('jumlah-uang').focus();
+        });
 
 
 
