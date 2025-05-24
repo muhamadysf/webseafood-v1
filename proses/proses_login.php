@@ -6,12 +6,12 @@ $password = (isset($_POST['password'])) ? md5(htmlentities($_POST['password'])) 
 
 
 if (isset($_POST['submit_validate'])) {
-    $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$username' AND password = '$password'");
+    $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$username' AND password = '$password'");
     $hasil = mysqli_fetch_array($query);
     if ($hasil) {
-        $_SESSION['username_kingseafood'] = $hasil['username'];
+        $_SESSION['username_kingseafood'] = $hasil['email'];
         $_SESSION['level_kingseafood'] = $hasil['level'];
-        $_SESSION['id'] = $hasil['id'];
+        $_SESSION['id'] = $hasil['id_user'];
         $_SESSION['nama'] = $hasil['nama'];
         echo "Email yang dimasukkan: " . $_POST['email'];
         header('location: ../admin/main');
@@ -21,7 +21,7 @@ if (isset($_POST['submit_validate'])) {
 
 ?>
         <script>
-            alert('username atau password yang anda masukkan salah');
+            alert('email atau password yang anda masukkan salah');
             window.location = '../admin/login';
         </script>
 <?php

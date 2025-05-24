@@ -13,7 +13,7 @@ $alamat = (isset($_POST['alamat'])) ? htmlentities($_POST['alamat']) : "";
 $password = md5('password');
 
 if (isset($_POST['input_user_validate'])) {
-    $sql =  "UPDATE tb_user SET nama=?, username=?, level=?, nohp=?, alamat=? WHERE id=?";
+    $sql =  "UPDATE tb_user SET nama=?, email=?, level=?, nohp=?, alamat=? WHERE id_user =?";
 
 
 

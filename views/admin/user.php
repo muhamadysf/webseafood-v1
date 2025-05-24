@@ -108,9 +108,9 @@ while ($record = mysqli_fetch_array($query)) {
                                 <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><?php echo $row['nohp'] ?></td>
                                 <td class=" py-4 text-sm  whitespace-nowrap !text-center">
                                     <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-teal-600 bg-teal-200/55 border mr-8 border-transparent rounded-full gap-x-2 hover:bg-teal-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                        data-id="<?php echo $row['id']; ?>"
+                                        data-id="<?php echo $row['id_user']; ?>"
                                         data-nama="<?php echo $row['nama']; ?>"
-                                        data-username="<?php echo $row['username']; ?>"
+                                        data-username="<?php echo $row['email']; ?>"
                                         data-level="<?php echo $row['level']; ?>"
                                         data-nohp="<?php echo $row['nohp']; ?>"
                                         data-alamat="<?php echo $row['alamat']; ?>"
@@ -119,9 +119,9 @@ while ($record = mysqli_fetch_array($query)) {
                                         Detail
                                     </button>
                                     <button type="button" class="inline-flex justify-center mr-8 items-center w-16 py-[2px] text-sm font-medium text-yellow-500 bg-yellow-200/55 border border-transparent rounded-full gap-x-2 hover:border-yel hover:bg-yellow-300/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                        data-id="<?php echo $row['id']; ?>"
+                                        data-id="<?php echo $row['id_user']; ?>"
                                         data-nama="<?php echo $row['nama']; ?>"
-                                        data-username="<?php echo $row['username']; ?>"
+                                        data-username="<?php echo $row['email']; ?>"
                                         data-level="<?php echo $row['level']; ?>"
                                         data-nohp="<?php echo $row['nohp']; ?>"
                                         data-alamat="<?php echo $row['alamat']; ?>"
@@ -130,9 +130,9 @@ while ($record = mysqli_fetch_array($query)) {
                                         Edit
                                     </button>
                                     <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
-                                        data-id="<?php echo $row['id']; ?>"
+                                        data-id="<?php echo $row['id_user']; ?>"
                                         data-nama="<?php echo $row['nama']; ?>"
-                                        data-username="<?php echo $row['username']; ?>"
+                                        data-username="<?php echo $row['email']; ?>"
                                         data-level="<?php echo $row['level']; ?>"
                                         data-nohp="<?php echo $row['nohp']; ?>"
                                         data-alamat="<?php echo $row['alamat']; ?>"

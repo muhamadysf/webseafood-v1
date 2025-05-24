@@ -159,7 +159,7 @@ while ($record = mysqli_fetch_array($query)) {
                 </div>
 
                 <!-- Konten Modal -->
-                <div id="pesanHps" class="flex flex-col items-center justify-center hidden w-full gap-4 px-4 py-3">
+                <div id="pesanHps" class=" flex-col items-center justify-center hidden w-full gap-4 px-4 py-3">
                     <img :src="'../'+selectImg" alt="Logo makanan" class="w-48 h-48 rounded-xl">
                     <p class="">Data Menu <span class="font-semibold text-red-500" x-text="selectNama"></span> akan dihapus permanen. Anda yakin ingin melanjutkan?</p>
                 </div>
@@ -350,11 +350,13 @@ while ($record = mysqli_fetch_array($query)) {
         if (modalType == "hapus") {
             inputModal.classList.add("hidden");
             pesanHps.classList.remove("hidden");
+            pesanHps.classList.add("flex");
 
             form.action = "../proses/proses_menu_delete.php";
 
         } else {
             pesanHps.classList.add("hidden");
+            pesanHps.classList.remove("flex");
             inputModal.classList.remove("hidden");
 
             if (modalType == "edit") {

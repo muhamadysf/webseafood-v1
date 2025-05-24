@@ -13,7 +13,7 @@ $password = md5($username);
 
 if (isset($_POST['input_user_validate'])) {
 
-    $sql = "INSERT INTO tb_user (nama,username,level,nohp,alamat,password) values (?,?,?,?,?,?)";
+    $sql = "INSERT INTO tb_user (nama,email,level,nohp,alamat,password) values (?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssisss", $name, $username, $level, $nohp, $alamat, $password);

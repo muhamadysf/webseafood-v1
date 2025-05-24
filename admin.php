@@ -62,6 +62,18 @@ if (isset($_GET['x']) && $_GET['x'] == 'home') {
   // 
   include "./views/admin/login.php";
   // 
+} else if (isset($_GET['x']) && $_GET['x'] == 'request-reset') {
+  // 
+  include "./views/admin/request-reset.php";
+  // 
+} else if (isset($_GET['x']) && $_GET['x'] == 'reset-pwd') {
+  // 
+  include "./views/admin/reset-pwd.php";
+  // 
+} else if (isset($_GET['x']) && $_GET['x'] == 'request-notif') {
+  // 
+  include "./views/admin/request-notif.php";
+  // 
 } else if (isset($_GET['x']) && $_GET['x'] == 'logout') {
   // 
   include "./proses/proses_logout.php";

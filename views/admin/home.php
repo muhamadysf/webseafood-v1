@@ -9,7 +9,7 @@ $querypsn2 = mysqli_query($conn, "SELECT COUNT(id_pesanan) AS JMLPSN2 FROM tb_pe
 $barispsn2 = mysqli_fetch_assoc($querypsn2);
 $jmlpsn2 = $barispsn2['JMLPSN2'];
 
-$queryuser = mysqli_query($conn, "SELECT COUNT(id) AS JMLUSER FROM tb_user WHERE level != 1");
+$queryuser = mysqli_query($conn, "SELECT COUNT(id_user) AS JMLUSER FROM tb_user WHERE level != 1");
 $barisuser = mysqli_fetch_assoc($queryuser);
 $jmluser = $barisuser['JMLUSER'];
 

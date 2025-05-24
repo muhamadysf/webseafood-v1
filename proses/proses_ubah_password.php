@@ -10,12 +10,12 @@ $repasswordbaru = (isset($_POST['repasswordbaru'])) ? md5(htmlentities($_POST['r
 $message = "";
 
 if (isset($_POST['ubah_password_validate'])) {
-    $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$_SESSION[username_kingseafood]' AND password = '$passwordlama'");
+    $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$_SESSION[username_kingseafood]' AND password = '$passwordlama'");
     $hasil = mysqli_fetch_array($query);
 
     if ($hasil) {
         if ($passwordbaru == $repasswordbaru) {
-            $query = mysqli_query($conn, "UPDATE tb_user SET password='$passwordbaru' WHERE id='$id'");
+            $query = mysqli_query($conn, "UPDATE tb_user SET password='$passwordbaru' WHERE id_user='$id'");
             if ($query) {
                 $message = '<script>alert("Password Berhasil Di Ubah"); window.history.back();</script>';
             } else {

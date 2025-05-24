@@ -1,0 +1,7 @@
+{
+    "name": "user/webseafood",
+    "description": "tugas_akhir_sarah",
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    }
+}
