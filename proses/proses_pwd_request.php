@@ -35,13 +35,13 @@ if (isset($_POST['submit_validate'])) {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'mhd.hdr.ysf@gmail.com';
-            $mail->Password   = 'dinn roii fttm xcie';
+            $mail->Username   = ' kingseafood0810@gmail.com ';
+            $mail->Password   = 'qezd yrhj etqn rdhj';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             // pengirim
-            $mail->setFrom('mhd.hdr.ysf@gmail.com', 'KingSeafood');
+            $mail->setFrom(' kingseafood0810@gmail.com ', 'KingSeafood');
             $mail->addAddress($email);
 
             $link = "http://localhost/webseafood/admin/reset-pwd?token=$token&email=$email";
