@@ -146,7 +146,7 @@ function formatRupiah($angka)
                         <p class="text-sm font-semibold text-black txt-total"></p>
                     </div>
                     <hr class="border-t-2 border-gray-400 border-dotted">
-                    <div class="">
+                    <div class="hidden">
                         <p class="">
                             <button type="button" class="flex items-center justify-between w-full text-sm font-semibold text-black border border-transparent rounded-lg hs-collapse-toggle gap-x-1 decoration-2 hover:text-gray-800 focus:outline-hidden focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none" id="hs-show-hide-collapse" aria-expanded="false" aria-controls="hs-show-hide-collapse-heading" data-hs-collapse="#hs-show-hide-collapse-heading">
                                 <div class="flex items-center">
@@ -167,9 +167,9 @@ function formatRupiah($angka)
                             </div>
                         </div>
                     </div>
-                    <hr class="border-t-2 border-gray-400 border-dotted">
+                    <hr class="border-t-2 border-gray-400 border-dotted hidden">
                     <div class="flex justify-between pb-6">
-                        <p class="text-sm font-semibold text-black">Total</p>
+                        <p class="text-sm font-semibold text-black">Total Bayar</p>
                         <p class="text-sm font-semibold text-black txt-total">Rp. xxxxxxxx</p>
                     </div>
                 </div>
@@ -813,11 +813,26 @@ function formatRupiah($angka)
             btnHpsEdit.addEventListener('click', function() {
                 cart.pemesanan.splice(itemIndex, 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
+                location.reload();
             });
 
-            btnUpdateEdit.addEventListener('click', function() {
+            btnUpdateEdit.onclick = function() {
 
-            });
+
+
+                const itemDitemukan = cart.pemesanan.find(item => item.id_menu == idMenu);
+
+
+                if (itemDitemukan) {
+                    itemDitemukan.qty = eQty;
+                    itemDitemukan.note = modalNote.value;
+
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+                window.location.href = window.location.href;
+                console.log("ini diklik");
+
+            };
 
         }
     });

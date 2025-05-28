@@ -20,7 +20,7 @@ function formatRupiah($angka)
 
 <!-- ================================================================================================================= -->
 
-<div class="w-full" x-data="{ modal: false, modalInput: false, modalBayar: false, modalEdit: false, modalHapus: false, selectNama: null, selectedId: null}">
+<div class="w-full" x-data="{ modal: false, modalInput: false, modalPreview: false, modalEdit: false, modalHapus: false, selectNama: null, selectedId: null}">
     <div class="flex items-end w-full mb-7">
         <div class="flex items-center justify-center w-full gap-3 px-5 py-2 bg-primary-300 rounded-xl">
             <h3 class="text-xl text-white">Proses pesanan :</h3>
@@ -81,6 +81,12 @@ function formatRupiah($angka)
                             <td class="px-6 py-4 text-sm text-center text-gray-800 whitespace-nowrap"><span class="<?php echo $colorClass; ?>"><?php echo isset($row['status_pesanan']) ? $row['status_pesanan'] : '-'; ?></span></td>
                             <td class="px-6 py-4 text-sm !text-center text-gray-800 whitespace-nowrap"><?php echo isset($row['tanggal_pesanan']) ? date('d-m-Y H:i:s', strtotime($row['tanggal_pesanan'])) : '-'; ?></td>
                             <td class=" py-4 text-sm  whitespace-nowrap !text-center">
+                                <button type="button" class="inline-flex justify-center btn-detail items-center w-16 py-[2px] text-sm font-medium text-teal-600 bg-teal-200/55 border border-transparent rounded-full gap-x-2 hover:bg-teal-400/85  focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                                    data-id="<?php echo $row['id_pesanan']; ?>"
+                                    data-nama="<?php echo $row['nama_pembeli']; ?>"
+                                    @click="modalPreview = true, selectedId = $el.dataset.id; selectNama= $el.dataset.nama;">
+                                    Detail
+                                </button>
                                 <button type="button" class="inline-flex justify-center items-center w-16 py-[2px] text-sm font-medium text-red-500 bg-red-200/55 border border-transparent rounded-full gap-x-2 hover:bg-red-400/85 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
                                     data-id="<?php echo $row['id_pesanan']; ?>"
                                     data-nama="<?php echo $row['nama_pembeli']; ?>"
@@ -98,7 +104,7 @@ function formatRupiah($angka)
     <!-- ========================================= -->
 
     <!-- Backdrop modal -->
-    <div x-show="modal || modalHapus || modalEdit" x-cloak class="fixed inset-0 z-[99998] bg-black/85 sm:inline-flex sm:mx-auto"
+    <div x-show="modal || modalHapus || modalEdit || modalPreview" x-cloak class="fixed inset-0 z-[99998] bg-black/85 sm:inline-flex sm:mx-auto"
         x-transition.opacity>
     </div>
 
@@ -133,7 +139,106 @@ function formatRupiah($angka)
     </div>
 
 
+    <!-- Modal preview pesanan -->
+    <div x-show="modalPreview" x-cloak class="fixed inset-0 flex items-center justify-center z-[99999]"
+        x-transition.scale>
+        <div class="relative w-1/2 bg-white shadow-2xl rounded-2xl">
+            <!-- Tombol Close (X) -->
+            <button @click="modalPreview= false; selectNama= null; selectedId= null" class="absolute text-gray-500 top-2 right-4 hover:text-gray-800">
+                <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM15.36 14.3C15.65 14.59 15.65 15.07 15.36 15.36C15.21 15.51 15.02 15.58 14.83 15.58C14.64 15.58 14.45 15.51 14.3 15.36L12 13.06L9.7 15.36C9.55 15.51 9.36 15.58 9.17 15.58C8.98 15.58 8.79 15.51 8.64 15.36C8.35 15.07 8.35 14.59 8.64 14.3L10.94 12L8.64 9.7C8.35 9.41 8.35 8.93 8.64 8.64C8.93 8.35 9.41 8.35 9.7 8.64L12 10.94L14.3 8.64C14.59 8.35 15.07 8.35 15.36 8.64C15.65 8.93 15.65 9.41 15.36 9.7L13.06 12L15.36 14.3Z" fill="currentColor" />
+                </svg>
+            </button>
+            <!-- <form method="POST">
+                <input id="input-id-preview" type="hidden" name="selected_id" :value="selectedId">
+                <button type="submit" class="hidden" id="btnSubmitDataPreview">Submit</button>
+            </form> -->
+            <div class="w-full ">
+                <h2 class="px-5 py-2 text-2xl font-bold text-center text-gray-800">Preview Pesanan</h2>
 
+
+                <div class="px-5 py-2 space-y-2 bg-gray-300 border border-dashed">
+
+                    <div class="flex gap-4  items-start">
+                        <div class="flex flex-col w-full  bg-white rounded-lg shadow-lg">
+                            <h2 class="py-1 font-semibold text-center text-black">Info Kontak Pembeli</h2>
+                            <hr class="border-1">
+                            <div class="">
+                                <div class="flex gap-3 px-5 py-3">
+                                    <div class="flex flex-col gap-1 text-end">
+                                        <p class="text-sm font-medium text-black">Nama :</p>
+                                        <p class="text-sm font-medium text-black">Nomor Hp:</p>
+                                        <p class="text-sm font-medium text-black">Email:</p>
+                                    </div>
+
+                                    <div class="flex flex-col justify-start gap-1">
+                                        <p id="nama-preview" class="text-sm font-normal text-black">-</p>
+                                        <p id="nohp-preview" class="text-sm font-normal text-black">-</p>
+                                        <p id="email-preview" class="text-sm font-normal text-black">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col w-full bg-white rounded-lg shadow-lg">
+                            <h2 class="py-1 font-semibold text-center text-black">Info Pembayaran</h2>
+                            <hr class="border-1">
+                            <div class="">
+                                <div class="flex gap-3 px-5 py-3">
+                                    <div class="flex flex-col gap-1 text-end">
+                                        <p class="text-sm font-medium text-black">Metode bayar :</p>
+                                        <p class="text-sm font-medium text-black">Total Bayar :</p>
+
+                                    </div>
+
+                                    <div class="flex flex-col justify-start gap-1">
+                                        <p id="metode-preview" class="text-sm font-normal text-black">-</p>
+                                        <p id="total-preview" class="text-sm font-normal text-black">-</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex  w-full bg-white rounded-lg shadow-lg px-3 py-1 gap-2">
+                        <h2 class="py-1 font-semibold text-black">Tipe Pemesanan : </h2>
+                        <p id="" class="text-sm font-normal text-black flex items-center justify-center"><span id="tipe-preview"></span>, (<span id="meja-preview"></span>)</p>
+
+                    </div>
+
+                    <div id="detail-pesanan-preview" class="w-full bg-white rounded-lg shadow-lg">
+                        <h2 class="py-1 font-semibold text-center text-black">Detail Pesanan</h2>
+                        <hr class="border-1">
+                        <div class="px-4 py-2 max-h-52 h-52 !overflow-y-scroll">
+                            <table id="" class="min-w-full shadow-xl bg-white/30 backdrop-blur-xl rounded-t-3xl ">
+                                <thead class="bg-gray-300">
+                                    <tr class="">
+                                        <th scope="col" class="px-6 rounded-tl-xl py-1 text-xs font-semibold !text-center text-gray-700 uppercase">No.</th>
+                                        <th scope="col" class="px-6 py-1 text-xs font-semibold !text-center text-gray-700 uppercase">Menu</th>
+                                        <th scope="col" class="px-6 py-1 text-xs font-semibold !text-center text-gray-700 uppercase">Catatan</th>
+                                        <th scope="col" class="px-6 py-1 text-xs font-semibold !text-center text-gray-700 uppercase rounded-tr-xl">Jumlah Porsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-preview" class="divide-y divide-gray-200 bg-slate-100">
+                                    <!--  -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="flex justify-center gap-3 px-5 py-3">
+                    <button type="button" @click="modalPreview= false;" class="px-3 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700">
+                        Kembali
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Modal edit pesanan -->
@@ -1088,7 +1193,72 @@ function formatRupiah($angka)
             document.getElementById('jumlah-uang').focus();
         });
 
+        document.querySelectorAll('.btn-detail').forEach(button => {
+            button.addEventListener('click', function() {
+                const idPesanan = this.dataset.id;
+                const nama = this.dataset.nama;
 
+                const namaPemesan = document.getElementById('nama-preview');
+                const nohpPreview = document.getElementById('nohp-preview');
+                const emailPreview = document.getElementById('email-preview');
+                const metodePreview = document.getElementById('metode-preview');
+                const totalPreview = document.getElementById('total-preview');
+                const tipePreview = document.getElementById('tipe-preview');
+                const mejaPreview = document.getElementById('meja-preview');
+
+
+
+                console.log("Detail diklik:");
+                console.log("ID:", idPesanan);
+                console.log("Nama:", nama);
+
+                fetch('/webseafood/proses/data_pesanan_detail.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'selected_id=' + encodeURIComponent(idPesanan)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        const tbodyPreview = document.getElementById('table-body-preview');
+                        tbodyPreview.innerHTML = '';
+
+                        if (data.status === 'success') {
+
+                            data.items.forEach((item, index) => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                <td class="px-6 py-1 text-xs text-center">${index + 1}</td>
+                                <td class="px-6 py-1 text-xs text-center">${item.nama_menu}</td>
+                                <td class="px-6 py-1 text-xs text-center">${item.catatan_detail}</td>
+                                <td class="px-6 py-1 text-xs text-center">${item.qty}</td>
+                                
+                                `;
+                                tbodyPreview.appendChild(row);
+                            });
+
+                            namaPemesan.textContent = data.pesanan.nama_pembeli;
+                            nohpPreview.textContent = data.pesanan.no_hp;
+                            emailPreview.textContent = data.pesanan.email_pembeli;
+                            metodePreview.textContent = data.pesanan.metode_bayar;
+
+                            totalPreview.textContent = "Rp. " + formatRupiah(data.pesanan.total_harga);
+                            tipePreview.textContent = data.pesanan.jenis_pesanan;
+                            mejaPreview.textContent = "No Meja : " + data.pesanan.no_meja;
+
+                            // console.log(totalHarga);
+                        } else {
+                            tbodyPreview.innerHTML = `<tr><td colspan="5" class="py-2 text-sm text-center text-gray-600">Data tidak ditemukan.</td></tr>`;
+                        }
+                    });
+
+
+
+
+            });
+        });
 
 
     });

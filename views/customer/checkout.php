@@ -99,7 +99,7 @@ include "./config/connect.php"
                 </div>
 
                 <div class="relative">
-                    <input id="email" type="email" class="peer input-check py-2.5 sm:py-3 px-4 ps-11 block border-2 border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Email">
+                    <input id="email" type="email" class="peer  py-2.5 sm:py-3 px-4 ps-11 block border-2 border-gray-200 w-full bg-white  rounded-full sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Email">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-4 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                         <svg class="text-gray-500 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
@@ -278,7 +278,7 @@ include "./config/connect.php"
 
         if (!isValid) {
             event.preventDefault();
-            alert("Semua input wajib diisi!");
+            alert("Mohon untuk mengisi Nama dan nomor telepon!");
         }
     }
 
@@ -341,7 +341,11 @@ include "./config/connect.php"
 
             const nama = document.getElementById("nama").value;
             const telepon = document.getElementById("telepon").value;
-            const email = document.getElementById("email").value;
+
+            let email = document.getElementById("email").value.trim();
+            if (email === "") {
+                email = "-";
+            }
 
             const radio = document.querySelector('input[name="option"]:checked');
 

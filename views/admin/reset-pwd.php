@@ -31,6 +31,10 @@ if ($result->num_rows > 0) {
             window.location = '../admin/login';
         </script>
 <?php
+
+        $stmt = $conn->prepare("DELETE FROM tb_reset_pwd WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
         // $message = urlencode('Token telah kadaluarsa. Silahkan Ulangi Kembali');
         // header("Location: login.php?message=$message");
         exit;

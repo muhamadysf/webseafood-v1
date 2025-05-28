@@ -3,7 +3,7 @@
         'name' => 'user/webseafood',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '58d09b1bac22aa7abc3ed46523ad8369c85575e0',
+        'reference' => 'e2b27dcd0c00db0712399067d3419589e07616c9',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'user/webseafood' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '58d09b1bac22aa7abc3ed46523ad8369c85575e0',
+            'reference' => 'e2b27dcd0c00db0712399067d3419589e07616c9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

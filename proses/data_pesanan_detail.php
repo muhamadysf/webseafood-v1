@@ -23,7 +23,7 @@ if (isset($_POST['selected_id'])) {
     while ($row = mysqli_fetch_assoc($result)) {
 
         if ($pesanan === null) {
-            // Ambil data pesanan sekali saja
+
             $pesanan = [
                 'id_pesanan' => $selected_id,
                 'nama_pembeli' => $row['nama_pembeli'],
