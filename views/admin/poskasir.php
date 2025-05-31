@@ -1062,7 +1062,7 @@ function formatRupiah($angka)
         const inputAmbil = document.getElementById('input-ambil');
         const inputDitempat = document.getElementById('input-ditempat');
 
-        const txtHarga = document.getElementById('total-harga');
+        const txtHarga = document.getElementById('total-harga-dua');
         const txtKembalian = document.getElementById('kembalian');
 
         const divKet = document.getElementById('div-keterangan');
@@ -1135,7 +1135,7 @@ function formatRupiah($angka)
 
                     kembalian = nominal - totalHarga;
 
-                    // txtHarga.textContent = formatRupiah(totalHargaUtama);
+                    txtHarga.textContent = formatRupiah(totalHargaUtama);
                     this.setAttribute('disabled', '');
                     this.classList.add('text-gray-200', 'ring-gray-200', 'border-green-300');
                     btnBukaKunci.setAttribute('disabled', '');
