@@ -816,6 +816,7 @@ function formatRupiah($angka)
         document.getElementById('input-catatan').value = rincianpesanan.catatan_pesanan;
 
         document.getElementById('total-harga').textContent = formatRupiah(rincianpesanan.total_harga);
+        document.getElementById('total-harga-dua').textContent = formatRupiah(rincianpesanan.total_harga);
 
         const jenis = rincianpesanan.jenis_pesanan;
         // const metode = rincianMenu.metode_bayar;
