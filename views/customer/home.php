@@ -46,7 +46,6 @@ while ($record = mysqli_fetch_array($kquery)) {
         <div id="overflow-container" class="flex items-center flex-1 w-full px-5 overflow-x-hidden text-white select-none scroll-container cursor-grab flex-nowrap">
             <div class="flex items-center justify-center gap-2 select-none scroll-content">
 
-
                 <?php $no = 1;
                 foreach ($result as $row) { ?>
 
@@ -67,7 +66,7 @@ while ($record = mysqli_fetch_array($kquery)) {
             </div>
             <div class="flex flex-wrap justify-center w-full gap-2 mt-4">
                 <?php
-                $mquery = mysqli_query($conn, "SELECT * FROM tb_menu WHERE id_kategori = $kategori");
+                $mquery = mysqli_query($conn, "SELECT * FROM tb_menu WHERE id_kategori = $kategori AND status_menu = 'Tersedia'");
                 while ($rows = mysqli_fetch_array($mquery)) {
                 ?>
                     <div class="h-56 max-w-sm overflow-hidden bg-white border border-gray-400 shadow-lg w-36 rounded-2xl sm:w-44">

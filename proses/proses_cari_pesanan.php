@@ -4,8 +4,6 @@ header('Content-Type: application/json');
 include '../config/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 
-// header('Content-Type: application/json; charset=utf-8');
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kode'])) {
     $kode = mysqli_real_escape_string($conn, $_POST['kode']);
@@ -25,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kode'])) {
             'id_pesanan' => $data['id_pesanan'],
             'kode_pesanan' => $data['kode_pesanan'],
             'nama_pembeli' => $data['nama_pembeli'],
+            'status_pesanan' => $data['status_pesanan'],
             'total_harga' => number_format($data['total_harga'], 0, ',', '.')
         ]);
     } else {
