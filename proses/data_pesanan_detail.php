@@ -33,6 +33,8 @@ if (isset($_POST['selected_id'])) {
                 'no_meja' => $row['no_meja'],
                 'catatan_pesanan' => $row['catatan_pesanan'],
                 'total_harga' => $row['total_harga'],
+                'status_pesanan' => $row['status_pesanan'],
+                'keterangan' => $row['keterangan'],
                 'metode_bayar' => $row['metode_bayar']
             ];
         }
