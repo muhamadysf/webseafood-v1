@@ -5,6 +5,9 @@ include "../config/connect.php";
 
 
 if (isset($_POST['btnsubmit'])) {
+
+    mysqli_report(MYSQLI_REPORT_OFF);
+
     $iduser = $_POST['iduser'];
 
     $query = "SELECT logo_kategori FROM tb_kategori WHERE id_kategori = '$iduser'";
@@ -26,9 +29,17 @@ if (isset($_POST['btnsubmit'])) {
             header('location: ../admin/category');
             exit;
         } else {
+
+            $error_code = mysqli_errno($conn);
             mysqli_close($conn);
+
             $_SESSION['judul'] = "Gagal.";
-            $_SESSION['message'] = "Gagal menghapus data!";
+            if ($error_code == 1451) {
+                $_SESSION['message'] = "Data tidak bisa dihapus karena masih digunakan dalam menu.";
+            } else {
+                $_SESSION['message'] = "Gagal menghapus data! Kode error: $error_code";
+            }
+
             header("Location: ../admin/category");
             exit();
         }
